@@ -1,6 +1,6 @@
 import logging
 
-class invenavi:
+class Invenavi:
   """first setup"""
   
   def __init__(self):
@@ -9,7 +9,7 @@ class invenavi:
     logging.info("invenavi ready to initialize..")
     
 def main():
-    invenavi = invenavi()
+    invenavi = Invenavi()
 
 if __name__ == "__main__":
     status = main()
