@@ -1,6 +1,6 @@
 import logging
 
-class invenavi
+class invenavi:
   """first setup"""
   
   def __init__(self)
