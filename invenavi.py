@@ -1,6 +1,8 @@
 import logging
 import sys
 
+logging.info("invenavi program started")
+
 class Invenavi:
   """first setup"""
   
