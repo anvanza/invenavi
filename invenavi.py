@@ -11,7 +11,7 @@ class Invenavi:
     logging.info("invenavi ready to initialize..")
     
     while true:
-      
+      print "hello"
     
 def main():
     invenavi = Invenavi()
