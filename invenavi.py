@@ -10,9 +10,6 @@ class Invenavi:
     #say we're launching
     logging.info("invenavi ready to initialize..")
     
-    while true:
-      print "hello"
-    
 def main():
     invenavi = Invenavi()
 
