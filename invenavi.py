@@ -6,7 +6,6 @@ class Invenavi:
   """first setup"""
   
   def __init__(self):
-    logging.basicConfig(filename='logging.log',level=logging.DEBUG)
     
     #say we're launching
     logging.info("invenavi ready to initialize..")
