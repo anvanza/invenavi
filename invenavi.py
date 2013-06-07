@@ -2,6 +2,9 @@ import logging
 import sys
 import MySQLdb
 
+from config import invenaviConfig
+from kernel import invenaviKernel
+
 class Invenavi:
   """first setup"""
   
