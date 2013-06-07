@@ -5,6 +5,8 @@ import MySQLdb
 class Invenavi:
   """first setup"""
   
+   config = invenaviConfig();
+  
   def __init__(self):
     
     #say we're launching
