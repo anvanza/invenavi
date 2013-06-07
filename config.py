@@ -13,7 +13,7 @@ class FishPiConfig(object):
             os.makedirs(self.logs_path)
 
         # add file logging
-        log_file_stem = os.path.join(self.logs_path, 'fishpi_%s.log' % time.strftime('%Y%m%d_%H%M%S'))
+        log_file_stem = os.path.join(self.logs_path, 'invenavi_%s.log' % time.strftime('%Y%m%d_%H%M%S'))
         handler = logging.handlers.RotatingFileHandler(log_file_stem, backupCount=50)
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
