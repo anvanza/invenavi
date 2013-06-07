@@ -4,4 +4,5 @@ import logging
 import os
 
 class invenaviKernel:
+  pass
   
