@@ -4,7 +4,7 @@ import logging.handlers
 import os
 import time
 
-class FishPiConfig(object):
+class invenaviConfig(object):
 
     def __init__(self):
     
