@@ -10,7 +10,7 @@ class Invenavi:
   def __init__(self):
     
     #say we're launching
-    logging.info("invenavi ready to initialize..")
+    logging.info("invenavi:\tinvenavi ready to initialize..")
     
     db = MySQLdb.connect(host="localhost",user="root",passwd="raspberry", db="test")
     
