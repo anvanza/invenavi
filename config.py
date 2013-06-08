@@ -9,7 +9,11 @@ class invenaviConfig(object):
     _root_dir = os.path.join(os.getenv("HOME"), "invenavi")
 
     def __init__(self):
-    
+        logger = logging.getLogger()
+        logger.setLevel(logging.DEBUG)
+        console = logging.StreamHandler()
+        logger.addHandler(console)
+        
         # create directory
         if not os.path.exists(self.logs_path):
             os.makedirs(self.logs_path)
