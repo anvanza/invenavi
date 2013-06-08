@@ -22,7 +22,7 @@ class Invenavi:
     logging.info("invenavi:\tStarting invenavi in mode: headless")
     return self.run_headless()
   
-  def run_headless():
+  def run_headless(self):
     # wait for commands...
     logging.info("invenavi:\tWaiting for commands...")
     
