@@ -26,8 +26,10 @@ class Invenavi:
     # wait for commands...
     logging.info("invenavi:\tWaiting for commands...")
     
-    #start the server
-    pass
+    # run internal webhost
+    import web.webhost
+    web.webhost.run_main_host(kernel, self.config.rpc_port)
+    logging.info("invenavi:\tProgram complete - exiting.")
   
     #done
     return 0
