@@ -4,5 +4,6 @@ import logging
 import os
 
 class invenaviKernel:
-  pass
-  
+  def __init__(self, config, debug=False):
+        self.config = config
+        self.debug = debug
