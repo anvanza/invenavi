@@ -15,7 +15,6 @@ from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
 class RPCHost(WebSocketServerProtocol):
    def __init__(self):
       logging.debug("RPC:\tprotocol created.")
-      self.registerForRpc(self)
         
    def onMessage(self, msg, binary):
       self.sendMessage(msg, binary)
@@ -24,10 +23,16 @@ class RPCHost(WebSocketServerProtocol):
        logging.info("RPC:\tnew connection")
    
    def onClose(self, wasClean, code, reason):
-       logging.info("RPC:\t"+reason)                      
+       logging.info("RPC:\t"+reason)
+   
+   def onSessionOpen(self):
+      self.registerForRpc(self)
+      
+   @exportRpc
+   def sayhello(self, msg):
+      return ("hello " + msg)                             
 
 def run_main_host(kernel, rpc_port):
-
    debug = True
 
    factory = WebSocketServerFactory("ws://localhost:" + str(rpc_port))
