@@ -37,7 +37,7 @@ class RPCHost(WampServerProtocol):
 def run_main_host(kernel, rpc_port):
    debug = True
 
-   factory = WampServerFactory("ws://localhost:" + str(rpc_port))
+   factory = WampServerFactory("ws://localhost:9000")
 
    factory.protocol = RPCHost
    factory.setProtocolOptions(allowHixie76 = True)
