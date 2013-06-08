@@ -12,13 +12,15 @@ from autobahn.websocket import WebSocketServerFactory, \
 from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
 
 
-class EchoServerProtocol(WebSocketServerProtocol):
-
+class RPCHost(WebSocketServerProtocol):
+   def __init__(self):
+      logging.debug("RPC:\tprotocol created.")
+        
    def onMessage(self, msg, binary):
       self.sendMessage(msg, binary)
 
    def onOpen(connectionRequest):
-       logging.info("WS:\tinvenavi welcomes a new connection")                               
+       logging.info("RPC:\tinvenavi welcomes a new connection")                               
 
 def run_main_host(kernel, rpc_port):
 
@@ -26,7 +28,7 @@ def run_main_host(kernel, rpc_port):
 
    factory = WebSocketServerFactory("ws://localhost:" + str(rpc_port))
 
-   factory.protocol = EchoServerProtocol
+   factory.protocol = RPVHost
 
    resource = WebSocketResource(factory)
 
