@@ -28,7 +28,7 @@ def run_main_host(kernel, rpc_port):
 
    factory = WebSocketServerFactory("ws://localhost:" + str(rpc_port))
 
-   factory.protocol = RPVHost
+   factory.protocol = RPCHost
 
    resource = WebSocketResource(factory)
 
