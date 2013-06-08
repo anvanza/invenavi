@@ -15,6 +15,7 @@ from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
 class RPCHost(WebSocketServerProtocol):
    def __init__(self):
       logging.debug("RPC:\tprotocol created.")
+      self.registerForRpc(self)
         
    def onMessage(self, msg, binary):
       self.sendMessage(msg, binary)
