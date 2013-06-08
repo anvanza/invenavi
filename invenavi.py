@@ -23,6 +23,15 @@ class Invenavi:
     return self.run_headless()
   
   def run_headless(self):
+    # configure
+    #self.configure_devices()
+
+    # create controller
+    kernel = invenaviKernel(self.config, debug=self.debug)
+
+    # testing
+    #kernel.list_devices()
+        
     # wait for commands...
     logging.info("invenavi:\tWaiting for commands...")
     
