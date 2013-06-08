@@ -17,13 +17,11 @@ class EchoServerProtocol(WebSocketServerProtocol):
       self.sendMessage(msg, binary)
 
 
-if __name__ == '__main__':
+def run_main_host(kernel, rpc_port):
 
    debug = True
 
-   factory = WebSocketServerFactory("ws://localhost:8080",
-                                    debug = debug,
-                                    debugCodePaths = debug)
+   factory = WebSocketServerFactory("ws://localhost:", rpc_port)
 
    factory.protocol = EchoServerProtocol
 
