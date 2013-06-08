@@ -25,7 +25,24 @@ class invenaviConfig(object):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         
+        # RPC config
+        self._rpc_port = None
+        
+    #
+    # RPC config
+    #
+ 
+    @property
+    def rpc_port(self):
+        return self._rpc_port
 
+    @rpc_port.setter
+    def rpc_port(self, value):
+        self._rpc_port = value
+
+    #
+    # file / paths section
+    #
     @property
     def logs_path(self):
         return os.path.join(self._root_dir, "logs")
