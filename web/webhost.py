@@ -22,7 +22,7 @@ class RPCHost(WebSocketServerProtocol):
    def onOpen(connectionRequest):
        logging.info("RPC:\tnew connection")
    
-   def onClose(wasClean, code, reason):
+   def onClose(self, wasClean, code, reason):
        logging.info("RPC:\t"+reason)                      
 
 def run_main_host(kernel, rpc_port):
