@@ -21,7 +21,7 @@ def run_main_host(kernel, rpc_port):
 
    debug = True
 
-   factory = WebSocketServerFactory("ws://localhost:".rpc_port)
+   factory = WebSocketServerFactory("ws://localhost:" + str(rpc_port))
 
    factory.protocol = EchoServerProtocol
 
