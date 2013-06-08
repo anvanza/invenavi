@@ -14,6 +14,11 @@ class Invenavi:
     
     #say we're launching
     logging.info("invenavi:\tinvenavi ready to initialize..")
+
+    #self.selected_mode = selected_args.mode
+    self.debug = true
+    self.config.server_name = raspberry.local
+    self.config.rpc_port =2040
     
     db = MySQLdb.connect(host="localhost",user="root",passwd="raspberry", db="test")
     
