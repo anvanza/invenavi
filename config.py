@@ -6,6 +6,8 @@ import time
 
 class invenaviConfig(object):
 
+    _root_dir = os.path.join(os.getenv("HOME"), "invenavi")
+
     def __init__(self):
     
         # create directory
