@@ -20,7 +20,7 @@ class RPCHost(WebSocketServerProtocol):
       self.sendMessage(msg, binary)
 
    def onOpen(connectionRequest):
-       logging.info("RPC:\tinew connection")
+       logging.info("RPC:\tnew connection")
    
    def onClose(wasClean, code, reason):
        if(wasClean):
