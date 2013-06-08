@@ -9,3 +9,5 @@ class invenaviKernel:
         self.debug = debug
   def update(self):
     pass
+  def halt(self):
+    pass
