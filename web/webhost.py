@@ -16,7 +16,7 @@ class EchoServerProtocol(WebSocketServerProtocol):
    def onMessage(self, msg, binary):
       self.sendMessage(msg, binary)
 
-   def onConnect(connectionRequest):
+   def onOpen(connectionRequest):
        logging.info("WS:\tinvenavi welcomes a new connection")                               
 
 def run_main_host(kernel, rpc_port):
