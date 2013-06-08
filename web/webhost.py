@@ -49,7 +49,7 @@ def run_main_host(kernel, rpc_port):
 
    ## both under one Twisted Web Site
    web = Site(webdir)
-   reactor.listenTCP(rpc_port, web)
+   reactor.listenTCP(8080, web)
 
    reactor.run()
 
