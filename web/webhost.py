@@ -20,7 +20,13 @@ class RPCHost(WebSocketServerProtocol):
       self.sendMessage(msg, binary)
 
    def onOpen(connectionRequest):
-       logging.info("RPC:\tinvenavi welcomes a new connection")                               
+       logging.info("RPC:\tinew connection")
+   
+   def onClose(wasClean, code, reason):
+       if(wasClean):
+           logging.info("RPC:\tconnection closed clean")
+       else:
+           logging.info("RPC:\tconnection closed not clean")                              
 
 def run_main_host(kernel, rpc_port):
 
