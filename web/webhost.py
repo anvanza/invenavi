@@ -23,10 +23,7 @@ class RPCHost(WebSocketServerProtocol):
        logging.info("RPC:\tnew connection")
    
    def onClose(wasClean, code, reason):
-       if(wasClean):
-           logging.info("RPC:\tconnection closed clean")
-       else:
-           logging.info("RPC:\tconnection closed not clean")                              
+       logging.info("RPC:\t"+reason)                      
 
 def run_main_host(kernel, rpc_port):
 
