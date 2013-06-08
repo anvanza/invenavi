@@ -1,19 +1,20 @@
 import sys
 import logging
 
-from twisted.internet import reactor
 from twisted.python import log
+from twisted.internet import reactor, defer
 from twisted.web.server import Site
 from twisted.web.static import File
 
-from autobahn.websocket import exportRpc, \
-                               WebSocketServerFactory, \
-                               WebSocketServerProtocol
+from autobahn.websocket import listenWS
+from autobahn.wamp import exportRpc, \
+                          WampServerFactory, \
+                          WampServerProtocol
 
 from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
 
 
-class RPCHost(WebSocketServerProtocol):
+class RPCHost(WampServerProtocol):
    def __init__(self):
       logging.debug("RPC:\tprotocol created.")
         
@@ -36,21 +37,19 @@ class RPCHost(WebSocketServerProtocol):
 def run_main_host(kernel, rpc_port):
    debug = True
 
-   factory = WebSocketServerFactory("ws://localhost:" + str(rpc_port))
+   factory = WampServerFactory("ws://localhost:" + str(rpc_port))
 
    factory.protocol = RPCHost
-
-   resource = WebSocketResource(factory)
+   factory.setProtocolOptions(allowHixie76 = True)
+   
+   listenWS(factory)
 
    ## we server static files under "/" ..
-   root = File(".")
-
-   ## and our WebSocket server under "/ws"
-   root.putChild("ws", resource)
+   webdir = File(".")
 
    ## both under one Twisted Web Site
-   site = Site(root)
-   reactor.listenTCP(8080, site)
+   web = Site(webdir)
+   reactor.listenTCP(rpc_port, web)
 
    reactor.run()
 
