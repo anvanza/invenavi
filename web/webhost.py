@@ -18,7 +18,7 @@ class RPCProtocol(WampServerProtocol):
       logging.debug("RPC:\tprotocol created.")
       
    def onOpen(connectionRequest):
-       logging.info("RPC:\tnew connection: "+connectionRequest)
+       logging.info("RPC:\tnew connection: ")
    
    def onClose(self, wasClean, code, reason):
        logging.info("RPC:\t"+reason)
