@@ -13,15 +13,10 @@ from autobahn.wamp import exportRpc, \
 
 from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
 
-
-class RPCHost(WampServerProtocol):
-   def __init__(self, url):
+class RPCProtocol(WampServerProtocol):
+   def __init__(self):
       logging.debug("RPC:\tprotocol created.")
-      WampServerFactory.__init__(self, url)
-        
-   def onMessage(self, msg, binary):
-      self.sendMessage(msg, binary)
-
+      
    def onOpen(connectionRequest):
        logging.info("RPC:\tnew connection")
    
@@ -33,7 +28,18 @@ class RPCHost(WampServerProtocol):
       
    @exportRpc
    def sayhello(self, msg):
-      return ("hello " + msg)                             
+      return ("hello " + msg) 
+
+class RPCHost(WampServerFactory):
+
+   protocol = RPCProtocol
+
+   def __init__(self, url):
+      WampServerFactory.__init__(self, url)
+        
+   def onMessage(self, msg, binary):
+      self.sendMessage(msg, binary)
+                            
 
 def run_main_host(kernel, rpc_port):
    factory = RPCHost("ws://localhost:9000")
