@@ -11,7 +11,7 @@ from autobahn.wamp import exportRpc, \
                           WampServerFactory, \
                           WampServerProtocol
 class RPCProtos:
-   @exportRPC
+   @exportRpc
    def sayhello(self, msg):
       return ("hello " + msg)
    
