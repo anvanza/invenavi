@@ -31,7 +31,7 @@ class RPCProtocol(WampServerProtocol):
       self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
                             
 def run_main_host(kernel, rpc_port):
-
+   log.startLogging(sys.stdout)
    factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
    factory.protocol = RPCProtocol
    factory.setProtocolOptions(allowHixie76 = True)
