@@ -10,40 +10,37 @@ from autobahn.websocket import listenWS
 from autobahn.wamp import exportRpc, \
                           WampServerFactory, \
                           WampServerProtocol
-
-from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
+class RPCProtos:
+   @exportRPC
+   def sayhello(self, msg):
+      return ("hello " + msg)
+   
 
 class RPCProtocol(WampServerProtocol):
    def __init__(self):
       logging.debug("RPC:\tprotocol created.")
       
    def onOpen(connectionRequest):
-       logging.info("RPC:\tnew connection.")
+      logging.info("RPC:\tnew connection.")
    
    def onClose(self, wasClean, code, reason):
-       logging.info("RPC:\t"+reason)
+      logging.info("RPC:\t"+reason)
    
    def onSessionOpen(self):
-      self.registerForRpc(self, "http://10.0.0.141/ws/rpc#")
-      
-   @exportRpc
-   def sayhello(self, msg):
-      return ("hello " + msg) 
-
-class RPCHost(WampServerFactory):
-
-   protocol = RPCProtocol
-
-   def __init__(self, url):
-      WampServerFactory.__init__(self, url)
-        
-   def onMessage(self, msg, binary):
-      self.sendMessage(msg, binary)
+      self.protos = RPCProtos()
+      self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
                             
-
 def run_main_host(kernel, rpc_port):
-   factory = RPCHost("ws://localhost:9000")
+
+   factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
+   factory.protocol = RPCProtocol
+   factory.setProtocolOptions(allowHixie76 = True)
    listenWS(factory)
+
+   webdir = File(".")
+   web = Site(webdir)
+   reactor.listenTCP(8080, web)
+
    reactor.run()
 
 
