@@ -12,7 +12,7 @@ from autobahn.wamp import exportRpc, \
                           WampServerProtocol
 class RPCProtos:
 
-   def __init___(self):
+   def __init__(self):
       logging.info("RPC:\tprotos init.")
    
    @exportRpc
@@ -29,7 +29,7 @@ class RPCProtos:
       return {'status':True}
 
 class RPCProtocol(WampServerProtocol):
-   def __init___(self, kernel):
+   def __init__(self, kernel):
       self._kernel = kernel
       
    def onClose(self, wasClean, code, reason):
