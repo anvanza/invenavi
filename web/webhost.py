@@ -29,6 +29,9 @@ class RPCProtos:
       return {'status':True}
 
 class RPCProtocol(WampServerProtocol):
+   def __init__(self, kernel):
+      self._kernel = kernel
+      
    def onClose(self, wasClean, code, reason):
       logging.info("RPC:\t"+reason)
    
@@ -40,7 +43,7 @@ class RPCProtocol(WampServerProtocol):
 def run_main_host(kernel, rpc_port):
    log.startLogging(sys.stdout)
    factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
-   factory.protocol = RPCProtocol
+   factory.protocol = RPCProtocol(kernel)
    factory.setProtocolOptions(allowHixie76 = True)
    listenWS(factory)
 
