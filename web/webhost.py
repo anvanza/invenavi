@@ -15,8 +15,9 @@ from autobahn.resource import WebSocketResource, HTTPChannelHixie76Aware
 
 
 class RPCHost(WampServerProtocol):
-   def __init__(self):
+   def __init__(self, url):
       logging.debug("RPC:\tprotocol created.")
+      WampServerFactory.__init__(self, url)
         
    def onMessage(self, msg, binary):
       self.sendMessage(msg, binary)
@@ -35,22 +36,8 @@ class RPCHost(WampServerProtocol):
       return ("hello " + msg)                             
 
 def run_main_host(kernel, rpc_port):
-   debug = True
-
-   factory = WampServerFactory("ws://localhost:9000")
-
-   factory.protocol = RPCHost
-   factory.setProtocolOptions(allowHixie76 = True)
-   
+   factory = RPCHost("ws://localhost:9000")
    listenWS(factory)
-
-   ## we server static files under "/" ..
-   webdir = File(".")
-
-   ## both under one Twisted Web Site
-   web = Site(webdir)
-   reactor.listenTCP(8080, web)
-
    reactor.run()
 
 
