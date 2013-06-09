@@ -25,6 +25,15 @@ class invenaviConfig(object):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         
+        # default attachments to None
+        self.gps_sensor = None
+        self.compass_sensor = None
+        self.temperature_sensor = None
+        self.drive_controller = None
+        self.camera_controller = None
+        
+        self.drive_controller = DummyDriveController()
+        
         # RPC config
         self._rpc_port = None
         
@@ -46,3 +55,28 @@ class invenaviConfig(object):
     @property
     def logs_path(self):
         return os.path.join(self._root_dir, "logs")
+class DummyDriveController(object):
+    """ 'Dummy' drive controller that just logs. """
+    
+    # current state
+    throttle_level = 0.0
+    steering_angle = 0.0
+    
+    def __init__(self):
+        pass
+    
+    def set_throttle(self, throttle_level):
+        logging.debug("DRIVE:\tThrottle set to: %s" % throttle_level)
+        self.throttle_level = throttle_level
+        pass
+    
+    def set_steering(self, angle):
+        logging.debug("DRIVE:\tSteering set to: %s" % angle)
+        self.steering_angle = angle
+        pass
+    
+    def halt(self):
+        logging.debug("DRIVE:\tDrive halting.")
+        self.throttle_level = 0.0
+        self.steering_angle = 0.0
+        pass
