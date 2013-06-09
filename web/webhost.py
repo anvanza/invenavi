@@ -29,7 +29,7 @@ class RPCProtos:
       return {'status':True}
 
 class RPCProtocol(WampServerProtocol):
-   def __init__(self, kernel):
+   def __init___(self, kernel):
       self._kernel = kernel
       
    def onClose(self, wasClean, code, reason):
