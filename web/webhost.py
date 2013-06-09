@@ -12,8 +12,9 @@ from autobahn.wamp import exportRpc, \
                           WampServerProtocol
 class RPCProtos:
 
-   def __init___:
-   logging.info("RPC:\tprotos init.")
+   def __init___(self):
+      logging.info("RPC:\tprotos init.")
+   
    @exportRpc
    def sayhello(self, msg):
       return ("hello " + msg)
