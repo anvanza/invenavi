@@ -28,7 +28,7 @@ class RPCHost(WampServerProtocol):
        logging.info("RPC:\t"+reason)
    
    def onSessionOpen(self):
-      self.registerForRpc(self, "http://10.0.0.141/ws#")
+      self.registerForRpc(self, "http://10.0.0.141/ws/rpc#")
       
    @exportRpc
    def sayhello(self, msg):
