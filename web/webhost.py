@@ -26,7 +26,7 @@ class RPCProtos:
       # steering
       self._kernel.set_steering(steering)
       
-return {'status':True}
+      return {'status':True}
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
