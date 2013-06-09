@@ -11,24 +11,22 @@ from autobahn.wamp import exportRpc, \
                           WampServerFactory, \
                           WampServerProtocol
 class RPCProtos:
+
+   def __init___:
+   logging.info("RPC:\tprotos init.")
    @exportRpc
    def sayhello(self, msg):
       return ("hello " + msg)
    
 
 class RPCProtocol(WampServerProtocol):
-   def __init__(self):
-      logging.debug("RPC:\tprotocol created.")
-      
-   def onOpen(connectionRequest):
-      logging.info("RPC:\tnew connection.")
-   
    def onClose(self, wasClean, code, reason):
       logging.info("RPC:\t"+reason)
    
    def onSessionOpen(self):
       self.protos = RPCProtos()
       self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
+      logging.info("RPC:\tnew connection.")
                             
 def run_main_host(kernel, rpc_port):
    log.startLogging(sys.stdout)
