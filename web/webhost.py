@@ -18,7 +18,15 @@ class RPCProtos:
    @exportRpc
    def sayhello(self, msg):
       return ("hello " + msg)
-   
+   @exportRpc
+   def set_drive(self, throttle, steering):
+      """ Direct drive. """
+      # throttle
+      self._kernel.set_throttle(throttle)
+      # steering
+      self._kernel.set_steering(steering)
+      
+return {'status':True}
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
