@@ -12,7 +12,7 @@ from autobahn.wamp import exportRpc, \
                           WampServerProtocol
 class RPCProtos:
 
-   def __init__(self,kernel):
+   def __init__(self):
       logging.info("RPC:\tprotos init.")
       self._kernel = self.factory.core_kernel
    
@@ -34,7 +34,7 @@ class RPCProtocol(WampServerProtocol):
       logging.info("RPC:\t"+reason)
    
    def onSessionOpen(self):
-      self.protos = RPCProtos(self._kernel)
+      self.protos = RPCProtos
       self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
       logging.info("RPC:\tnew connection.")
                             
