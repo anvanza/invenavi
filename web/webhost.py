@@ -34,6 +34,7 @@ class RPCProtocol(WampServerProtocol):
    
    def onSessionOpen(self):
       self.protos = RPCProtos()
+      self.protos.core_kernel = self.core_kernel
       self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
       logging.info("RPC:\tnew connection.")
                             
