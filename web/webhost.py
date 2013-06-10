@@ -11,10 +11,6 @@ from autobahn.wamp import exportRpc, \
                           WampServerFactory, \
                           WampServerProtocol
 class RPCProtos:
-
-   def __init__(self):
-      logging.info("RPC:\tprotos init.")
-      self._kernel = self.factory.core_kernel
    
    @exportRpc
    def sayhello(self, msg):
@@ -23,9 +19,9 @@ class RPCProtos:
    def set_drive(self, throttle, steering):
       """ Direct drive. """
       # throttle
-      self._kernel.set_throttle(throttle)
+      self.factory.core_kernel.set_throttle(throttle)
       # steering
-      self._kernel.set_steering(steering)
+      self.factory.core_kernel.set_steering(steering)
       
       return {'status':True}
 
