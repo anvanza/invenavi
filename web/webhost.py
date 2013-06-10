@@ -42,12 +42,10 @@ class RPCProtocol(WampServerProtocol):
       logging.info("RPC:\tnew connection.")
                             
 def run_main_host(kernel, rpc_port):
-   def __init__(self, kernel):
-      self._kernel = kernel
-      
+
    log.startLogging(sys.stdout)
    factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
-   factory.protocol = RPCProtocol(self._kernel)
+   factory.protocol = RPCProtocol(kernel)
    factory.setProtocolOptions(allowHixie76 = True)
    listenWS(factory)
 
