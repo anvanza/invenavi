@@ -13,7 +13,7 @@ from autobahn.wamp import exportRpc, \
 class RPCProtos:
    def __init__(self):
       logging.info("RPC:\tprotos init.")
-      self._kernel = self.factory.core_kernel
+      self._kernel = self.core_kernel
 
    @exportRpc
    def sayhello(self, msg):
@@ -22,9 +22,9 @@ class RPCProtos:
    def set_drive(self, throttle, steering):
       """ Direct drive. """
       # throttle
-      self.factory.core_kernel.set_throttle(throttle)
+      self._kernel.set_throttle(throttle)
       # steering
-      self.factory.core_kernel.set_steering(steering)
+      self._kernel.set_steering(steering)
       
       return {'status':True}
 
