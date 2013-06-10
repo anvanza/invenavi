@@ -42,7 +42,7 @@ def run_main_host(kernel, rpc_port):
 
    log.startLogging(sys.stdout)
    factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
-   factory._kernel= kernel
+   factory.core_kernel= kernel
    factory.protocol = RPCProtocol
    factory.setProtocolOptions(allowHixie76 = True)
    listenWS(factory)
