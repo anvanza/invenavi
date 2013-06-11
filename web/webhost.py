@@ -13,7 +13,6 @@ from autobahn.wamp import exportRpc, \
 class RPCProtos:
    def __init__(self):
       logging.info("RPC:\tprotos init.")
-      self._kernel = self.core_kernel
 
    @exportRpc
    def sayhello(self, msg):
@@ -34,7 +33,6 @@ class RPCProtocol(WampServerProtocol):
    
    def onSessionOpen(self):
       self.protos = RPCProtos()
-      self.protos.core_kernel = self.core_kernel
       self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
       logging.info("RPC:\tnew connection.")
                             
@@ -43,15 +41,11 @@ def run_main_host(kernel, rpc_port):
    log.startLogging(sys.stdout)
    factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
    factory.protocol = RPCProtocol
-   factory.protocol.core_kernel= kernel
    factory.setProtocolOptions(allowHixie76 = True)
    listenWS(factory)
 
    webdir = File(".")
    web = Site(webdir)
    reactor.listenTCP(8080, web)
-
+   print facrory
    reactor.run()
-
-
-
