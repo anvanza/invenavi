@@ -47,5 +47,5 @@ def run_main_host(kernel, rpc_port):
    webdir = File(".")
    web = Site(webdir)
    reactor.listenTCP(8080, web)
-   print facrory
+   print factory
    reactor.run()
