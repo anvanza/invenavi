@@ -40,12 +40,12 @@ def run_main_host(kernel, rpc_port):
 
    log.startLogging(sys.stdout)
    factory = WampServerFactory("ws://localhost:9000", debugWamp = True)
-   factory.protocol = RPCProtocol
+   factory.protocol = RPCProtocol("helloworx")
    factory.setProtocolOptions(allowHixie76 = True)
    listenWS(factory)
 
    webdir = File(".")
    web = Site(webdir)
    reactor.listenTCP(8080, web)
-   print factory
+
    reactor.run()
