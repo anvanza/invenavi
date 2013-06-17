@@ -16,9 +16,6 @@ class RPCProtos:
       self._kernel = kernel
 
    @exportRpc
-   def sayhello(self, msg):
-      return ("hello " + msg)
-   @exportRpc
    def set_drive(self, throttle, steering):
       """ Direct drive. """
       # throttle
