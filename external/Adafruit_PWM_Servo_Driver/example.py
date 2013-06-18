@@ -11,11 +11,11 @@ import time
 # bmp = PWM(0x40, debug=True)
 pwm = PWM(0x40, debug=True)
 
-servoMin = 200  # Min pulse length out of 4096 (1 ms = 200/4095 x 20ms)
-servoNeutral = 300 # neutral pulse length out of 4096 (1.5ms = 300/4095 x 20ms)
-servoMax = 400  # Max pulse length out of 4096 (2ms = 400/4095 x 20ms)
+servoMin = 245  # Min pulse length out of 4096 (1 ms = 245/4095 x 16.67ms)
+servoNeutral = 368 # neutral pulse length out of 4096 (1.5ms = 368/4095 x 16.67ms)
+servoMax = 490  # Max pulse length out of 4096 (2ms = 490/4095 x 16.67ms)
 
-pwm.setPWMFreq(50)  # Set frequency to 50 Hz (servo pulse period = 20ms)
+pwm.setPWMFreq(60)  # Set frequency to 50 Hz (servo pulse period = 16.67ms)
 while (True):
 	# Change speed of continuous servo on channel O
 	pwm.setPWM(0, 0, servoMin)
