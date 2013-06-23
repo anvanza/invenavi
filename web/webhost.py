@@ -25,6 +25,11 @@ class RPCProtos:
       
       return {'status':True}
 
+   @exportRpc
+   def data(self):
+      pass
+      return {'gpsfix' :True};
+
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
       logging.info("RPC:\t"+reason)
