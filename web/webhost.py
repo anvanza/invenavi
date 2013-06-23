@@ -28,14 +28,14 @@ class RPCProtos:
    @exportRpc
    def data(self):
       pass
-      return {'gpsfix' :True};
+      return {'gpsfix' :True}
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
       logging.info("RPC:\t"+reason)
    
    def onSessionOpen(self):
-      self.registerForRpc(self.protos, "http://10.0.0.141/ws/protos#")
+      self.registerForRpc(self.protos, "http://10.0.0.142/ws/protos#")
       logging.info("RPC:\tnew connection.")
                             
 def run_main_host(kernel, rpc_port):
