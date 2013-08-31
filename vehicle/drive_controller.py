@@ -22,15 +22,15 @@ class DriveController:
         """ Set drive throttle between -1.0 and 1.0 with 0.0 for zero drive. """
         logging.debug("DRIVE:\tThrottle set to: %s" % throttle_level)
         # TODO check break vs reverse state by storing last set level
-        if throttle_level > 1.0 or throttle_level < -1.0:
-            raise ValueError("throttle_level %f must be between -1.0 and 1.0." % throttle_level)
+        #if throttle_level > 1.0 or throttle_level < -1.0:
+        #    raise ValueError("throttle_level %f must be between -1.0 and 1.0." % throttle_level)
         # map input from (-1)..(0)..(1) to (1.0)..(1.5)..(2.0)
-        pulse_time = (throttle_level/2.0)+1.5
-        if (self.debug):
-            logging.debug("DRIVE:\tSetting pulse length to: %f for throttle level %f", pulse_time, throttle_level)
+        #pulse_time = (throttle_level/2.0)+1.5
+        #if (self.debug):
+        #    logging.debug("DRIVE:\tSetting pulse length to: %f for throttle level %f", pulse_time, throttle_level)
         # set PWM pulse length
-        self.set_servo_pulse(self.prop_channel, pulse_time)
-        self.throttle_level = throttle_level
+        #self.set_servo_pulse(self.prop_channel, pulse_time)
+        #self.throttle_level = throttle_level
 
     def set_steering(self, angle):
         """ Set steering to angle between FULL_LEFT and FULL_RIGHT.
