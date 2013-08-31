@@ -77,7 +77,7 @@ class AdafruitDriveController(DriveController):
     # 'standard' analog servo freq
     ic_pwm_freq = 60
 
-    def __init__(self, i2c_addr=0x40, i2c_bus=0, prop_channel=0, servo_channel=0, debug=True):
+    def __init__(self, i2c_addr=0x40, i2c_bus=None, prop_channel=0, servo_channel=0, debug=True):
         self.debug = debug
         self.prop_channel = prop_channel
         self.servo_channel = servo_channel
