@@ -31,10 +31,10 @@ class Invenavi:
     
     db = MySQLdb.connect(host="localhost",user="root",passwd="raspberry", db="test")
 
- def configure_devices(self):
+  def configure_devices(self):
     """ Configures eg i2c and other attached devices."""
     self.config.configure_devices(self.debug)  
-     
+
   def run(self):
     """Run the selected mode"""
     logging.info("invenavi:\tStarting invenavi in mode: headless")
