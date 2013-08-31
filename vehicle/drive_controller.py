@@ -49,8 +49,8 @@ class DriveController:
         # ie a pulse length of 1.33 ms and full right will be 2/3 ie a pulse length of 1.67 ms.
         full_range = self.FULL_RIGHT_SERVO - self.FULL_LEFT_SERVO   # Pi
         pulse_time = (angle/full_range)+1.5
-        if (self.debug):
-            logging.debug("DRIVE:\tSetting pulse length to :%f for steering angle %f", pulse_time, angle)
+        #if (self.debug):
+        logging.debug("DRIVE:\tSetting pulse length to :%f for steering angle %f", pulse_time, angle)
         # set PWM pulse length
         self.set_servo_pulse(self.servo_channel, pulse_time)
         self.steering_angle = angle
