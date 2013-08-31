@@ -5,7 +5,7 @@ import os
 import time
 
 class invenaviConfig(object):
-
+    _devices = []
     _root_dir = os.path.join(os.getenv("HOME"), "invenavi")
 
     def __init__(self):
@@ -55,6 +55,50 @@ class invenaviConfig(object):
     @property
     def logs_path(self):
         return os.path.join(self._root_dir, "logs")
+
+
+    def scan_i2c(self, debug=False):
+        """scans i2c port returning a list of detected addresses.
+            Requires sudo access.
+            Returns True for in use by a device already (ie UU observed)"""
+        
+        import raspberrypi
+
+        proc = subprocess.Popen(['sudo', 'i2cdetect', '-y', raspberrypi.i2c_bus_num()], 
+                stdout = subprocess.PIPE,
+                close_fds = True)
+        std_out_txt, std_err_txt = proc.communicate()
+
+        if debug:
+            logging.debug(std_out_txt)
+            logging.debug(std_err_txt)
+        
+        # TODO could probably be neater with eg format or regex
+        # i2c returns
+        #  -- for unused addresses
+        #  UU for addresses n use by a device
+        #  0x03 to 0x77 for detected addresses
+        # need to keep columns if care about UU devices
+        addr = []
+        lines = std_out_txt.rstrip().split("\n")
+        
+        if lines[0] in "command not found":
+            raise RuntimeError("i2cdetect not found")
+        
+        for i in range(0,8):
+            for j in range(0,16):
+                idx_i = i+1
+                idx_j = j*3+4
+                cell = lines[idx_i][idx_j:idx_j+2].strip()
+                if cell and cell != "--":
+                    logging.info("    ...device at: %s %s", hex(16*i+j), cell)
+                    hexAddr = 16*i+j
+                    if cell == "UU":
+                        addr.append([hexAddr, True])
+                    else:
+                        addr.append([hexAddr, False])
+        
+        return addr
 class DummyDriveController(object):
     """ 'Dummy' drive controller that just logs. """
     
