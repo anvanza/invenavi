@@ -113,7 +113,7 @@ class invenaviConfig(object):
     
         # TODO add non i2c device detection eg webcams on /dev/video*, provide driver classes
 
-     def lookup(self, addr, debug=False):
+    def lookup(self, addr, debug=False):
         """ lookup available device drivers by hex address,
             import and create driver class,
             setup particular devices so easily retrieved by consumers. """
