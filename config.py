@@ -3,6 +3,7 @@ import logging.handlers
 
 import os
 import time
+import platform
 
 class invenaviConfig(object):
     _devices = []
