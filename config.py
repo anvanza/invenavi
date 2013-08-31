@@ -128,30 +128,6 @@ class invenaviConfig(object):
         if addr == 0x68:
             return "RTC", "Driver not loaded - DS1307"
         
-        elif addr == 0x20:
-            #try:
-            #    from sensor.GPS_I2C import GPS_NavigatronSensor
-            #    self.gps_sensor = GPS_NavigatronSensor(i2c_bus=raspberrypi.i2c_bus(), debug=debug)
-            #except Exception as ex:
-            #    logging.warning("CFG:\tError setting up GPS over i2c - %s" % ex)
-            #return "GPS", self.gps_sensor
-        
-        elif addr == 0x48:
-            #try:
-            #    from sensor.temperature_TMP102 import TemperatureSensor
-            #    self.temperature_sensor = TemperatureSensor(i2c_bus=raspberrypi.i2c_bus(), debug=debug)
-            #except Exception as ex:
-            #    logging.warning("CFG:\tError setting up TEMPERATURE over i2c - %s" % ex)
-            #return "TEMPERATURE", self.temperature_sensor
-                    
-        elif addr == 0x60:
-            #try:
-            #    from sensor.compass_CMPS10 import Cmps10_Sensor
-            #    self.compass_sensor = Cmps10_Sensor(i2c_bus=raspberrypi.i2c_bus(), debug=debug)
-            #except Exception as ex:
-            #    logging.warning("CFG:\tError setting up COMPASS over i2c - %s" % ex)
-            #return "COMPASS", self.compass_sensor
-        
         elif addr == 0x40: #or addr == 0x70:
             # DriveController (using Adafruit PWM board) (not sure what 0x70 address is for...)
             try:
