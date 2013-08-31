@@ -99,15 +99,6 @@ class invenaviConfig(object):
             except Exception as ex:
                 logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 
-        # CameraController (over USB)
-        # TODO: look at different controller, eg m-jpeg stream over local connection, start script from here
-        try:
-            from sensor.camera import CameraController
-            self.camera_controller = CameraController(self, debug=debug)
-        except Exception as ex:
-            logging.info("CFG:\tCamera support unavailable - %s" % ex)
-            self.camera_controller = DummyCameraController(self.resources_folder())
-
         # any remaining dummy devices
         if not(self.drive_controller):
             self.drive_controller = DummyDriveController()
