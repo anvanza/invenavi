@@ -15,7 +15,7 @@ class invenaviConfig(object):
         logger.setLevel(logging.DEBUG)
         console = logging.StreamHandler()
         logger.addHandler(console)
-        
+
         # create directory
         if not os.path.exists(self.logs_path):
             os.makedirs(self.logs_path)
@@ -26,22 +26,22 @@ class invenaviConfig(object):
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-        
+
         # default attachments to None
         self.gps_sensor = None
         self.compass_sensor = None
         self.temperature_sensor = None
         self.drive_controller = None
         self.camera_controller = None
-        
-        
+
+
         # RPC config
         self._rpc_port = None
-        
+
     #
     # RPC config
     #
- 
+
     @property
     def rpc_port(self):
         return self._rpc_port
@@ -59,25 +59,25 @@ class invenaviConfig(object):
 
     def configure_devices(self, debug=False):
         """ Configures i2c devices when running in appropriate environment. """
-        
+
         # only configure devices for Linux
         if not(platform.system() == "Linux"):
             logging.info("CFG:\tNot running on Linux distro. Not configuring i2c or other devices.")
             self.set_dummy_devices()
             return
-        
+
         # although i2c may work if in correct user group, GPIO needs confirming.
         # for now, clearer just to object if not running as root (sudo)
         #if not(os.getuid() == 0):
         #    logging.info("Not running on as root. Not configuring i2c or other devices.")
         #    self.set_dummy_devices()
         #    return
-            
+
         # running as root on linux so can scan for devices and configure them
         # although inline imports normally not encouraged
         # enables me to load dependencies only when I know I can (eg linux, i2c, root, etc...)
         import raspberrypi
-    
+
         # i2c devices
         try:
             logging.info("CFG:\tConfiguring i2c devices...")
@@ -88,7 +88,7 @@ class invenaviConfig(object):
             for addr, in_use in i2c_addresses:
                 device_name, device_driver = self.lookup(addr, debug=debug)
                 self._devices.append([addr, device_name, device_driver, in_use])
-                            
+
         except Exception as ex:
             logging.exception("CFG:\tError scanning i2c devices - %s" % ex)
 
@@ -103,7 +103,7 @@ class invenaviConfig(object):
         # any remaining dummy devices
         if not(self.drive_controller):
             self.drive_controller = DummyDriveController()
-    
+
         # TODO add non i2c device detection eg webcams on /dev/video*, provide driver classes
 
     def lookup(self, addr, debug=False):
@@ -112,15 +112,15 @@ class invenaviConfig(object):
             setup particular devices so easily retrieved by consumers. """
         if(debug):
             logging.debug("CFG:\tChecking for driver for device at i2c %s" % addr)
-        
+
         # TODO replace with reading from config? probably use ConfigParser?
         # note: i2c addresses can conflict
         # could scan registers etc to confirm count etc?
         import raspberrypi
-        
+
         if addr == 0x68:
             return "RTC", "Driver not loaded - DS1307"
-        
+
         elif addr == 0x40: #or addr == 0x70:
             # DriveController (using Adafruit PWM board) (not sure what 0x70 address is for...)
             try:
@@ -131,20 +131,20 @@ class invenaviConfig(object):
                 logging.info("CFG:\tError setting up DRIVECONTROLLER over i2c - %s" % ex)
                 self.drive_controller = DummyDriveController()
             return "DRIVECONTROLLER", self.drive_controller
-        
+
         elif addr == 0x1E:
             return "COMPASS", "Driver not loaded - HMC5883L"
-                
+
         elif addr == 0x53 or addr == 0x1D:
             # 0x53 when ALT connected to HIGH
             # 0x1D when ALT connected to LOW
             return "ACCELEROMETER", "Driver not loaded - ADXL345"
-                
+
         elif addr == 0x69:
             # 0x68 when AD0 connected to LOW - conflicts with DS1307!
             # 0x69 when AD0 connected to HIGH
             return "GYRO", "Driver not loaded - ITG3200"
-                
+
         else:
             return "unknown", None
 
@@ -152,10 +152,10 @@ class invenaviConfig(object):
         """scans i2c port returning a list of detected addresses.
             Requires sudo access.
             Returns True for in use by a device already (ie UU observed)"""
-        
+
         import raspberrypi
 
-        proc = subprocess.Popen(['sudo', 'i2cdetect', '-y', raspberrypi.i2c_bus_num()], 
+        proc = subprocess.Popen(['sudo', 'i2cdetect', '-y', raspberrypi.i2c_bus_num()],
                 stdout = subprocess.PIPE,
                 close_fds = True)
         std_out_txt, std_err_txt = proc.communicate()
@@ -163,7 +163,7 @@ class invenaviConfig(object):
         if debug:
             logging.debug(std_out_txt)
             logging.debug(std_err_txt)
-        
+
         # TODO could probably be neater with eg format or regex
         # i2c returns
         #  -- for unused addresses
@@ -172,10 +172,10 @@ class invenaviConfig(object):
         # need to keep columns if care about UU devices
         addr = []
         lines = std_out_txt.rstrip().split("\n")
-        
+
         if lines[0] in "command not found":
             raise RuntimeError("i2cdetect not found")
-        
+
         for i in range(0,8):
             for j in range(0,16):
                 idx_i = i+1
@@ -188,28 +188,28 @@ class invenaviConfig(object):
                         addr.append([hexAddr, True])
                     else:
                         addr.append([hexAddr, False])
-        
+
         return addr
 class DummyDriveController(object):
     """ 'Dummy' drive controller that just logs. """
-    
+
     # current state
     throttle_level = 0.0
     steering_angle = 0.0
-    
+
     def __init__(self):
         pass
-    
+
     def set_throttle(self, throttle_level):
         logging.debug("DUMMYDRIVE:\tThrottle set to: %s" % throttle_level)
         self.throttle_level = throttle_level
         pass
-    
+
     def set_steering(self, angle):
         logging.debug("DUMMYDRIVE:\tSteering set to: %s" % angle)
         self.steering_angle = angle
         pass
-    
+
     def halt(self):
         logging.debug("DUMMYDRIVE:\tDrive halting.")
         self.throttle_level = 0.0

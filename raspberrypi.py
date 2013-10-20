@@ -9,5 +9,5 @@ def i2c_bus_num():
     return '1'
 
 def serial_bus():
-    return "/dev/ttyUSB0"
+    return "/dev/ttyAMA0"
     #return "/dev/ttyAMA0"
