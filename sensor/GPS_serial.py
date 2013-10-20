@@ -79,7 +79,7 @@ class GPS_AdafruitSensor:
         altitude = gps_gga.antenna_altitude
         num_sat = gps_gga.num_sats
         timestamp = datetime.strptime(gps_gga.timestamp.rstrip('.000'), "%H%M%S").time()
-        
+
         # read gps rmc (recommended minimum) packet
         has_read_rmc, gps_rmc = self.wait_for_sentence('$GPRMC')
         if not(has_read_rmc):
@@ -97,7 +97,7 @@ class GPS_AdafruitSensor:
         # and done
         if self.debug:
             logging.debug("SENSOR:\tGPS_serial:\t(fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp): (%d, %f, %f, %f, %f, %f, %d, %s, %s)", fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp)
-        
+
         return fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
 
     def read_sensor_raw(self):
