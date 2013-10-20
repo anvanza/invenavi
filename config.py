@@ -190,28 +190,3 @@ class invenaviConfig(object):
                         addr.append([hexAddr, False])
 
         return addr
-class DummyDriveController(object):
-    """ 'Dummy' drive controller that just logs. """
-
-    # current state
-    throttle_level = 0.0
-    steering_angle = 0.0
-
-    def __init__(self):
-        pass
-
-    def set_throttle(self, throttle_level):
-        logging.debug("DUMMYDRIVE:\tThrottle set to: %s" % throttle_level)
-        self.throttle_level = throttle_level
-        pass
-
-    def set_steering(self, angle):
-        logging.debug("DUMMYDRIVE:\tSteering set to: %s" % angle)
-        self.steering_angle = angle
-        pass
-
-    def halt(self):
-        logging.debug("DUMMYDRIVE:\tDrive halting.")
-        self.throttle_level = 0.0
-        self.steering_angle = 0.0
-        pass

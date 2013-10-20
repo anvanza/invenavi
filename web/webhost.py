@@ -22,22 +22,23 @@ class RPCProtos:
       self._kernel.set_throttle(throttle)
       # steering
       self._kernel.set_steering(steering)
-      
+
       return {'status':True}
 
    @exportRpc
    def data(self):
-      pass
-      return {'gpsfix' :True}
+      self._kernel.update()
+
+      return {'gpsfix' : self._kernel.data.fix, 'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon}
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
       logging.info("RPC:\t"+reason)
-   
+
    def onSessionOpen(self):
       self.registerForRpc(self.protos, "http://10.0.0.142/ws/protos#")
       logging.info("RPC:\tnew connection.")
-                            
+
 def run_main_host(kernel, rpc_port):
 
    log.startLogging(sys.stdout)
