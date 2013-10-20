@@ -3,6 +3,8 @@
 import logging
 import os
 
+from model_data import ModelData
+
 class invenaviKernel:
     def __init__(self, config, debug=False):
         self.config = config
@@ -15,6 +17,9 @@ class invenaviKernel:
 
         # vehicle
         self._drive_controller = config.drive_controller
+
+        # data class
+        self.data = POCVModelData()
 
     def set_throttle(self, throttle_level):
         self._drive_controller.set_throttle(throttle_level)
