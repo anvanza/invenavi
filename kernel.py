@@ -19,7 +19,7 @@ class invenaviKernel:
         self._drive_controller = config.drive_controller
 
         # data class
-        self.data = POCVModelData()
+        self.data = ModelData()
 
     def set_throttle(self, throttle_level):
         self._drive_controller.set_throttle(throttle_level)
