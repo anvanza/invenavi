@@ -20,26 +20,31 @@ if __name__ == "__main__":
     print "Reading 1..."
     (fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp) = gps_sensor.read_sensor()
     print fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+    print gps_sensor.read_sensor_raw()
     sleep(5)
 
     print "Reading 2..."
     (fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp) = gps_sensor.read_sensor()
     print fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+    print gps_sensor.read_sensor_raw()
     sleep(5)
 
     print "Reading 3..."
     (fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp) = gps_sensor.read_sensor()
     print fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+    print gps_sensor.read_sensor_raw()
     sleep(5)
 
     print "Reading 4..."
     (fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp) = gps_sensor.read_sensor()
     print fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+    print gps_sensor.read_sensor_raw()
     sleep(5)
 
     print "Reading 5..."
     (fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp) = gps_sensor.read_sensor()
     print fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+    print gps_sensor.read_sensor_raw()
     sleep(5)
 
     print "Done."
