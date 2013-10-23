@@ -17,9 +17,6 @@ class Invenavi:
     parser.add_argument("-s", "--server", help="server for remote device", default="raspberrypi.local", type=str, action='store')
     parser.add_argument("-dp", "--devport", help="port for device rpc", default=8080, type=int, action='store')
 
-    # TODO - add further arguments here
-    #parser.add_argument(...)
-
     # and parse
     selected_args = parser.parse_args()
     self.debug = selected_args.debug
@@ -29,7 +26,8 @@ class Invenavi:
     #say we're launching
     logging.info("invenavi:\tinvenavi ready to initialize..")
 
-    db = MySQLdb.connect(host="localhost",user="root",passwd="raspberry", db="test")
+    #init the database (this is probably not the correct place to do so)
+    #db = MySQLdb.connect(host="localhost",user="root",passwd="raspberry", db="test")
 
   def configure_devices(self):
     """ Configures eg i2c and other attached devices."""
