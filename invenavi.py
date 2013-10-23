@@ -21,7 +21,7 @@ class Invenavi:
 
   def __init__(self):
     parser = argparse.ArgumentParser(description='invenavi')
-    parser.add_argument("-m", "--mode", help="Operational Mode to run" , choices=InvenaviRunMode.Modes , default=InvenaviRunMode.manual,action='store')
+    parser.add_argument("-m", "--mode", help="Operational Mode to run" , choices=InvenaviRunMode.Modes , default=InvenaviRunMode.Manual,action='store')
     parser.add_argument("-d", "--debug", help="increase debugging information output" ,action='store_true')
     parser.add_argument("-s", "--server", help="server for remote device", default="raspberrypi.local", type=str, action='store')
     parser.add_argument("-dp", "--devport", help="port for device rpc", default=8080, type=int, action='store')

@@ -5,6 +5,7 @@ import os
 import time
 import platform
 import subprocess
+from gps import *
 
 class invenaviConfig(object):
     _devices = []
@@ -80,7 +81,6 @@ class invenaviConfig(object):
             logging.exception("CFG:\tError scanning i2c devices - %s" % ex)
 
         try:
-            from gps import *
             self.gps_sensor = gps(mode=WATCH_ENABLE)
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
