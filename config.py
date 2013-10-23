@@ -109,7 +109,6 @@ class invenaviConfig(object):
                 self.drive_controller = AdafruitDriveController(i2c_addr=addr, i2c_bus=raspberrypi.i2c_bus(), debug=debug)
             except Exception as ex:
                 logging.info("CFG:\tError setting up DRIVECONTROLLER over i2c - %s" % ex)
-                self.drive_controller = DummyDriveController()
             return "DRIVECONTROLLER", self.drive_controller
 
         elif addr == 0x1E:
