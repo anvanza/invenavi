@@ -12,7 +12,7 @@ from gps import *
 class GpsPoller(threading.Thread):
   def __init__(self ,config):
     threading.Thread.__init__(self)
-    config = gps(mode=WATCH_ENABLE) #starting the stream of info
+    self.config = gps(mode=WATCH_ENABLE) #starting the stream of info
     self.current_value = None
     self.running = True #setting the thread running to true
 
