@@ -32,7 +32,7 @@ class invenaviKernel:
             self._gps_sensor.next()
             self.data.lat = self._gps_sensor.fix.latitude
             self.data.lon = self._gps_sensor.fix.longitude
-            self.data.altitude = self._gps_sensor.fix.fix.altitude
+            self.data.altitude = self._gps_sensor.fix.altitude
             self.data.has_GPS = True
         else:
             self.data.has_GPS = False
