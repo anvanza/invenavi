@@ -60,19 +60,6 @@ class invenaviConfig(object):
     def configure_devices(self, debug=False):
         """ Configures i2c devices when running in appropriate environment. """
 
-        # only configure devices for Linux
-        if not(platform.system() == "Linux"):
-            logging.info("CFG:\tNot running on Linux distro. Not configuring i2c or other devices.")
-            self.set_dummy_devices()
-            return
-
-        # although i2c may work if in correct user group, GPIO needs confirming.
-        # for now, clearer just to object if not running as root (sudo)
-        #if not(os.getuid() == 0):
-        #    logging.info("Not running on as root. Not configuring i2c or other devices.")
-        #    self.set_dummy_devices()
-        #    return
-
         # running as root on linux so can scan for devices and configure them
         # although inline imports normally not encouraged
         # enables me to load dependencies only when I know I can (eg linux, i2c, root, etc...)
@@ -92,15 +79,12 @@ class invenaviConfig(object):
         except Exception as ex:
             logging.exception("CFG:\tError scanning i2c devices - %s" % ex)
 
-        # if no GPS (eg i2c) set up, then import a serial one. Should check for device present first.
-        if not(self.gps_sensor):
-            try:
-                from sensor.GPS_serial import GPS_AdafruitSensor
-                self.gps_sensor = GPS_AdafruitSensor(serial_bus=raspberrypi.serial_bus(), debug=debug)
-            except Exception as ex:
-                logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
+        try:
+            from gps import *
+            self.gps_sensor = gps(mode=WATCH_ENABLE)
+        except Exception as ex:
+            logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 
-        # TODO add non i2c device detection eg webcams on /dev/video*, provide driver classes
 
     def lookup(self, addr, debug=False):
         """ lookup available device drivers by hex address,
