@@ -10,15 +10,21 @@ import threading
 from gps import *
 
 class GpsPoller(threading.Thread):
-  def __init__(self ,config):
-    threading.Thread.__init__(self)
-    self.config = gps(mode=WATCH_ENABLE) #starting the stream of info
-    self.current_value = None
-    self.running = True #setting the thread running to true
+   def __init__(self)
+       threading.Thread.__init__(self)
+       self.session = gps(mode=WATCH_ENABLE)
+       self.current_value = None
 
-  def run(self):
-    while self.running:
-      self.config.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
+   def get_current_value(self):
+       return self.current_value
+
+   def run(self):
+       try:
+            while True:
+                self.current_value = session.next()
+                time.sleep(0.2) # tune this, you might not get values that quickly
+       except StopIteration:
+            pass
 
 class invenaviConfig(object):
     _devices = []
@@ -43,7 +49,6 @@ class invenaviConfig(object):
 
         # default attachments to None
         self.gps_sensor = None
-        self.gps_info = None
         self.compass_sensor = None
         self.temperature_sensor = None
         self.drive_controller = None
@@ -96,9 +101,7 @@ class invenaviConfig(object):
 
         #GPS init
         try:
-            self.gps_sensor = GpsPoller(self.gps_info)
-            #start it right away
-            self.gps_sensor.start()
+            self.gps_sensor = GpsPoller()
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 

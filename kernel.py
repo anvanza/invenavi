@@ -22,6 +22,12 @@ class invenaviKernel:
         # data class
         self.data = ModelData()
 
+        #Start GPS
+        self._gps_sensor.start()
+        # gpsp now polls every .2 seconds for new data, storing it in self.current_value
+        while 1:
+            print gpsp.get_current_value()
+
     def set_throttle(self, throttle_level):
         self._drive_controller.set_throttle(throttle_level)
 
