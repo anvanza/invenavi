@@ -29,8 +29,8 @@ class invenaviKernel:
                 print self._gps_sensor.get_current_value()
         except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
             print "\nKilling Thread..."
-            self._gps_sensor..running = False
-            self._gps_sensor..join() # wait for the thread to finish what it's doing
+            self._gps_sensor.running = False
+            self._gps_sensor.join() # wait for the thread to finish what it's doing
             print "Done.\nExiting."
 
     def set_throttle(self, throttle_level):
