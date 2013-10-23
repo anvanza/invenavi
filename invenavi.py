@@ -5,11 +5,12 @@ import argparse
 
 from config import invenaviConfig
 from kernel import invenaviKernel
+
 class InvenaviRunMode:
-    Inactive : "inactive"
-    Manual : "manual"
-    Remote : "remote"
-    Auto : "auto"
+    Inactive = "inactive"
+    Manual = "manual"
+    Remote = "remote"
+    Auto = "auto"
     Modes = [Inactive, Manual, Remote, Auto]
 
 
