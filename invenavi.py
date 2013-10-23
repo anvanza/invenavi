@@ -5,6 +5,13 @@ import argparse
 
 from config import invenaviConfig
 from kernel import invenaviKernel
+class InvenaviRunMode:
+    Inactive : "inactive"
+    Manual : "manual"
+    Remote : "remote"
+    Auto : "auto"
+    Modes = [Inactive, Manual, Remote, Auto]
+
 
 class Invenavi:
   """first setup"""
@@ -13,6 +20,7 @@ class Invenavi:
 
   def __init__(self):
     parser = argparse.ArgumentParser(description='invenavi')
+    parser.add_argument("-m", "--mode", help="Operational Mode to run" , choices=InvenaviRunMode.Modes , default=InvenaviRunMode.manual,action='store')
     parser.add_argument("-d", "--debug", help="increase debugging information output" ,action='store_true')
     parser.add_argument("-s", "--server", help="server for remote device", default="raspberrypi.local", type=str, action='store')
     parser.add_argument("-dp", "--devport", help="port for device rpc", default=8080, type=int, action='store')
@@ -20,6 +28,7 @@ class Invenavi:
     # and parse
     selected_args = parser.parse_args()
     self.debug = selected_args.debug
+    self.selected_mode = selected_args.mode
     self.config.server_name = selected_args.server
     self.config.rpc_port = selected_args.devport
 
@@ -35,8 +44,15 @@ class Invenavi:
 
   def run(self):
     """Run the selected mode"""
-    logging.info("invenavi:\tStarting invenavi in mode: headless")
-    return self.run_headless()
+    logging.info("invenavi:\tStarting invenavi in mode {0}:".format(self.selected_mode))
+    if self.selected_mode == InvenaviRunMode.Inactive:
+        logging.info("invenavi:\t Inactive mode set - exiting")
+        return 0
+    elif self.selected_mode == InvenaviRunMode.Manual:
+        return self.run_headless()
+    else
+        logging.error("invenavi:\t Invalid mode! exiting")
+        return 1
 
   def run_headless(self):
     # configure
