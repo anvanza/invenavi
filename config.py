@@ -44,6 +44,7 @@ class invenaviConfig(object):
 
         # default attachments to None
         self.gps_sensor = None
+        self.gps_info = None
         self.compass_sensor = None
         self.temperature_sensor = None
         self.drive_controller = None
