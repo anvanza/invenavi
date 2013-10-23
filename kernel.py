@@ -12,7 +12,6 @@ class invenaviKernel:
 
         # sensors
         self._gps_sensor = config.gps_sensor
-        self._gps_info = config.gps_info
         #self._compass_sensor = config.comass_sensor
         #self._temperature_sensor = config.temperature_sensor
 
