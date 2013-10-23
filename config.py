@@ -44,7 +44,6 @@ class invenaviConfig(object):
 
         # default attachments to None
         self.gps_sensor = None
-        self.gps_info = None
         self.compass_sensor = None
         self.temperature_sensor = None
         self.drive_controller = None
@@ -98,6 +97,8 @@ class invenaviConfig(object):
         #GPS init
         try:
             self.gps_sensor = GpsPoller(self.gps_info)
+            #start it right away
+            self.gps_sensor.start()
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 
