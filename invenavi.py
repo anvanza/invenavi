@@ -51,7 +51,7 @@ class Invenavi:
         return 0
     elif self.selected_mode == InvenaviRunMode.Manual:
         return self.run_headless()
-    else
+    else:
         logging.error("invenavi:\t Invalid mode! exiting")
         return 1
 
