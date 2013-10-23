@@ -29,7 +29,7 @@ class RPCProtos:
    def data(self):
       self._kernel.update()
 
-      return {'gpsfix' : self._kernel.data.fix, 'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon}
+      return {'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon}
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
