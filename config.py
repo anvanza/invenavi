@@ -100,10 +100,6 @@ class invenaviConfig(object):
             except Exception as ex:
                 logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 
-        # any remaining dummy devices
-        if not(self.drive_controller):
-            self.drive_controller = DummyDriveController()
-
         # TODO add non i2c device detection eg webcams on /dev/video*, provide driver classes
 
     def lookup(self, addr, debug=False):
