@@ -5,6 +5,8 @@ import os
 import time
 import platform
 import subprocess
+import threading
+
 from gps import *
 
 class GpsPoller(threading.Thread):
