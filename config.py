@@ -23,6 +23,7 @@ class GpsPoller(threading.Thread):
         while self.running:
             self.current_value = self.session.next()
             time.sleep(0.2) # tune this, you might not get values that quickly
+            print self.current_value
 
 class invenaviConfig(object):
     _devices = []
