@@ -7,6 +7,18 @@ import platform
 import subprocess
 from gps import *
 
+class GpsPoller(threading.Thread):
+  def __init__(self ,config):
+    threading.Thread.__init__(self)
+    config = gps(mode=WATCH_ENABLE) #starting the stream of info
+    self.current_value = None
+    self.running = True #setting the thread running to true
+
+  def run(self):
+    global config
+    while self.running:
+      config.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
+
 class invenaviConfig(object):
     _devices = []
     _root_dir = os.path.join(os.getenv("HOME"), "invenavi")
@@ -30,6 +42,7 @@ class invenaviConfig(object):
 
         # default attachments to None
         self.gps_sensor = None
+        self.gps_info = None
         self.compass_sensor = None
         self.temperature_sensor = None
         self.drive_controller = None
@@ -80,8 +93,9 @@ class invenaviConfig(object):
         except Exception as ex:
             logging.exception("CFG:\tError scanning i2c devices - %s" % ex)
 
+        #GPS init
         try:
-            self.gps_sensor = gps(mode=WATCH_ENABLE)
+            self.gps_sensor = GpsPoller(self.gps_info)
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 

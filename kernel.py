@@ -12,7 +12,8 @@ class invenaviKernel:
 
         # sensors
         self._gps_sensor = config.gps_sensor
-        #self._compass_sensor = config.compass_sensor
+        self._gps_info = config.gps_info
+        #self._compass_sensor = config.comass_sensor
         #self._temperature_sensor = config.temperature_sensor
 
         # vehicle
@@ -29,10 +30,9 @@ class invenaviKernel:
 
     def read_GPS(self):
         if self._gps_sensor:
-            self._gps_sensor.next()
-            self.data.lat = self._gps_sensor.fix.latitude
-            self.data.lon = self._gps_sensor.fix.longitude
-            self.data.altitude = self._gps_sensor.fix.altitude
+            self.data.lat = self._gps_info.fix.latitude
+            self.data.lon = self._gps_info.fix.longitude
+            self.data.altitude = self._gps_info.fix.altitude
             self.data.has_GPS = True
         else:
             self.data.has_GPS = False

@@ -13,7 +13,6 @@ class InvenaviRunMode:
     Auto = "auto"
     Modes = [Inactive, Manual, Remote, Auto]
 
-
 class Invenavi:
   """first setup"""
 
