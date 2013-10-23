@@ -17,9 +17,8 @@ class GpsPoller(threading.Thread):
     self.running = True #setting the thread running to true
 
   def run(self):
-    global config
     while self.running:
-      config.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
+      self.config.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
 
 class invenaviConfig(object):
     _devices = []
