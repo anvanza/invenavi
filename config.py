@@ -21,7 +21,7 @@ class GpsPoller(threading.Thread):
    def run(self):
         try:
             while True:
-                self.current_value = session.next()
+                self.current_value = self.session.next()
                 time.sleep(0.2) # tune this, you might not get values that quickly
         except StopIteration:
             pass
