@@ -160,6 +160,7 @@ def save_raw():
 	while 1:
 		line = ser.readline()
 		line_str = str(line)
+		print line_str
 		if(line_str[4] == 'G'): # $GPGGA
 			if(len(line_str) > 50):
 				# open txt file and log data
