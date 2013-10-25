@@ -86,11 +86,7 @@ def init_serial():
 	print " "
 
 	#enter your COM port number
-	print "Choose a COM port #. Enter # only, then enter"
-	temp = raw_input() #waits here for keyboard input
-	if temp == 'e':
-		sys.exit()
-	comnum = 'COM' + temp #concatenate COM and the port number to define serial port
+	comnum = '/dev/ttyAMA0' #concatenate COM and the port number to define serial port
 
 	# configure the serial connections
 	global ser, BAUDRATE
