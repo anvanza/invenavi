@@ -22,7 +22,7 @@
 #	the map command again in order to read new data.
 
 from pynmea import nmea
-import serial, time, sys, threading, datetime, shutil
+import serial, time, sys, threading, datetime, shutil, glob
 
 ######Global Variables#####################################################
 # you must declare the variables as 'global' in the fxn before using#
