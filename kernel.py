@@ -2,6 +2,7 @@
 
 import logging
 import os
+import time
 
 from model_data import ModelData
 
@@ -27,6 +28,7 @@ class invenaviKernel:
             # gpsp now polls every .2 seconds for new data, storing it in self.current_value
             while 1:
                 print self._gps_sensor.get_current_value()
+                time.sleep(5)
         except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
             print "\nKilling Thread..."
             self._gps_sensor.running = False

@@ -17,13 +17,11 @@ class GpsPoller(threading.Thread):
        self.running = True
 
    def get_current_value(self):
-       return self.current_value.fix
+       return self.current_value
 
    def run(self):
         while self.running:
             self.current_value = self.session.next()
-            time.sleep(0.2) # tune this, you might not get values that quickly
-            print self.current_value
 
 class invenaviConfig(object):
     _devices = []
