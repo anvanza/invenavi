@@ -39,7 +39,7 @@ TRX = -105.1621          #top right longitude
 TRY = 40.0868            #top right latitude
 BLX = -105.2898          #bottom left longitude
 BLY = 40.001             #bottom left latitude
-BAUDRATE = 9600
+BAUDRATE = 4800
 lat_input = 0            #latitude of home marker
 long_input = 0           #longitude of home marker
 
@@ -161,6 +161,16 @@ def save_raw():
 		line = ser.readline()
 		line_str = str(line)
 		print line_str
+		if(line_str[4] == 'G'): # $GPGGA
+			if(len(line_str) > 50):
+				# open txt file and log data
+				f = open('nmea.txt', 'a')
+				try:
+					f.write('{0:}'.format(line_str))
+				finally:
+					f.close()
+			else:
+				stream_serial()
 
 def scan():
     return glob.glob('/dev/ttyS*')
