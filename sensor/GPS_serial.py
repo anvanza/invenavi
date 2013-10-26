@@ -74,8 +74,8 @@ class GPS_AdafruitSensor:
             return self.zero_response()
 
         fix = gps_gga.gps_qual
-        lat = float(gps_gga.latitude) * (1.0 if gps_gga.lat_direction == 'N' else -1.0)
-        lon = float(gps_gga.longitude) * (1.0 if gps_gga.lon_direction == 'E' else -1.0)
+        lat = float(gps_gga.latitude)
+        lon = float(gps_gga.longitude)
         altitude = gps_gga.antenna_altitude
         num_sat = gps_gga.num_sats
         timestamp = datetime.strptime(gps_gga.timestamp.rstrip('.000'), "%H%M%S").time()
