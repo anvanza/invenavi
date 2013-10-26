@@ -117,12 +117,12 @@ class GPS_AdafruitSensor:
                 if line.startswith(wait4me):
                     if line.startswith('$GPGGA'):
                         logging.debug("SENSOR:\tGPS_serial:\tReceived GPGGA: %s", line)
-                        p = pynmea.nmea.GPGGA()
+                        p = nmea.GPGGA()
                         p.parse(line)
                         return True, p
                     if line.startswith('$GPRMC'):
                         logging.debug("SENSOR:\tGPS_serial:\tReceived GPRMC: %s", line)
-                        p = pynmea.nmea.GPRMC()
+                        p = nmea.GPRMC()
                         p.parse(line)
                         return True, p
 
