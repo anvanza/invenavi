@@ -87,8 +87,8 @@ class GPS_AdafruitSensor:
         if not(gps_rmc.data_validity == 'A'):
             return self.zero_response()
 
-        lat = float(gps_rmc.lat) * (1.0 if gps_rmc.lat_dir == 'N' else -1.0)
-        lon = float(gps_rmc.lon) * (1.0 if gps_rmc.lon_dir == 'E' else -1.0)
+        lat = float(gps_rmc.lat)
+        lon = float(gps_rmc.lon)
         timestamp = datetime.strptime(gps_rmc.timestamp.rstrip('.000'), "%H%M%S").time()
         datestamp = datetime.strptime(gps_rmc.datestamp, "%d%m%y").date()
         heading = gps_rmc.true_course
