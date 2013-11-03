@@ -1,26 +1,15 @@
 #!/usr/bin/python
 
-#
-#
-# Adafruit GPS module:
-#  - http://www.adafruit.com/products/746
-#  - http://learn.adafruit.com/adafruit-ultimate-gps/overview
-#  - based on Arduino library at https://github.com/adafruit/Adafruit-GPS-Library
-#
-#  - nmea sentence details at http://aprs.gids.nl/nmea/
-#
 #  - Standard sense gives:
 #    - fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
-#
-#  - Detailed raw sense gives:
-#    - fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+
 
 from datetime import datetime
 import logging
 import serial
 from pynmea import nmea
 
-class GPS_AdafruitSensor:
+class GPS_sensor:
     """ GPS Navigatron over serial port. """
 
     # different commands to set the update rate from once a second (1 Hz) to 10 times a second (10Hz)
@@ -32,19 +21,9 @@ class GPS_AdafruitSensor:
     PMTK_SET_BAUD_57600 = '$PMTK250,1,0,57600*2C'
     PMTK_SET_BAUD_9600 = '$PMTK250,1,0,9600*17'
 
-    # turn on only the second sentence (GPRMC)
-    PMTK_SET_NMEA_OUTPUT_RMCONLY = '$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29'
-    # turn on GPRMC and GGA
-    PMTK_SET_NMEA_OUTPUT_RMCGGA = '$PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28'
-    # turn on GPRMC, GPVTG and GGA
-    PMTK_SET_NMEA_OUTPUT_RMCVTGGGA = '$PMTK314,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29'
-    #turn on ALL THE DATA
-    PMTK_SET_NMEA_OUTPUT_ALLDATA = '$PMTK314,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0*28'
-    #turn off output
-    PMTK_SET_NMEA_OUTPUT_OFF = '$PMTK314,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28'
+    # turn on GGA
+    PMTK_SET_NMEA_OUTPUT_GGA = '$PMTK314,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29'
 
-    # ask for the release and version
-    PMTK_Q_RELEASE = '$PMTK605*31'
 
     #  how long to wait when we're looking for a response
     MAXWAITSENTENCE = 5
@@ -52,11 +31,9 @@ class GPS_AdafruitSensor:
     def __init__(self, serial_bus="/dev/ttyAMA0", baud=9600, debug=False):
         self.debug = debug
         self._GPS = serial.Serial(serial_bus, baud)
-        #self._GPS.write(self.PMTK_Q_RELEASE)
-        #self._version = self._GPS.readline(20)
-        self._GPS.write(self.PMTK_SET_NMEA_UPDATE_1HZ)
+        self._GPS.write(self.PMTK_SET_NMEA_UPDATE_5HZ)
         self._GPS.write(self.PMTK_SET_BAUD_9600)
-        self._GPS.write(self.PMTK_SET_NMEA_OUTPUT_RMCVTGGGA)
+        self._GPS.write(self.PMTK_SET_NMEA_OUTPUT_GGA)
         self._GPS.flush()
 
     def read_sensor(self):
@@ -79,20 +56,6 @@ class GPS_AdafruitSensor:
         altitude = gps_gga.antenna_altitude
         num_sat = gps_gga.num_sats
         timestamp = datetime.strptime(gps_gga.timestamp.rstrip('.000'), "%H%M%S").time()
-
-        # read gps rmc (recommended minimum) packet
-        has_read_rmc, gps_rmc = self.wait_for_sentence('$GPRMC')
-        if not(has_read_rmc):
-            return self.zero_response()
-        if not(gps_rmc.data_validity == 'A'):
-            return self.zero_response()
-
-        lat = float(gps_rmc.lat)
-        lon = float(gps_rmc.lon)
-        timestamp = datetime.strptime(gps_rmc.timestamp.rstrip('.000'), "%H%M%S").time()
-        datestamp = datetime.strptime(gps_rmc.datestamp, "%d%m%y").date()
-        heading = gps_rmc.true_course
-        speed = gps_rmc.spd_over_grnd
 
         # and done
         if self.debug:
@@ -118,11 +81,6 @@ class GPS_AdafruitSensor:
                     if line.startswith('$GPGGA'):
                         logging.debug("SENSOR:\tGPS_serial:\tReceived GPGGA: %s", line)
                         p = nmea.GPGGA()
-                        p.parse(line)
-                        return True, p
-                    if line.startswith('$GPRMC'):
-                        logging.debug("SENSOR:\tGPS_serial:\tReceived GPRMC: %s", line)
-                        p = nmea.GPRMC()
                         p.parse(line)
                         return True, p
 

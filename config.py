@@ -9,20 +9,6 @@ import threading
 
 from gps import *
 
-class GpsPoller(threading.Thread):
-   def __init__(self):
-       threading.Thread.__init__(self)
-       self.session = gps(mode=WATCH_ENABLE)
-       self.current_value = None
-       self.running = True
-
-   def get_current_value(self):
-       return self.current_value
-
-   def run(self):
-        while self.running:
-            self.current_value = self.session.next()
-
 class invenaviConfig(object):
     _devices = []
     _root_dir = os.path.join(os.getenv("HOME"), "invenavi")
@@ -98,7 +84,8 @@ class invenaviConfig(object):
 
         #GPS init
         try:
-            self.gps_sensor = GpsPoller()
+            from sensor.GPS_serial import GPS_sensor
+            self.gps_sensor = GPS_sensor()
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 
