@@ -51,8 +51,8 @@ class GPS_sensor:
             return self.zero_response()
 
         fix = gps_gga.gps_qual
-        lat = degtodec(gps_gga.latitude)
-        lon = degtodec(gps_gga.longitude)
+        lat = self.degtodec(gps_gga.latitude)
+        lon = self.degtodec(gps_gga.longitude)
         altitude = gps_gga.antenna_altitude
         num_sat = gps_gga.num_sats
         timestamp = datetime.strptime(gps_gga.timestamp.rstrip('.000'), "%H%M%S").time()
