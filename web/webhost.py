@@ -36,7 +36,7 @@ class RPCProtos:
       #take picture
       subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100"])
       #send it with base64
-      with open("path/to/file.png", "rb") as f:
+      with open("invenavi.jpg", "rb") as f:
          data = f.read()
          return {"image": data.encode("base64")}
 
