@@ -51,13 +51,18 @@ class GPS_sensor:
             return self.zero_response()
 
         fix = gps_gga.gps_qual
-        lat = float(gps_gga.latitude)
-        lon = float(gps_gga.longitude)
+        lat = degtodec(gps_gga.latitude)
+        lon = degtodec(gps_gga.longitude)
         altitude = gps_gga.antenna_altitude
         num_sat = gps_gga.num_sats
         timestamp = datetime.strptime(gps_gga.timestamp.rstrip('.000'), "%H%M%S").time()
 
         return fix, lat, lon, altitude, num_sat, timestamp
+
+    def degtodec(self , inputval):
+        #convert degrees,decimal minutes to decimal degrees
+        lat1 = (float(inputval[2]+inputval[3]+inputval[4]+inputval[5]+inputval[6]+inputval[7]+inputval[8]))/60
+        return (float(inputval[0]+inputval[1])+lat1)
 
     def zero_response(self):
         dt = datetime.today()
