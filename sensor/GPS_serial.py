@@ -62,7 +62,8 @@ class GPS_sensor:
     def degtodec(self , inputval):
         #convert degrees,decimal minutes to decimal degrees
         lat1 = (float(inputval[2]+inputval[3]+inputval[4]+inputval[5]+inputval[6]+inputval[7]+inputval[8]))/60
-        return (float(inputval[0]+inputval[1])+lat1)
+        lat2 = (float(inputval[0]+inputval[1])+lat1)
+        return lat2
 
     def zero_response(self):
         dt = datetime.today()
