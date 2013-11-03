@@ -63,10 +63,6 @@ class GPS_sensor:
 
         return fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
 
-    def read_sensor_raw(self):
-        """ Read raw sensor values. """
-        return self.read_sensor()
-
     def zero_response(self):
         dt = datetime.today()
         return 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, dt.time(), dt.date()
