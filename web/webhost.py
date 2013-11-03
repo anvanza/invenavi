@@ -28,8 +28,16 @@ class RPCProtos:
    @exportRpc
    def data(self):
       self._kernel.update()
-
       return {'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon}
+
+   @exportRpc
+   def picture(self):
+      #take picture
+      subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100"])
+      #send it with base64
+      with open("path/to/file.png", "rb") as f:
+         data = f.read()
+         return {"image": data.encode("base64")}
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
