@@ -100,46 +100,30 @@ def save_raw():
 	#this fxn creates a txt file and saves only GPGGA sentences
 	while 1:
 		line = ser.readline()
-		line_str = str(line)
-		if(line_str[4] == 'G'): # $GPGGA
-			if(len(line_str) > 50):
-				# open txt file and log data
-				f = open('nmea.txt', 'a')
-				try:
-					f.write('{0:}'.format(line_str))
-				finally:
-					f.close()
-			else:
-				stream_serial()
+		line = str(line)
+		if(line[4] == 'G'): # $GPGGA
+			if(len(line) > 50):
+				#print line
+				gpgga = nmea.GPGGA()
+				gpgga.parse(line)
+				lats = gpgga.latitude
+				longs = gpgga.longitude
 
-def scan():
-    return glob.glob('/dev/ttyS*')
+				#convert degrees,decimal minutes to decimal degrees
+				lat1 = (float(lats[2]+lats[3]+lats[4]+lats[5]+lats[6]+lats[7]+lats[8]))/60
+				lat = (float(lats[0]+lats[1])+lat1)
+				long1 = (float(longs[3]+longs[4]+longs[5]+longs[6]+longs[7]+longs[8]+longs[9]))/60
+				long = (float(longs[0]+longs[1]+longs[2])+long1)
 
-def stream_serial():
-    #stream data directly from the serial port
-    line = ser.readline()
-    line_str = str(line)
-    print line_str
+				#calc position
+				pos_y = lat
+				pos_x = -long #longitude is negaitve
 
-def thread():
-	#threads - run idependent of main loop
-	thread1 = threading.Thread(target = save_raw) #saves the raw GPS data over serial while the main program runs
-	#thread2 = threading.Thread(target = user_input) #optional second thread
-	thread1.start()
-	#thread2.start()
 
-def user_input():
-	#runs in main loop looking for user commands
-	print 'hit a for altitude map'
-	print 'hit p for position map'
-	print 'hit e to exit'
-	tester = raw_input()
-	if tester == 'a':
-		altitude()
-	if tester == 'p':
-		position()
-	if tester == 'e':
-		sys.exit()
+				#shows that we are reading through this loop
+				print pos_x
+				print pos_y
+
 
 ########START#####################################################################################
 init_serial()
