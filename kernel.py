@@ -30,7 +30,7 @@ class invenaviKernel:
 
     def read_GPS(self):
         if self._gps_sensor:
-            (fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp) = self._gps_sensor.read_sensor()
+            (fix, lat, lon, altitude, num_sat, timestamp) = self._gps_sensor.read_sensor()
             self.data.lat = lat
             self.data.lon = lon
             self.data.altitude = altitude

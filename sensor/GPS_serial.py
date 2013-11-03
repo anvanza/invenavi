@@ -57,11 +57,7 @@ class GPS_sensor:
         num_sat = gps_gga.num_sats
         timestamp = datetime.strptime(gps_gga.timestamp.rstrip('.000'), "%H%M%S").time()
 
-        # and done
-        if self.debug:
-            logging.debug("SENSOR:\tGPS_serial:\t(fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp): (%d, %f, %f, %f, %f, %f, %d, %s, %s)", fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp)
-
-        return fix, lat, lon, heading, speed, altitude, num_sat, timestamp, datestamp
+        return fix, lat, lon, altitude, num_sat, timestamp
 
     def zero_response(self):
         dt = datetime.today()
