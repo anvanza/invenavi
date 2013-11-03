@@ -1,5 +1,6 @@
 import sys
 import logging
+import subprocess
 
 from twisted.python import log
 from twisted.internet import reactor, defer
