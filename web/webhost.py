@@ -15,6 +15,8 @@ class RPCProtos:
    def __init__(self, kernel):
       logging.info("RPC:\tprotos init.")
       self._kernel = kernel
+      #take picture
+      subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100" ,"-w" , "300" , "-h", "300" , "-rot" , "180" ,"-tl" , "1000"])
 
    @exportRpc
    def set_drive(self, throttle, steering):
@@ -33,8 +35,6 @@ class RPCProtos:
 
    @exportRpc
    def picture(self):
-      #take picture
-      subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100" ,"-w" , "300" , "-h", "300" , "-rot" , "180" ,"-t" , "0"])
       #send it with base64
       with open("invenavi.jpg", "rb") as f:
          data = f.read()
