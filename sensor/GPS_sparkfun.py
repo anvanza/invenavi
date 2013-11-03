@@ -34,10 +34,6 @@ pos_y = 0
 alt = 0
 i = 0 #x units for altitude measurment
 
-#adjust these values based on your location and map, lat and long are in decimal degrees
-BAUDRATE = 9600
-lat_input = 0            #latitude of home marker
-long_input = 0           #longitude of home marker
 
 ######FUNCTIONS############################################################
 
@@ -47,9 +43,9 @@ def init_serial():
 	comnum = '/dev/ttyAMA0' #concatenate COM and the port number to define serial port
 
 	# configure the serial connections
-	global ser, BAUDRATE
+	global ser
 	ser = serial.Serial()
-	ser.baudrate = BAUDRATE
+	ser.baudrate = 9600
 	ser.port = comnum
 	ser.timeout = 1
 	ser.open()
@@ -84,6 +80,7 @@ def save_raw():
 				#shows that we are reading through this loop
 				print pos_x
 				print pos_y
+				print gpgga.timestamp
 
 
 ########START#####################################################################################
