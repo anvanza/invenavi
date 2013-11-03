@@ -78,7 +78,7 @@ def save_raw():
 
 				#calc position
 				pos_y = lat
-				pos_x = -long #longitude is negaitve
+				pos_x = long
 
 
 				#shows that we are reading through this loop
