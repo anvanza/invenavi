@@ -35,55 +35,13 @@ alt = 0
 i = 0 #x units for altitude measurment
 
 #adjust these values based on your location and map, lat and long are in decimal degrees
-TRX = -105.1621          #top right longitude
-TRY = 40.0868            #top right latitude
-BLX = -105.2898          #bottom left longitude
-BLY = 40.001             #bottom left latitude
 BAUDRATE = 9600
 lat_input = 0            #latitude of home marker
 long_input = 0           #longitude of home marker
 
 ######FUNCTIONS############################################################
-def altitude():
-	global alt, i
-
-	#we want to create temporary file to parse, so that we don't mess with the nmea.txt file
-	f1 = open('temp.txt', 'w') #creates and opens a writable txt file
-	f1.truncate() #erase contents of file
-	shutil.copyfile('nmea.txt', 'temp.txt') #copy nmea.txt to temp.txt
-	f1.close() #close writable file
-
-	f1 = open('temp.txt', 'r') #open and read only
-	try: #best to use try/finally so that the file opens and closes correctly
-		for line in f1: #read each line in temp.txt
-			if(line[4] == 'G'): # fifth character in $GPGGA
-				if(len(line) > 50): # when there is a lock, the sentence gets filled with data
-					#print line
-					gpgga = nmea.GPGGA()
-					gpgga.parse(line)
-					alt = gpgga.antenna_altitude
-					i +=1 #increment the counter
-					print i
-					print alt
-	finally:
-		f1.close()
-	i=0
-
-
-def check_serial():
-	print 'Do you have a GPS connected to the serial port? hit y or n, then enter'
-	temp = raw_input()
-	if temp == 'y':
-		init_serial()
-	if temp == 'n':
-		print 'You can enter your own NMEA sentences into a file named nmea.txt'
 
 def init_serial():
-	#opens the serial port based on the COM number you choose
-	print "Found Ports:"
-	for n,s in scan():
-		print "%s" % s
-	print " "
 
 	#enter your COM port number
 	comnum = '/dev/ttyAMA0' #concatenate COM and the port number to define serial port
@@ -96,23 +54,6 @@ def init_serial():
 	ser.timeout = 1
 	ser.open()
 	ser.isOpen()
-
-	#Prints menu and asks for input
-	global lat_input, long_input
-
-	print 'OPEN: '+ ser.name
-	print ''
-
-	#can be used to enter positions through the user interface
-	#print 'enter your home position'
-	#print '4001.54351'
-	#print 'Lat<'
-	#plat = raw_input()
-	#lat_input = float(plat)
-	#print '-10517.3005'
-	#print 'Long<'
-	#plong = raw_input()
-	#long_input = float(plong)
 
 	thread()
 
@@ -201,10 +142,7 @@ def user_input():
 		sys.exit()
 
 ########START#####################################################################################
-check_serial()
-
-#main program loop
-while 1:
-	user_input() # the main program waits for user input the entire time
+init_serial()
+position()
 ser.close()
-#sys.exit()
+sys.exit()
