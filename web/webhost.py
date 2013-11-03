@@ -34,7 +34,7 @@ class RPCProtos:
    @exportRpc
    def picture(self):
       #take picture
-      subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100"])
+      subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100" ,"-w" , "300" , "-h", "300"])
       #send it with base64
       with open("invenavi.jpg", "rb") as f:
          data = f.read()
