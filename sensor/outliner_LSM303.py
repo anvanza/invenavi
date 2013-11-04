@@ -183,16 +183,32 @@ def d(*args):
 
 if __name__ == '__main__':
     l = LSM303()
+    minx, miny,minz = 0,0,0
+    maxx, maxy,maxz = 0,0,0
     while True:
-        # calibrated heading:
-        x = (l.magDataX - l.magMinX)*1.0 / (l.magMaxX - l.magMinX)
-        y = (l.magDataY - l.magMinY)*1.0 / (l.magMaxY - l.magMinY)
-        z = (l.magDataZ - l.magMinZ)*1.0 / (l.magMaxZ - l.magMinZ)
-        x = x*2 -1
-        y = y*2 -1
-        z = z*2 -1
-        heading = math.atan2(y,x)
+        e = l.getMagEvent()
+        x,y,z = e
+        mx,my,mz = e
+        e = l.getAcclEvent()
+        x,y,z=e
+        da = d(x, y, z)
+        if da > 0:
+            x1,y1=x/da,y/da
+
+        rollRadians  = math.asin(y1)
+        pitchRadians = math.asin(x1)
+
+        cosRoll  = math.cos(rollRadians);
+        sinRoll  = math.sin(rollRadians);
+        cosPitch = math.cos(pitchRadians);
+        sinPitch = math.sin(pitchRadians);
+
+        # The tilt compensation algorithem.
+        Xh = mx * cosPitch + mz * sinPitch
+        Yh = mx * sinRoll * sinPitch + my * cosRoll - mz * sinRoll * cosPitch
+        print "XXX" ,Xh ,mx , cosPitch , mz , sinPitch
+        heading = math.atan2(Yh, Xh)
         h = heading*180/math.pi
         h = 360 + h if h < 0 else h
-        print "Calibreated Heading = " , "{: 7.2f}".format(h)
+        print "Compensated Heading = " , "{: 7.2f}".format(h)
         time.sleep(1)
