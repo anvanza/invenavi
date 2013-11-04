@@ -54,8 +54,8 @@ class invenaviKernel:
 
     def read_compass(self):
         if self._compass_sensor:
-            [(AccX, AccY, AccZ), (MagX, MagY, MagZ, orientation)] = self._compass_sensor.read()
-            self.data.compass_heading = orientation
+            (AccX, AccY, AccZ, MagX, MagY, MagZ, heading) = self._compass_sensor.read()
+            self.data.compass_heading = heading
             self.data.has_compass = True
         else:
             self.data.has_compass = False

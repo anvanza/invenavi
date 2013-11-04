@@ -90,11 +90,10 @@ class LSM303(Adafruit_I2C):
 
     def read(self):
         # Read the accelerometer
-        list = self.accel.readList(
-          self.LSM303_REGISTER_ACCEL_OUT_X_L_A | 0x80, 6)
-        res = [( self.accel12(list, 0),
-                 self.accel12(list, 2),
-                 self.accel12(list, 4) )]
+        list = self.accel.readList(self.LSM303_REGISTER_ACCEL_OUT_X_L_A | 0x80, 6)
+        AccX = self.accel12(list, 0)
+        AccY = self.accel12(list, 2)
+        AccZ = self.accel12(list, 4)
 
         # Read the magnetometer
         list = self.mag.readList(self.LSM303_REGISTER_MAG_OUT_X_H_M, 6)
@@ -105,13 +104,13 @@ class LSM303(Adafruit_I2C):
         # Normalize to 0-360
         if (heading < 0):
             heading = 360 + heading
-        res.append((self.mag16(list, 0),
-                    self.mag16(list, 2),
-                    self.mag16(list, 4),
-                    heading ))
+
+        MagX = self.mag16(list, 0)
+        MagY = self.mag16(list, 2)
+        MagZ = self.mag16(list, 4)
 
         #[(Accelerometer X, Y, Z), (Magnetometer X, Y, Z, orientation)]
-        return res
+        return AccX, AccY, AccZ, MagX, MagY, MagZ, heading
 
 
     def setMagGain(gain=LSM303_MAGGAIN_1_3):
