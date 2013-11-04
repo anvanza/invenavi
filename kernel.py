@@ -37,6 +37,9 @@ class invenaviKernel:
             self.data.has_GPS = True
         else:
             self.data.has_GPS = False
+    def take_picture(self):
+        #take picture
+        subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100" ,"-w" , "300" , "-h", "300" , "-rot" , "180" ,"-t" , "0"])
 
     def update(self):
         try:
@@ -44,5 +47,7 @@ class invenaviKernel:
         except Exception as ex:
             self.data.has_GPS = False
             logging.exception("CORE:\tError in update loop (GPS) - %s" % ex)
+
+        self.take_picture()
     def halt(self):
         pass
