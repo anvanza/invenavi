@@ -101,7 +101,7 @@ class LSM303(Adafruit_I2C):
         MagZ = self.mag16(list, 4)
 
         #Calculate the angle of the vector y,x
-        heading = round((math.atan2(MagY,MagX) * 180) / math.pi)
+        heading = round((math.atan2(float(MagY),float(MagX)) * 180) / math.pi)
 
         # Normalize to 0-360
         if (heading < 0):
