@@ -66,8 +66,7 @@ class LSM303(Adafruit_I2C):
         # Low-res mode uses less power and sustains a higher update rate,
         # output is padded to compatible 12-bit units.
         if hires:
-            self.accel.write8(self.LSM303_REGISTER_ACCEL_CTRL_REG4_A,
-              0b00001000)
+            self.accel.write8(self.LSM303_REGISTER_ACCEL_CTRL_REG4_A,0b00001000)
         else:
             self.accel.write8(self.LSM303_REGISTER_ACCEL_CTRL_REG4_A, 0)
 
@@ -102,7 +101,7 @@ class LSM303(Adafruit_I2C):
         MagZ = self.mag16(list, 4)
 
         #Calculate the angle of the vector y,x
-        heading = (math.atan2(MagY,MagX) * 180) / math.pi
+        heading = round((math.atan2(MagY,MagX) * 180) / math.pi)
 
         # Normalize to 0-360
         if (heading < 0):
