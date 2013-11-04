@@ -119,4 +119,4 @@ if __name__ == '__main__':
     print '[(Accelerometer X, Y, Z), (Magnetometer X, Y, Z, orientation)]'
     while True:
         print lsm.read()
-        sleep(1) # Output is fun to watch if this is commented out
+        #sleep(1) # Output is fun to watch if this is commented out
