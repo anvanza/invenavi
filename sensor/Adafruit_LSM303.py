@@ -98,14 +98,14 @@ class Adafruit_LSM303(Adafruit_I2C):
 
         # Read the magnetometer
         list = self.mag.readList(self.LSM303_REGISTER_MAG_OUT_X_H_M, 6)
-        float Pi = 3.14159;
+        float Pi = 3.14159
 
         #Calculate the angle of the vector y,x
-        float heading = (atan2(self.mag16(list, 2),self.mag16(list, 0)) * 180) / Pi;
+        float heading = (atan2(self.mag16(list, 2),self.mag16(list, 0)) * 180) / Pi
 
         # Normalize to 0-360
         if (heading < 0):
-            heading = 360 + heading;
+            heading = 360 + heading
         res.append((self.mag16(list, 0),
                     self.mag16(list, 2),
                     self.mag16(list, 4),
