@@ -28,7 +28,7 @@ class RPCProtos:
    @exportRpc
    def data(self):
       self._kernel.update()
-      return {'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon, 'temp' : self._kernel.data.temperature}
+      return {'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon, 'temp' : self._kernel.data.temperature , 'press' : self._kernel.data.pressure}
 
    @exportRpc
    def picture(self):
