@@ -99,15 +99,12 @@ class LSM303(object):
 
         self.magGain = None
 
-        self.magMinX = -580
-        self.magMinY = -620
-        self.magMinZ = -76
-        self.magMaxX = 533
-        self.magMaxY = 113
-        self.magMaxZ = 939
-
-
-        self.magMinY = -380
+        self.magMinX = -47.18
+        self.magMinY = -70.55
+        self.magMinZ = -51.33
+        self.magMaxX = 65.36
+        self.magMaxY = 77.76
+        self.magMaxZ = 77.76
 
         self.setMagGain(LSM303_MAGGAIN_1_3)
 
