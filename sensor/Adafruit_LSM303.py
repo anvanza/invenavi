@@ -97,17 +97,16 @@ class LSM303(Adafruit_I2C):
 
         # Read the magnetometer
         list = self.mag.readList(self.LSM303_REGISTER_MAG_OUT_X_H_M, 6)
+        MagX = self.mag16(list, 0)
+        MagY = self.mag16(list, 2)
+        MagZ = self.mag16(list, 4)
 
         #Calculate the angle of the vector y,x
-        heading = (math.atan2(self.mag16(list, 2),self.mag16(list, 0)) * 180) / math.pi
+        heading = (math.atan2(MagY,MagX) * 180) / math.pi
 
         # Normalize to 0-360
         if (heading < 0):
             heading = 360 + heading
-
-        MagX = self.mag16(list, 0)
-        MagY = self.mag16(list, 2)
-        MagZ = self.mag16(list, 4)
 
         #[(Accelerometer X, Y, Z), (Magnetometer X, Y, Z, orientation)]
         return AccX, AccY, AccZ, MagX, MagY, MagZ, heading
