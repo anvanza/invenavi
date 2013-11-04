@@ -74,6 +74,12 @@ class invenaviKernel:
             self.data.has_temperature = False
             logging.exception("CORE:\tError in update loop (BAROMETER) - %s" % ex)
 
+        try:
+            self.read_compass()
+        except Exception as ex:
+            self.data.has_compass = False
+            logging.exception("CORE:\tError in update loop (COMPASS) - %s" % ex)
+
         self.take_picture()
     def halt(self):
         pass
