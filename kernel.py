@@ -14,7 +14,7 @@ class invenaviKernel:
 
         # sensors
         self._gps_sensor = config.gps_sensor
-        #self._compass_sensor = config.comass_sensor
+        self._compass_sensor = config.comass_sensor
         self._barometer_sensor = config.barometer_sensor
 
         # vehicle
@@ -51,6 +51,14 @@ class invenaviKernel:
         else:
             self.data.has_temperature = False
             self.data.has_pressure = False
+
+    def read_compass(self):
+        if self._compass_sensor:
+            [(Accelerometer X, Y, Z), (Magnetometer X, Y, Z, orientation)] = self._compass_sensor.read()
+            self.data.compass_heading = orientation
+            self.data.has_compass = True
+        else:
+            self.data.has_compass = False
 
     def update(self):
         try:

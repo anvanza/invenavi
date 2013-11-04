@@ -30,7 +30,7 @@ from Adafruit_I2C import Adafruit_I2C
 import math
 
 
-class Adafruit_LSM303(Adafruit_I2C):
+class LSM303(Adafruit_I2C):
 
     # Minimal constants carried over from Arduino library
     LSM303_ADDRESS_ACCEL = (0x32 >> 1)  # 0011001x
@@ -110,21 +110,9 @@ class Adafruit_LSM303(Adafruit_I2C):
                     self.mag16(list, 4),
                     heading ))
 
+        #[(Accelerometer X, Y, Z), (Magnetometer X, Y, Z, orientation)]
         return res
 
 
     def setMagGain(gain=LSM303_MAGGAIN_1_3):
         self.mag.write8( LSM303_REGISTER_MAG_CRB_REG_M, gain)
-
-
-# Simple example prints accel/mag data once per second:
-if __name__ == '__main__':
-
-    from time import sleep
-
-    lsm = Adafruit_LSM303()
-
-    print '[(Accelerometer X, Y, Z), (Magnetometer X, Y, Z, orientation)]'
-    while True:
-        print lsm.read()
-        #sleep(1) # Output is fun to watch if this is commented out

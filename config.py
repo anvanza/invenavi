@@ -102,11 +102,15 @@ class invenaviConfig(object):
         # could scan registers etc to confirm count etc?
         import raspberrypi
 
-        if addr == 0x68:
-            return "RTC", "Driver not loaded - DS1307"
+        if addr == 0x19:
+            try:
+                from sensor.Adafruit_LSM303 import LSM303
+                self.compass_sensor = LSM303(debug=debug)
+            except Exception as ex:
+                logging.warning("CFG:\tError setting up COMPASS over i2c - %s" % ex)
+            return "COMPASS", self.barometer_sensor
 
-        elif addr == 0x40: #or addr == 0x70:
-            # DriveController (using Adafruit PWM board) (not sure what 0x70 address is for...)
+        elif addr == 0x40:
             try:
                 from vehicle.drive_controller import AdafruitDriveController
                 # TODO pwm addresses from config?
