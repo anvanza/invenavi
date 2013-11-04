@@ -14,7 +14,7 @@ class invenaviKernel:
 
         # sensors
         self._gps_sensor = config.gps_sensor
-        self._compass_sensor = config.comass_sensor
+        self._compass_sensor = config.compass_sensor
         self._barometer_sensor = config.barometer_sensor
 
         # vehicle
