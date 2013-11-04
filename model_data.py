@@ -34,4 +34,6 @@ class ModelData:
 
         # temperature
         self.has_temperature = False
+        self.has_pressure = False
         self.temperature = 0.0
+        self.pressure = 0.0

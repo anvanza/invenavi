@@ -15,7 +15,7 @@ class invenaviKernel:
         # sensors
         self._gps_sensor = config.gps_sensor
         #self._compass_sensor = config.comass_sensor
-        #self._temperature_sensor = config.temperature_sensor
+        self._barometer_sensor = config.barometer_sensor
 
         # vehicle
         self._drive_controller = config.drive_controller
@@ -42,12 +42,29 @@ class invenaviKernel:
         #take picture
         subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100" ,"-w" , "300" , "-h", "300" , "-rot" , "180" ,"-t" , "0"])
 
+    def read_barometer(self):
+        if self._barometer_sensor:
+            self.data.temperature = self._barometer_sensor.readTemperature()
+            self.data.pressure = self._barometer_sensor.readPressure()
+            self.data.has_temperature = True
+            self.data.has_pressure = True
+        else:
+            self.data.has_temperature = False
+            self.data.has_pressure = False
+
     def update(self):
         try:
             self.read_GPS()
         except Exception as ex:
             self.data.has_GPS = False
             logging.exception("CORE:\tError in update loop (GPS) - %s" % ex)
+
+        try:
+            self.read_barometer()
+        except Exception as ex:
+            self.data.has_pressure = False
+            self.data.has_temperature = False
+            logging.exception("CORE:\tError in update loop (BAROMETER) - %s" % ex)
 
         self.take_picture()
     def halt(self):

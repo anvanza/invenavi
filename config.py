@@ -33,7 +33,7 @@ class invenaviConfig(object):
         # default attachments to None
         self.gps_sensor = None
         self.compass_sensor = None
-        self.temperature_sensor = None
+        self.barometer_sensor = None
         self.drive_controller = None
         self.camera_controller = None
 
@@ -115,18 +115,13 @@ class invenaviConfig(object):
                 logging.info("CFG:\tError setting up DRIVECONTROLLER over i2c - %s" % ex)
             return "DRIVECONTROLLER", self.drive_controller
 
-        elif addr == 0x1E:
-            return "COMPASS", "Driver not loaded - HMC5883L"
-
-        elif addr == 0x53 or addr == 0x1D:
-            # 0x53 when ALT connected to HIGH
-            # 0x1D when ALT connected to LOW
-            return "ACCELEROMETER", "Driver not loaded - ADXL345"
-
-        elif addr == 0x69:
-            # 0x68 when AD0 connected to LOW - conflicts with DS1307!
-            # 0x69 when AD0 connected to HIGH
-            return "GYRO", "Driver not loaded - ITG3200"
+        elif addr == 0x77:
+            try:
+                from sensor.Adafruit_BMP085 import BMP085
+                self.barometer_sensor = BMP085(debug=debug)
+            except Exception as ex:
+                logging.warning("CFG:\tError setting up BAROMETER over i2c - %s" % ex)
+            return "BAROMETER", self.barometer_sensor
 
         else:
             return "unknown", None
