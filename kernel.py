@@ -3,6 +3,7 @@
 import logging
 import os
 import time
+import subprocess
 
 from model_data import ModelData
 
