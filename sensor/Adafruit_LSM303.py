@@ -100,7 +100,7 @@ class Adafruit_LSM303(Adafruit_I2C):
         list = self.mag.readList(self.LSM303_REGISTER_MAG_OUT_X_H_M, 6)
 
         #Calculate the angle of the vector y,x
-        heading = (atan2(self.mag16(list, 2),self.mag16(list, 0)) * 180) / pi
+        heading = (math.atan2(self.mag16(list, 2),self.mag16(list, 0)) * 180) / math.pi
 
         # Normalize to 0-360
         if (heading < 0):
