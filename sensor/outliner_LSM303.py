@@ -207,5 +207,5 @@ if __name__ == '__main__':
         h = heading*180/math.pi
         h = 360 + h if h < 0 else h
         print "Compensated Heading = " , "{: 7.2f}".format(h)
-        print "Non-compensated head= " , l.getHeading()
+        print "Non-compensated head=  " , l.getHeading()
         time.sleep(1)
