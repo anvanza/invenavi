@@ -203,9 +203,9 @@ if __name__ == '__main__':
         # The tilt compensation algorithem.
         Xh = mx * cosPitch + mz * sinPitch
         Yh = mx * sinRoll * sinPitch + my * cosRoll - mz * sinRoll * cosPitch
-        print "XXX" ,Xh ,mx , cosPitch , mz , sinPitch
         heading = math.atan2(Yh, Xh)
         h = heading*180/math.pi
         h = 360 + h if h < 0 else h
         print "Compensated Heading = " , "{: 7.2f}".format(h)
+        print "Non-compensated head= " , l.getHeading()
         time.sleep(1)
