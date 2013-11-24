@@ -104,8 +104,8 @@ class invenaviConfig(object):
 
         if addr == 0x19:
             try:
-                from sensor.Adafruit_LSM303DLHC import LSM303
-                self.compass_sensor = LSM303(debug=debug)
+                from sensor.Adafruit_LSM303DLHC import LSM303DLHC
+                self.compass_sensor = LSM303DLHC(debug=debug)
             except Exception as ex:
                 logging.warning("CFG:\tError setting up COMPASS over i2c - %s" % ex)
             return "COMPASS", self.barometer_sensor
