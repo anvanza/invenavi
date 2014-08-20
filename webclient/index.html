@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invenavi control Panel</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/jquery.easy-pie-chart.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- include AutobahnJS .. that's all you need -->
+  <script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCappegZXROoyts2bAkniAjrOZEW0lwCNM&sensor=false"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="span8" id="map-canvas"></div>
+      <div class="span4">
+        <img id="datapicture" src="img/300x300.gif" style="width: 100%"/>
+      </div>
+    </div>
+    <div class="row well widget-pie-charts" style="margin-left: 0">
+      <div class="span1">
+        status:<br /><i class="icon-ok icon-large"></i>
+      </div>
+      <div class="span1">
+        <a href="#" class="btn btn-danger" id="haltbutton">HALT</a>
+      </div>
+      <div class="span2">
+        <div class="span2 pie-chart">
+          <div id="chart-speed" data-percent="58" class="chart" style="width: 50px; height: 50px; line-height: 50px;">
+            58%
+            <canvas width="50" height="50"></canvas></div>
+            <div class="caption">
+              Throttle
+            </div>
+          </div>
+        </div>
+        <div class="span1">
+          <a href="#" class="btn" id="forcedata">forcedata</a>
+          <a href="#" class="btn" id="takepicture">picture</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span6">
+          <h3 class="boxheader">Control</h3>
+          <div class="box">
+            <div class="tabbable">
+              <ul class="nav nav-tabs">
+                <li class=""><a href="#lA" data-toggle="tab">GPS Results</a></li>
+                <li class="active"><a href="#console" data-toggle="tab">Console</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane" id="lA">
+                  <p>I'm in Section A.</p>
+                </div>
+                <div class="tab-pane active" id="console">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="span3">
+          <h3 class="boxheader">Command</h3>
+          <div class="box">
+            <h5>Speed</h5>
+            <input type="text" value="0" class="dial" id="speeddial">
+            <div class="clearfix"></div>
+            <h5>Direction</h5>
+            <input type="range" value="0" min="-8" max="8" id="directiondial">
+            <div class="clearfix"></div>
+            <button class="btn btn-primary" id="sendcommands">Send Command</button> <button class="btn">Discard</button>
+          </div>
+        </div>
+        <div class="span3">
+          <h3 class="boxheader">Variables</h3>
+          <div class="box">
+            <table class="table">
+              <tr><td>Int. Temp (C)</td><td id="var_temp_int">n/a</td></tr>
+              <tr><td>Ext. Temp (C)</td><td>n/a</td></tr>
+              <tr><td>Int. Pressure (P)</td><td id="var_press_int">n/a</td></tr>
+              <tr><td>Compass Heading</td><td id="var_compass_heading">n/a</td></tr>
+              <tr><td>GPS Lat</td><td id="var_lat">n/a</td></tr>
+              <tr><td>GPS Lon</td><td id="var_lng">n/a</td></tr>
+              <tr><td>Battery mah</td><td>n/a</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/jquery-2.0.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.knob.js"></script>
+    <script src="js/jquery.easy-pie-chart.js"></script>
+
+    <script src="js/main.js"></script>
+
+  </body>
+  </html>
