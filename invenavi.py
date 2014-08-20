@@ -6,10 +6,11 @@ from config import invenaviConfig
 from kernel import invenaviKernel
 
 class InvenaviRunMode:
+    Cli = "cli"
     Manual = "manual"
     Remote = "remote"
     Auto = "auto"
-    Modes = [Manual, Remote, Auto]
+    Modes = [Manual, Remote, Auto, Cli]
 
 class Invenavi:
   """first setup"""
@@ -38,19 +39,44 @@ class Invenavi:
     self.config.configure_devices(self.debug)
 
   def run(self):
+    """Run the selected mode"""
+    logging.info("invenavi:\tStarting invenavi in mode {0}:".format(self.selected_mode))
+
+    if self.selected_mode == InvenaviRunMode.Manual:
+        return self.run_headless()
+    elif self.selected_mode == InvenaviRunMode.Cli:
+        return self.run_cli();
+    else:
+        logging.error("invenavi:\t Invalid mode! exiting")
+        return 1
+
+  def run_headless(self):
+
     # configure
     self.configure_devices()
 
     # create controller
     kernel = invenaviKernel(self.config, debug=self.debug)
 
-    # wait for commands...
-    logging.info("invenavi:\tWaiting for commands...")
-
     # run internal webhost
     import web.webhost
     web.webhost.run_main_host(kernel, self.config.rpc_port)
     logging.info("invenavi:\tProgram complete - exiting.")
+
+    #done
+    return 0
+
+  def run_cli(self):
+    
+    # configure
+    self.configure_devices()
+
+    # create controller
+    kernel = invenaviKernel(self.config, debug=self.debug)
+
+    #run the cli mode
+    import cli.command
+    cli.command.run(kernel)
 
     #done
     return 0
