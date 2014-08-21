@@ -41,7 +41,7 @@ $( document ).ready(function() {
 	var sess = null;
 	window.onload = function() {
 		ab.debug(true,true);
-		var wsuri = "ws://10.0.0.142:9000";
+		var wsuri = "ws://192.168.0.247:9000";
 
 		// connect to WAMP server
 		ab.connect(wsuri,

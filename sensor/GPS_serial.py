@@ -61,7 +61,7 @@ class GPS_sensor:
 
     def zero_response(self):
         dt = datetime.today()
-        return 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, dt.time(), dt.date()
+        return 0, 0.0, 0.0, 0.0, 0.0, dt.time()
 
     def wait_for_sentence(self, wait4me):
         i = 0;

@@ -8,6 +8,11 @@ import subprocess
 import threading
 
 from gps import *
+from dummy_devices import (
+    DummyCameraController,
+    DummyCompassSensor,
+    DummyDriveController,
+    DummyGPSSensor)
 
 class invenaviConfig(object):
     _devices = []
@@ -36,7 +41,6 @@ class invenaviConfig(object):
         self.barometer_sensor = None
         self.drive_controller = None
         self.camera_controller = None
-
 
         # RPC config
         self._rpc_port = None
@@ -89,6 +93,16 @@ class invenaviConfig(object):
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 
+        #camera unit
+        try:
+            from sensor.Camera import CameraController
+            self.camera_controller = CameraController()
+        except Exception as ex:
+            logging.warning("CFG:\tError setting up Camera - %s" % ex)
+
+        # Add dummies for devices that are still missing.
+        self._set_dummy_devices()
+
 
     def lookup(self, addr, debug=False):
         """ lookup available device drivers by hex address,
@@ -114,7 +128,6 @@ class invenaviConfig(object):
         elif addr == 0x40:
             try:
                 from vehicle.drive_controller import AdafruitDriveController
-                # TODO pwm addresses from config?
                 self.drive_controller = AdafruitDriveController(i2c_addr=addr, i2c_bus=raspberrypi.i2c_bus(), debug=debug)
             except Exception as ex:
                 logging.info("CFG:\tError setting up DRIVECONTROLLER over i2c - %s" % ex)
@@ -173,3 +186,28 @@ class invenaviConfig(object):
                         addr.append([hexAddr, False])
 
         return addr
+
+    def _set_dummy_devices(self):
+        """ Goes through the list of devices and adds a dummy for every
+            missing device """
+
+        # We do not set dummy devices for Magnetometer or Accelerometer.
+        # Later this should be handled differently
+
+        if not self.gps_sensor:
+            self.gps_sensor = DummyGPSSensor(fix=3, lat=90)
+            logging.info("CFG:\tLoaded dummy GPS driver")
+            # set dummy gps here. gpsfake in combination with gpsd?
+
+        if not self.compass_sensor:
+            self.compass_sensor = DummyCompassSensor()
+            logging.info("CFG:\tLoaded dummy compass driver")
+            # set dummy compass here.
+
+        if not self.drive_controller:
+            self.drive_controller = DummyDriveController()
+            logging.info("CFG:\tLoaded dummy drive controller")
+
+        if not self.camera_controller:
+            self.camera_controller = DummyCameraController()
+            logging.info("CFG:\tLoaded dummy camera driver")

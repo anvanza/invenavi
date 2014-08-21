@@ -3,9 +3,9 @@
 import logging
 import os
 import time
-import subprocess
 
 from model_data import ModelData
+from navigation.Navigation import Navigation
 
 class invenaviKernel:
     def __init__(self, config, debug=False):
@@ -19,6 +19,13 @@ class invenaviKernel:
 
         # vehicle
         self._drive_controller = config.drive_controller
+
+        # camera
+        self._camera_controller = config.camera_controller
+
+        # navigation
+        self._navigation_controller = Navigation(self)
+        self._navigationCanRun = False;
 
         # data class
         self.data = ModelData()
@@ -40,7 +47,7 @@ class invenaviKernel:
             self.data.has_GPS = False
     def take_picture(self):
         #take picture
-        subprocess.call(["raspistill", "-o" , "invenavi.jpg" , "-q" , "100" ,"-w" , "300" , "-h", "300" , "-rot" , "180" ,"-t" , "0"])
+        self._camera_controller.take_picture()
 
     def read_barometer(self):
         if self._barometer_sensor:
@@ -78,7 +85,6 @@ class invenaviKernel:
         except Exception as ex:
             self.data.has_compass = False
             logging.exception("CORE:\tError in update loop (COMPASS) - %s" % ex)
-
-        self.take_picture()
+        
     def halt(self):
-        pass
+        self._drive_controller.halt()
