@@ -38,20 +38,29 @@ class Command:
 		self._kernel._navigation_controller.add_point(lat, lon)
 		logging.info("CLI:\tPoint added.")
 
+	def takepicture(self):
+		self._kernel.take_picture()
+		logging.info("CLI:\tPicture taken")
+
 	def threadinfo(self):
 		print "Active Threads : " + str(threading.activeCount())
 
 def help():
 	#we want it to look nice hu?
-	print "-------------------|>-------------"
-	print "-------------------|--------------"
-	print "~~~~~~~~~~~~\INVENAVI/~~~~~~~~~~~~"
-	print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	print "update   : reads all the sensors"
-	print "halt     : stop all motors/servo's"
-	print "throttle : set motor"
-	print "steering : set servo angle"
-	print "__________________________________"
+	print "-------------------|>---------------"
+	print "-------------------|----------------"
+	print "~~~~~~~~~~~~\INVENAVI/~~~~~~~~~~~~~~"
+	print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	print "update     : reads all the sensors"
+	print "halt       : stop all motors/servo's"
+	print "throttle   : set motor"
+	print "steering   : set servo angle"
+	print "add point  : add waypoint for nav"
+	print "enablenav  : enable navigation"
+	print "disablenav : disable navigation"
+	print "threadinfo : show info about threads"
+	print "takepicture: take a picture"
+	print "____________________________________"
 	print "to exit press ctrl+c"
 	print ""
 

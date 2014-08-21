@@ -32,7 +32,7 @@ class RPCProtos:
 
    @exportRpc
    def picture(self):
-      self._kernel.update()
+      self._kernel.take_picture()
       #send it with base64
       with open("invenavi.jpg", "rb") as f:
          data = f.read()
