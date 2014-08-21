@@ -4,7 +4,7 @@ import subprocess
 class CameraController:
 	def __init__(self):
 		try:
-			subprocess.call(["raspistill", '--version']
+			subprocess.call(["raspistill", '--version'])
 		except OSError:
 			return false
 

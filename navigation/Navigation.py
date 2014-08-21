@@ -35,22 +35,22 @@ class Navigation:
 					# when the distance is within a certain meters , go to next point
 					self.set_next
 					# keep it slow 10%
-					self._kernel.set_throttle(10)
+					self._kernel.set_throttle(0.1)
 					# update faster
 					self._refreshRate = 1
 				elif(distance < 10):
 					# start to slow down 30%
-					self._kernel.set_throttle(30)
+					self._kernel.set_throttle(0.3)
 					# update faster we're getting close
 					self._refreshRate = 1
 				elif(distance < 50):
 					# keep power around 50%
-					self._kernel.set_throttle(50)
+					self._kernel.set_throttle(0.5)
 					# were some distance
 					self._refreshRate = 3
 				else:
 					# power can go hard!
-					self._kernel.set_throttle(100)
+					self._kernel.set_throttle(1)
 					# we're saving on refresh
 					self._refreshRate = 5
 
