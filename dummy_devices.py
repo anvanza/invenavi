@@ -5,7 +5,8 @@ import logging
 class DummyCameraController(object):
     """ 'Dummy' camera controller that just logs. """
 
-    def take_picture(self):
+    @staticmethod
+    def take_picture():
         logging.debug("CAM:\tCapture image.")
 
     @property
@@ -50,14 +51,13 @@ class DummyCompassSensor(object):
 
     def read_sensor(self):
         return self.heading, self.pitch, self.roll
-    def readMagneticHeading(self):
+
+    def read_magnetic_heading(self):
         return self.heading
 
 class DummyGPSSensor(object):
     """ 'Dummy' GPS sensor that outputs static GPS data. """
-    def __init__(self, interface="", hw_interface="", debug=False,
-            fix=1, lat=0.0, lon=0.0, head=0.0, speed=0.0, alt=0.0,
-            sat=0, time="", date=""):
+    def __init__(self, interface="", hw_interface="", debug=False,fix=1, lat=0.0, lon=0.0, head=0.0, speed=0.0, alt=0.0,sat=0, time="", date=""):
         self.gps_data = (
             fix,      # fix
             lat,      # lat

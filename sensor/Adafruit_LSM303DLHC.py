@@ -7,7 +7,6 @@ import smbus
 import math
 from datetime import datetime, date
 from Adafruit_I2C import Adafruit_I2C
-import unittest
 
 # ===========================================================================
 # LSM303DLHC Class
@@ -81,7 +80,7 @@ class LSM303DLHC :
   __LSM303DLHC_REGISTER_MAG_TEMP_OUT_L_M		= 0x32
 
   def getPiRevision(self):
-    "Gets the version number of the Raspberry Pi board"
+    """Gets the version number of the Raspberry Pi board"""
     # Courtesy quick2wire-python-api
     # https://github.com/quick2wire/quick2wire-python-api
     try:
@@ -125,7 +124,7 @@ class LSM303DLHC :
     self.magFactor = 1 / 855.0
 
   def readAccelerations(self):
-    "Reads the accelerometer data from the sensor"
+    """Reads the accelerometer data from the sensor"""
     xlo = self.i2c_accel.readU8(self.__LSM303DLHC_REGISTER_ACCEL_OUT_X_L_A)
     if (self.debug):
       print "DBG: accel X lo: 0x%04X (%d)" % (xlo & 0xFFFF, xlo)
@@ -153,7 +152,7 @@ class LSM303DLHC :
     return accelData
 
   def readAccelerationsG(self):
-    "Returns accelerometer reading in G unit"
+    """Returns accelerometer reading in G unit"""
     accelData = self.readAccelerations()
 
     accelVal3D = Obj3D()
@@ -163,7 +162,7 @@ class LSM303DLHC :
     return accelVal3D
 
   def setAccelerometerDataRate(self, rate):
-    "Sets the accelerometer data rate"
+    """Sets the accelerometer data rate"""
     if rate == 0:
       self.accelDataRate = 0b0000
     elif rate == 1:
@@ -194,7 +193,7 @@ class LSM303DLHC :
     self.__setCtrlReg1A()
 
   def setAccelerometerLowPowerMode(self, val):
-    "Sets the accelerometer power mode"
+    """Sets the accelerometer power mode"""
     if val == False:
       self.accelLowPower = 0b0
     elif val == True:
@@ -204,7 +203,7 @@ class LSM303DLHC :
     self.__setCtrlReg1A()
 
   def setAccelerometerScale(self, scale):
-    "Sets the accelerometer measurement scale"
+    """Sets the accelerometer measurement scale"""
     if scale == 2:
       self.accelScale = 0b00
       self.accelFactor = 0.001
@@ -222,7 +221,7 @@ class LSM303DLHC :
     self.__setCtrlReg4A()
 
   def setAccelerometerHighResolution(self, val):
-    "Sets the accelerometer high resolution mode"
+    """Sets the accelerometer high resolution mode"""
     if val == False:
       self.accelHiRez = 0b0
     elif val == True:
@@ -244,7 +243,7 @@ class LSM303DLHC :
     self.i2c_accel.write8(self.__LSM303DLHC_REGISTER_ACCEL_CTRL_REG4_A, param)
 
   def readMagnetics(self):
-    "Reads the magmetometer data from the sensor"
+    """Reads the magmetometer data from the sensor"""
     xlo = self.i2c_mag.readU8(self.__LSM303DLHC_REGISTER_MAG_OUT_X_L_M)
     if (self.debug):
       print "DBG: mag X lo: 0x%04X (%d)" % (xlo & 0xFFFF, xlo)
@@ -272,7 +271,7 @@ class LSM303DLHC :
     return magData
 
   def readMagneticsGauss(self):
-    "Returns magnetometer readings in gauss unit"
+    """Returns magnetometer readings in gauss unit"""
     magData = self.readMagnetics()
 
     magVal3D = Obj3D()
@@ -282,12 +281,12 @@ class LSM303DLHC :
     return magVal3D
 
   def readMagneticHeading(self):
-    "Return the heading in degrees"
+    """Return the heading in degrees"""
     magData = self.readMagneticsGauss() # fixed thanks to aufder's input 20130210
     return math.degrees(math.atan2(magData.y, magData.x))
 
   def setMagnetometerRange(self, range=1.3):
-    "Sets the gain for magnetometer"
+    """Sets the gain for magnetometer"""
     if range == 1.3:
       self.i2c_mag.write8(self.__LSM303DLHC_REGISTER_MAG_CRB_REG_M, 0x20)
       self.magFactor = 1 / 1100.0
@@ -349,7 +348,7 @@ class LSM303DLHC :
     self.i2c_mag.write8(self.__LSM303DLHC_REGISTER_MAG_CRA_REG_M, param)
 
   def readTemperature(self):
-    "Reads the temperature data from the sensor"
+    """Reads the temperature data from the sensor"""
     tlo = self.i2c_mag.readU8(self.__LSM303DLHC_REGISTER_MAG_TEMP_OUT_L_M)
     if (self.debug):
       print "DBG: Temp lo: 0x%04X (%d)" % (tlo & 0xFFFF, tlo)
@@ -359,66 +358,21 @@ class LSM303DLHC :
     return ((thi << 8) + tlo) >> 4
 
   def readTemperatureCelsius(self):
-    "Returns temprature reading in celsius unit"
+    """Returns temprature reading in celsius unit"""
     temp = self.readTemperature()
     return (self.__twos_comp(temp, 12) / 8.0) + 18
 
   def __twos_comp(self, val, bits):
-    "compute the 2's compliment of int value val"
+    """compute the 2's compliment of int value val"""
     if( (val&(1<<(bits-1))) != 0 ):
         val = val - (1<<bits)
     return val
 
-    return 0
-
 class Obj3D :
-	x = None
-	y = None
-	z = None
 
-class LSM303DLHCLibraryTests(unittest.TestCase):
-	def setUp(self):
-		self.lsm = LSM303DLHC()
-		self.lsm.setTempEnabled(True)
-		pass
+    def __init__(self):
+        pass
 
-	def tearDown(self):
-		self.lsm = None
-		pass
-
-	def test_reading_raw(self):
-		count = 0
-		print ""
-		while count < 3:
-			time.sleep(0.25)
-			accel = self.lsm.readAccelerations()
-			mag = self.lsm.readMagnetics()
-			temp = self.lsm.readTemperature()
-			print "Timestamp: %s" % datetime.now().isoformat() #strftime('%Y-%m-%dT%H:%M:%S(%Z)')
-			print "Accel X: 0x%04X (%d) Y: 0x%04X (%d) Z: 0x%04X (%d)" % (accel.x & 0xFFFF, accel.x, accel.y & 0xFFFF, accel.y, accel.z & 0xFFFF, accel.z)
-			print "Mag   X: 0x%04X (%d) Y: 0x%04X (%d) Z: 0x%04X (%d)" % (mag.x & 0xFFFF, mag.x, mag.y & 0xFFFF, mag.y, mag.z & 0xFFFF, mag.z)
-			print "Temp   : 0x%04X (%d)" % (temp & 0xFFFF, temp)
-			count = count + 1
-		pass
-
-	def test_reading_converted(self):
-		count = 0
-		print ""
-		while count < 3:
-			time.sleep(0.25)
-			accel = self.lsm.readAccelerationsG()
-			mag = self.lsm.readMagneticsGauss()
-			temp = self.lsm.readTemperatureCelsius()
-			heading = self.lsm.readMagneticHeading()
-			print "Timestamp: %s" % datetime.now().isoformat() #strftime('%Y-%m-%dT%H:%M:%S(%Z)')
-			print "Accel X: %6.3f G,     Y: %6.3f G,     Z: %6.3f G" % (accel.x, accel.y, accel.z)
-			print "Mag   X: %6.3f gauss, Y: %6.3f gauss, Z: %6.3f gauss" % (mag.x, mag.y, mag.z)
-			print "Temp:    %6.3f C" % (temp)
-			print "Heading: %6.3f" % (heading)
-			count = count + 1
-		pass
-
-if __name__ == '__main__':
-	#unittest.main()
-	suite = unittest.TestLoader().loadTestsFromTestCase(LSM303DLHCLibraryTests)
-	unittest.TextTestRunner(verbosity=2).run(suite)
+    x = None
+    y = None
+    z = None

@@ -2,10 +2,15 @@ import logging
 import sys
 import argparse
 
-from config import invenaviConfig
-from kernel import invenaviKernel
+from config import InvenaviConfig
+from kernel import InvenaviKernel
 
 class InvenaviRunMode:
+    #this class is bad , and I should feel bad!
+
+    def __init__(self):
+        pass
+
     Cli = "cli"
     Manual = "manual"
     Remote = "remote"
@@ -15,7 +20,7 @@ class InvenaviRunMode:
 class Invenavi:
   """first setup"""
 
-  config = invenaviConfig();
+  config = InvenaviConfig()
 
   def __init__(self):
     parser = argparse.ArgumentParser(description='invenavi')
@@ -45,7 +50,7 @@ class Invenavi:
     if self.selected_mode == InvenaviRunMode.Manual:
         return self.run_headless()
     elif self.selected_mode == InvenaviRunMode.Cli:
-        return self.run_cli();
+        return self.run_cli()
     else:
         logging.error("invenavi:\t Invalid mode! exiting")
         return 1
@@ -56,7 +61,7 @@ class Invenavi:
     self.configure_devices()
 
     # create controller
-    kernel = invenaviKernel(self.config, debug=self.debug)
+    kernel = InvenaviKernel(self.config, debug=self.debug)
 
     # run internal webhost
     import web.webhost
@@ -72,7 +77,7 @@ class Invenavi:
     self.configure_devices()
 
     # create controller
-    kernel = invenaviKernel(self.config, debug=self.debug)
+    kernel = InvenaviKernel(self.config, debug=self.debug)
 
     #run the cli mode
     import cli.command

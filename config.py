@@ -14,7 +14,7 @@ from dummy_devices import (
     DummyDriveController,
     DummyGPSSensor)
 
-class invenaviConfig(object):
+class InvenaviConfig(object):
     _devices = []
     _root_dir = os.path.join(os.getenv("HOME"), "invenavi")
 
@@ -111,7 +111,6 @@ class invenaviConfig(object):
         if(debug):
             logging.debug("CFG:\tChecking for driver for device at i2c %s" % addr)
 
-        # TODO replace with reading from config? probably use ConfigParser?
         # note: i2c addresses can conflict
         # could scan registers etc to confirm count etc?
         import raspberrypi
@@ -160,7 +159,6 @@ class invenaviConfig(object):
             logging.debug(std_out_txt)
             logging.debug(std_err_txt)
 
-        # TODO could probably be neater with eg format or regex
         # i2c returns
         #  -- for unused addresses
         #  UU for addresses n use by a device
@@ -197,7 +195,7 @@ class invenaviConfig(object):
         if not self.gps_sensor:
             self.gps_sensor = DummyGPSSensor(fix=3, lat=90)
             logging.info("CFG:\tLoaded dummy GPS driver")
-            # set dummy gps here. gpsfake in combination with gpsd?
+            # set dummy gps here.
 
         if not self.compass_sensor:
             self.compass_sensor = DummyCompassSensor()

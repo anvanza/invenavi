@@ -33,7 +33,7 @@ class Navigation:
 				
 				if(distance < 1):
 					# when the distance is within a certain meters , go to next point
-					self.set_next
+					self.set_next()
 					# keep it slow 10%
 					self._kernel.set_throttle(0.1)
 					# update faster
@@ -54,7 +54,7 @@ class Navigation:
 					# we're saving on refresh
 					self._refreshRate = 5
 
-				if(bearing): #TODO check if bearing is off by 10 degrees before moving the servo
+				if(bearing): #TODO check if bearing is off by 10 degrees before moving the servo to save power
 					self._kernel.set_steering(int(bearing))
 
 			else:
@@ -63,7 +63,7 @@ class Navigation:
 
 			#check if we may continue to run
 			if(self._kernel._navigationCanRun):
-				time.sleep(self._refreshRate)
+				time.sleep(self._refreshRate) #sleep to save power
 			else:
 				break
 

@@ -33,10 +33,17 @@ class RPCProtos:
    @exportRpc
    def picture(self):
       self._kernel.take_picture()
-      #send it with base64
-      with open("invenavi.jpg", "rb") as f:
-         data = f.read()
-         return {"image": data.encode("base64")}
+      return True
+
+   @exportRpc
+   def enablenav(self):
+      threading.Thread(target=self._kernel._navigation_controller.run).start()
+      return True
+
+   @exportRpc
+   def disablenav(self):
+      self._kernel._navigationCanRun = False 
+      return True
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):

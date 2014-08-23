@@ -5,7 +5,10 @@ from Adafruit_I2C import Adafruit_I2C
 
 class DriveController:
     """ Provides drive and steering control abstraction from eg PWM servo or ESC devices. """
-        
+
+    def __init__(self):
+        pass
+
     # initially setting to full left / right (of servo) to +/- Pi/2
     FULL_LEFT_SERVO = -1.570796
     FULL_RIGHT_SERVO = 1.570796
@@ -70,7 +73,6 @@ class DriveController:
 class AdafruitDriveController(DriveController):
     """ Provides drive and steering control abstraction from eg PWM servo or ESC devices. """
 
-    # TODO might need tuning or configuring
     #servoMin = 150  # Min pulse length out of 4096
     #servoMax = 600  # Max pulse length out of 4096
     
@@ -84,7 +86,7 @@ class AdafruitDriveController(DriveController):
         # Initialise the PWM device
         from Adafruit_PWM_Servo_Driver import PWM
         self._pwm = PWM(i2c_addr, i2c_bus=i2c_bus, debug=debug)
-        self._pwm.setPWMFreq(self.ic_pwm_freq)
+        self._pwm.set_pwm_freq(self.ic_pwm_freq)
         # Set initial positions to centre
         self.set_servo_pulse(self.prop_channel, 1.5)
         self.set_servo_pulse(self.servo_channel, 1.5)
@@ -102,4 +104,4 @@ class AdafruitDriveController(DriveController):
         pulse /= pulseLength
         if (self.debug):
             logging.debug("DRIVE:\t%d pulse sent", pulse)
-        self._pwm.setPWM(channel, 0, int(pulse))
+        self._pwm.set_pwm(channel, 0, int(pulse))

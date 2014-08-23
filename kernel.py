@@ -7,7 +7,7 @@ import time
 from model_data import ModelData
 from navigation.Navigation import Navigation
 
-class invenaviKernel:
+class InvenaviKernel:
     def __init__(self, config, debug=False):
         self.config = config
         self.debug = debug
@@ -30,13 +30,19 @@ class invenaviKernel:
         # data class
         self.data = ModelData()
 
+    def run_navigation(self):
+        self._navigation_controller.run()
+
+    def add_point(self,lat,lon):
+        self._navigation_controller.add_point(lat,lon)
+
     def set_throttle(self, throttle_level):
         self._drive_controller.set_throttle(throttle_level)
 
     def set_steering(self, angle):
         self._drive_controller.set_steering(angle)
 
-    def read_GPS(self):
+    def read_gps(self):
         if self._gps_sensor:
             (fix, lat, lon, altitude, num_sat, timestamp) = self._gps_sensor.read_sensor()
             self.data.lat = lat
@@ -61,14 +67,14 @@ class invenaviKernel:
 
     def read_compass(self):
         if self._compass_sensor:
-            self.data.compass_heading = self._compass_sensor.readMagneticHeading()
+            self.data.compass_heading = self._compass_sensor.read_magnetic_heading()
             self.data.has_compass = True
         else:
             self.data.has_compass = False
 
     def update(self):
         try:
-            self.read_GPS()
+            self.read_gps()
         except Exception as ex:
             self.data.has_GPS = False
             logging.exception("CORE:\tError in update loop (GPS) - %s" % ex)

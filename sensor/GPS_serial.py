@@ -64,7 +64,7 @@ class GPS_sensor:
         return 0, 0.0, 0.0, 0.0, 0.0, dt.time()
 
     def wait_for_sentence(self, wait4me):
-        i = 0;
+        i = 0
         while (i < self.MAXWAITSENTENCE):
             i += 1
             if self._GPS.inWaiting():
