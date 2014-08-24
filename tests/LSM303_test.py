@@ -1,3 +1,4 @@
+import sys
 sys.path.append("/home/pi/invenavi")
 from sensor.Adafruit_LSM303DLHC import LSM303DLHC
 

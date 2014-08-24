@@ -74,8 +74,8 @@ class LSM303DLHC :
     __LSM303DLHC_REGISTER_MAG_TEMP_OUT_H_M		    = 0x31
     __LSM303DLHC_REGISTER_MAG_TEMP_OUT_L_M		    = 0x32
 
-    @static
-    def get_pi_revision(self):
+    @staticmethod
+    def get_pi_revision():
         """Gets the version number of the Raspberry Pi board"""
         # Courtesy quick2wire-python-api
         # https://github.com/quick2wire/quick2wire-python-api
