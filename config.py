@@ -88,8 +88,8 @@ class InvenaviConfig(object):
 
         #GPS init
         try:
-            from sensor.GPS_serial import GPS_sensor
-            self.gps_sensor = GPS_sensor()
+            from sensor.GPS_serial import GPSSensor
+            self.gps_sensor = GPSSensor()
         except Exception as ex:
             logging.warning("CFG:\tError setting up GPS over serial - %s" % ex)
 

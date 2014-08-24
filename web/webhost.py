@@ -47,7 +47,7 @@ class RPCProtos:
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
-      logging.info("RPC:\t"+reason)
+      logging.info("RPC:\t"+str(reason))
 
    def onSessionOpen(self):
       self.registerForRpc(self.protos, "http://10.0.0.142/ws/protos#")

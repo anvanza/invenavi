@@ -9,7 +9,7 @@ import logging
 import serial
 from pynmea import nmea
 
-class GPS_sensor:
+class GPSSensor:
     """ GPS Navigatron over serial port. """
 
     # different commands to set the update rate from once a second (1 Hz) to 10 times a second (10Hz)
@@ -59,7 +59,8 @@ class GPS_sensor:
 
         return fix, lat, lon, altitude, num_sat, timestamp
 
-    def zero_response(self):
+    @staticmethod
+    def zero_response():
         dt = datetime.today()
         return 0, 0.0, 0.0, 0.0, 0.0, dt.time()
 
