@@ -1,7 +1,7 @@
 import time
 import logging
 
-from Adafruit_I2C import Adafruit_I2C
+from sensor.Adafruit_I2C import Adafruit_I2C
 
 class DriveController:
     """ Provides drive and steering control abstraction from eg PWM servo or ESC devices. """
