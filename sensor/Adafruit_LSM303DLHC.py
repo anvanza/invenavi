@@ -358,8 +358,8 @@ class LSM303DLHC :
         temp = self.read_temperature()
         return (self.__twos_comp(temp, 12) / 8.0) + 18
 
-    @static
-    def __twos_comp(self, val, bits):
+    @staticmethod
+    def __twos_comp(val, bits):
         """compute the 2's compliment of int value val"""
         if( (val&(1<<(bits-1))) != 0 ):
             val = val - (1<<bits)
