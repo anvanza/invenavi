@@ -70,7 +70,7 @@ def fail():
 def run(kernel):
 	comd = Command(kernel)
 	#dictonary
-	funcs = {"threadinfo" : comd.thread_info, "addpoint" : comd.add_point,  "update": comd.update, "throttle": comd.throttle, "steering": comd.steering, "halt": comd.halt, "enablenav": comd.enable_nav, "disablenav": comd.disable_nav, "help": help}
+	funcs = {"takepicture": take_picture ,"threadinfo" : comd.thread_info, "addpoint" : comd.add_point,  "update": comd.update, "throttle": comd.throttle, "steering": comd.steering, "halt": comd.halt, "enablenav": comd.enable_nav, "disablenav": comd.disable_nav, "help": help}
 
 	while 1:
 		try:

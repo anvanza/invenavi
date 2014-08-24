@@ -57,7 +57,7 @@ class InvenaviKernel:
 
     def read_barometer(self):
         if self._barometer_sensor:
-            self.data.temperature = self._barometer_sensor.readTemperature()
+            self.data.temperature = self._barometer_sensor.read_temperature()
             self.data.pressure = self._barometer_sensor.readPressure()
             self.data.has_temperature = True
             self.data.has_pressure = True

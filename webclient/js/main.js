@@ -1,4 +1,6 @@
 $( document ).ready(function() {
+    var sess;
+
 	$('.chart').easyPieChart({
 		barColor: '#3da0ea',
 		animate: 2000,
@@ -21,7 +23,45 @@ $( document ).ready(function() {
 	function appentoconsole(msg){
 		$("#console").append("<p>" + msg + "</p>");
 	}
+    //ip connect
+    $("#ipsubmit").on("click",function(e){
+        e.preventDefault();
+        var ip = $("#ip");
+        rpcsetup(ip.val());
+        $("#streamimage").attr("src",ip.val()+":8080/?action=stream")
+    });
+    //wamp rpc setup
+    function rpcsetup(ip){
+        //wamp rpc
+        // WAMP session object
+        window.onload = function() {
+            ab.debug(true,true);
+            var wsuri = "ws://"+ip+":9000";
 
+            // connect to WAMP server
+            ab.connect(wsuri,
+                // WAMP session was established
+                function (session) {
+                    $("#connectform").hide();
+                    sess = session;
+                    appentoconsole("Connected to " + wsuri);
+                    // establish a prefix, so we can abbreviate procedure URIs ..
+                    sess.prefix("protos", "http://10.0.0.142/ws/protos#");
+                    getdata();
+                },
+
+                // WAMP session is gone
+                function (code, reason) {
+                    sess = null;
+                    if (code == ab.CONNECTION_UNSUPPORTED) {
+                        window.location = "http://autobahn.ws/unsupportedbrowser";
+                    } else {
+                        appentoconsole(reason);
+                    }
+                }
+            );
+        };
+    }
 	//google maps
 	var map;
 	var mapOptions = {
@@ -36,35 +76,7 @@ $( document ).ready(function() {
 		map: map,
 		title: 'invenavi'
 	});
-	//wamp rpc
-	// WAMP session object
-	var sess = null;
-	window.onload = function() {
-		ab.debug(true,true);
-		var wsuri = "ws://192.168.0.247:9000";
 
-		// connect to WAMP server
-		ab.connect(wsuri,
-			// WAMP session was established
-			function (session) {
-				sess = session;
-				appentoconsole("Connected to " + wsuri);
-				// establish a prefix, so we can abbreviate procedure URIs ..
-				sess.prefix("protos", "http://10.0.0.142/ws/protos#");
-				getdata();
-			},
-
-			// WAMP session is gone
-			function (code, reason) {
-				sess = null;
-				if (code == ab.CONNECTION_UNSUPPORTED) {
-					window.location = "http://autobahn.ws/unsupportedbrowser";
-				} else {
-					appentoconsole(reason);
-				}
-			}
-		);
-	};
 
 	function getdata(){
 		// call a function and log result on success

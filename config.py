@@ -119,7 +119,7 @@ class InvenaviConfig(object):
             try:
                 from sensor.Adafruit_LSM303DLHC import LSM303DLHC
                 self.compass_sensor = LSM303DLHC(0x19, 0x1E, debug)
-                self.compass_sensor.setTempEnabled(True)
+                self.compass_sensor.set_temp_enabled(True)
             except Exception as ex:
                 logging.warning("CFG:\tError setting up COMPASS over i2c - %s" % ex)
             return "COMPASS", self.barometer_sensor
@@ -127,7 +127,7 @@ class InvenaviConfig(object):
         elif addr == 0x40:
             try:
                 from vehicle.drive_controller import AdafruitDriveController
-                self.drive_controller = AdafruitDriveController(i2c_addr=addr, i2c_bus=raspberrypi.i2c_bus(), debug=debug)
+                self.drive_controller = AdafruitDriveController(i2c_addr=addr, debug=debug)
             except Exception as ex:
                 logging.info("CFG:\tError setting up DRIVECONTROLLER over i2c - %s" % ex)
             return "DRIVECONTROLLER", self.drive_controller

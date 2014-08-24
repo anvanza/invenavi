@@ -86,10 +86,10 @@ class Invenavi:
         #done
         return 0
 
-    def main(self):
-        invenavi = Invenavi()
-        return invenavi.run()
+def main():
+    invenavi = Invenavi()
+    return invenavi.run()
 
-    if __name__ == "__main__":
-        status = main()
-        sys.exit(status)
+if __name__ == "__main__":
+    status = main()
+    sys.exit(status)
