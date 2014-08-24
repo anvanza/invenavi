@@ -74,23 +74,10 @@ class LSM303DLHC :
     __LSM303DLHC_REGISTER_MAG_TEMP_OUT_H_M		    = 0x31
     __LSM303DLHC_REGISTER_MAG_TEMP_OUT_L_M		    = 0x32
 
-    @staticmethod
-    def get_pi_revision():
-        """Gets the version number of the Raspberry Pi board"""
-        # Courtesy quick2wire-python-api
-        # https://github.com/quick2wire/quick2wire-python-api
-        try:
-            with open('/proc/cpuinfo','r') as f:
-                for line in f:
-                    if line.startswith('Revision'):
-                        return 1 if line.rstrip()[-1] in ['1','2'] else 2
-        except:
-            return 0
-
     # Constructor
     def __init__(self, address_accel=0x19, address_mag=0x1E, debug=False):
-        self.i2c_accel = Adafruit_I2C(address_accel, smbus.SMBus(1 if self.get_pi_revision() > 1 else 0), debug)
-        self.i2c_mag = Adafruit_I2C(address_mag, smbus.SMBus(1 if self.get_pi_revision() > 1 else 0), debug)
+        self.i2c_accel = Adafruit_I2C(address_accel,-1, debug)
+        self.i2c_mag = Adafruit_I2C(address_mag, -1, debug)
 
         self.address_accel = address_accel
         self.address_mag = address_mag
