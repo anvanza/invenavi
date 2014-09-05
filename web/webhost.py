@@ -37,7 +37,7 @@ class RPCProtos:
 
    @exportRpc
    def enablenav(self):
-      threading.Thread(target=self._kernel._navigation_controller.run).start()
+      threading.Thread(target=self._kernel.run_navigation()).start()
       return True
 
    @exportRpc
