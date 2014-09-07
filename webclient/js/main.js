@@ -207,6 +207,25 @@ $( document ).ready(function() {
         });
     });
 
+    $("#saveplotter").on('click',function(e){
+        e.preventDefault();
+        // call a function and log result on success
+        data = [];
+        for (var key in waypoints) {
+            var obj = waypoints[key];
+            data.push([
+                obj.getCenter().lat(),
+                obj.getCenter().lng()
+            ]);
+        }
+
+        sess.call("protos:waypoints", data).then(function(result){
+            handleReturn(result);
+        },function (error){
+            appendToConsole(error);
+        });
+    });
+
 	$("#sendcommands").on('click',function(e){
         e.preventDefault();
 		// call a function and log result on success

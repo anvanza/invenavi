@@ -36,6 +36,9 @@ class InvenaviKernel:
     def add_point(self,lat,lon):
         self._navigation_controller.add_point(lat,lon)
 
+    def clear_points(self):
+        self._navigation_controller.clear_points()
+
     def set_throttle(self, throttle_level):
         self._drive_controller.set_throttle(throttle_level)
 

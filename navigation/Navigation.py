@@ -13,7 +13,7 @@ class Navigation:
 	def run(self):
 		logging.info("Navigation:\t nav init.")
 		self._kernel._navigationCanRun = True
-		
+
 		#give an early return
 		if(len(self._points) == 0):
 			logging.info("Navigation:\t no points available.")
@@ -30,7 +30,7 @@ class Navigation:
 				bearing = loc.bearing_to(self.current)
 				# calculate the distance
 				distance = loc.distance_to(self.current)
-				
+
 				if(distance < 1):
 					# when the distance is within a certain meters , go to next point
 					self.set_next()
@@ -74,6 +74,9 @@ class Navigation:
 
 	def add_point(self, lat , lon):
 		self._points += [Point(float(lat), float(lon))]
+
+	def clear_points(self):
+		self._points = None
 
 	def get_waypoint(self, n):
 		"""Return the waypoint n places along the path"""
