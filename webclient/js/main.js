@@ -11,25 +11,6 @@ $( document ).ready(function() {
 		$("#console").prepend("<p>" + msg + "</p>");
 	}
 
-    //get data
-    function getData(){
-        sess.call("protos:data").then(function(result){
-            if(result.lat){
-                latlng = new google.maps.LatLng(convertLat(result.lat),convertLon(result.lon));
-                $("#var_lat").html(convertLat(result.lat));
-                $("#var_lng").html(convertLon(result.lon));
-                map.setCenter(latlng);
-                boatMarker.setPosition(latlng);
-            }
-
-            $("#var_temp_int").html(result.temp);
-            $("#var_press_int").html(result.press);
-            $("#var_compass_heading").html(result.heading);
-        },function (error){
-            appendToConsole(error);
-        });
-    }
-
     //wamp rpc setup
     function rpcsetup(ip){
         //wamp rpc
@@ -190,18 +171,47 @@ $( document ).ready(function() {
 		return parseFloat(longs[0]+longs[1]+longs[2])+long1;
 	}
 
+    function handleReturn(result){
+        if(result.lat){
+            latlng = new google.maps.LatLng(convertLat(result.lat),convertLon(result.lon));
+            $("#var_lat").html(convertLat(result.lat));
+            $("#var_lng").html(convertLon(result.lon));
+            boatMarker.setPosition(latlng);
+        }
+
+        $("#var_temp_int").html(result.temp);
+        $("#var_press_int").html(result.press);
+        $("#var_compass_heading").html(result.heading);
+    }
+
     /***********************
      * Button Handlers
      ***********************/
+    $("#activatenavbutton").on("click",function(e){
+        e.preventDefault();
+        // call a function and log result on success
+        sess.call("protos:enable_nav").then(function(result){
+            handleReturn(result);
+        },function (error){
+            appendToConsole(error);
+        });
+    });
+
+    $("#deactivatenavbutton").on("click",function(e){
+        e.preventDefault();
+        // call a function and log result on success
+        sess.call("protos:disable_nav").then(function(result){
+            handleReturn(result);
+        },function (error){
+            appendToConsole(error);
+        });
+    });
 
 	$("#sendcommands").on('click',function(e){
         e.preventDefault();
 		// call a function and log result on success
 		sess.call("protos:set_drive", parseFloat($("#speeddial").val())/100 , parseFloat($("#directiondial").val())/10).then(function(result){
-            if(result !== true){
-                appendToConsole("Return was false");
-            }
-			getData();
+			handleReturn(result);
 		},function (error){
 			appendToConsole(error);
 		});
@@ -211,10 +221,7 @@ $( document ).ready(function() {
         e.preventDefault();
         // call a function and log result on success
         sess.call("protos:set_drive", 0 , 0).then(function(result){
-            if(result.status === true){
-                //set speed & heading to 0
-            }
-            getData();
+            handleReturn(result);
         },function (error){
             appendToConsole(error);
         });
@@ -223,7 +230,11 @@ $( document ).ready(function() {
 	$("#forcedata").on("click", function(e){
         e.preventDefault();
         // call a function and log result on success
-        getData();
+        sess.call("protos:data").then(function(result){
+            handleReturn(result);
+        },function (error){
+            appendToConsole(error);
+        });
 	});
 
     $("#scannetwork").on("click",function(e){
@@ -259,4 +270,13 @@ $( document ).ready(function() {
             i++;
         }
     });
+
+    $(".speedcontroller span").on("click",function(e){
+        $(".speedcontroller span").removeClass("active");
+        $(this).addClass("active");
+        $(".speedcontroller span").filter(function() {
+            return $(this).attr("data-value") > $(this).attr("data-value");
+        })
+    });
+
 });

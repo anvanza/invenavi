@@ -16,34 +16,35 @@ class RPCProtos:
       self._kernel = kernel
 
    @exportRpc
-   def set_drive(self, throttle, steering):
-      """ Direct drive. """
-      # throttle
+   def set_throttle(self, throttle):
       self._kernel.set_throttle(throttle)
-      # steering
-      self._kernel.set_steering(steering)
+      return self.data()
 
-      return {'status':True}
+   @exportRpc
+   def set_steering(self, steering):
+      self._kernel.set_steering(steering)
+      return self.data()
 
    @exportRpc
    def data(self):
       self._kernel.update()
-      return {'lat': self._kernel.data.lat, 'lon': self._kernel.data.lon, 'temp' : self._kernel.data.temperature , 'press' : self._kernel.data.pressure , 'heading' : self._kernel.data.compass_heading}
+      return {
+          'lat': self._kernel.data.lat,
+          'lon': self._kernel.data.lon,
+          'temp' : self._kernel.data.temperature ,
+          'press' : self._kernel.data.pressure ,
+          'heading' : self._kernel.data.compass_heading
+      }
 
    @exportRpc
-   def picture(self):
-      self._kernel.take_picture()
-      return True
-
-   @exportRpc
-   def enablenav(self):
+   def enable_nav(self):
       threading.Thread(target=self._kernel.run_navigation()).start()
-      return True
+      return self.data()
 
    @exportRpc
-   def disablenav(self):
+   def disable_nav(self):
       self._kernel._navigationCanRun = False 
-      return True
+      return self.data()
 
 class RPCProtocol(WampServerProtocol):
    def onClose(self, wasClean, code, reason):
