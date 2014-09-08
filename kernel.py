@@ -25,11 +25,12 @@ class InvenaviKernel:
 
         # navigation
         self._navigation_controller = Navigation(self)
-        self._navigationCanRun = False;
+        self._navigationCanRun = False
 
         # data class
         self.data = ModelData()
 
+    #Navigation
     def run_navigation(self):
         self._navigation_controller.run()
 
@@ -39,12 +40,29 @@ class InvenaviKernel:
     def clear_points(self):
         self._navigation_controller.clear_points()
 
+    def cur_waypoint(self):
+        return self._navigation_controller.current()
+
+    def navigation_running(self):
+        if self._navigationCanRun:
+            return False
+        else:
+            return True
+
+    #DriveControlle
     def set_throttle(self, throttle_level):
         self._drive_controller.set_throttle(throttle_level)
 
     def set_steering(self, angle):
         self._drive_controller.set_steering(angle)
 
+    def get_throttle(self,):
+        return self._drive_controller.throttle_level
+
+    def get_steering(self):
+        return self._drive_controller.steering_angle
+
+    #GPS
     def read_gps(self):
         if self._gps_sensor:
             (fix, lat, lon, altitude, num_sat, timestamp) = self._gps_sensor.read_sensor()
@@ -54,10 +72,9 @@ class InvenaviKernel:
             self.data.has_GPS = True
         else:
             self.data.has_GPS = False
-    def take_picture(self):
-        #take picture
-        self._camera_controller.take_picture()
 
+
+    #Sensors
     def read_barometer(self):
         if self._barometer_sensor:
             self.data.temperature = self._barometer_sensor.read_temperature()
@@ -75,6 +92,7 @@ class InvenaviKernel:
         else:
             self.data.has_compass = False
 
+    #General
     def update(self):
         try:
             self.read_gps()

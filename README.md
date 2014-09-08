@@ -3,14 +3,14 @@ invenavi
 
 Open-Source Ship
 
-Install
+Setup
 --------
-Just vagrant up.
-All the modules are in bootstap.sh
+All the required modules are in bootstap.sh
+I'm using a raspberry model B and B+
 
-Video Streamer with picamera
+Libraries
 --------
-http://picamera.readthedocs.org/
+[PiCamera][2]
 
 Hardware
 --------
@@ -26,3 +26,11 @@ Hardware
  - Pursuit V-Hull Boat
 
 *None of the hardware is sponsored!*
+
+Need Help?
+--------
+you can contact me at my [website][1]!
+
+
+  [1]: http://www.anvanza.be/
+  [2]: http://picamera.readthedocs.org/

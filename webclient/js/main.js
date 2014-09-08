@@ -219,7 +219,7 @@ $( document ).ready(function() {
             ]);
         }
 
-        sess.call("protos:waypoints", data).then(function(result){
+        sess.call("protos:waypoints", JSON.stringify(data)).then(function(result){
             handleReturn(result);
         },function (error){
             appendToConsole(error);

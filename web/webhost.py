@@ -33,9 +33,15 @@ class RPCProtos:
         return {
             'lat': self._kernel.data.lat,
             'lon': self._kernel.data.lon,
-            'temp' : self._kernel.data.temperature ,
             'press' : self._kernel.data.pressure ,
-            'heading' : self._kernel.data.compass_heading
+            'heading' : self._kernel.data.compass_heading,
+            'nav_cur_lat' : self._kernel.cur_waypoint().lat_radians,
+            'nav_cur_lon' : self._kernel.cur_waypoint().long_radians,
+            'nav_enabled' : self._kernel.navigation_running,
+            'temp_int' : self._kernel.data.temperature,
+            'temp_ext' : 0,
+            'throttle' : self._kernel.get_throttle(),
+            'steering' : self._kernel.get_steering()
         }
 
     @exportRpc
@@ -47,7 +53,7 @@ class RPCProtos:
     def waypoints(self, data):
         waypoints = json.loads(data)
         self._kernel.clear_points()
-        
+
         for waypoint in waypoints:
             self._kernel.add_point(waypoint[0],waypoint[1])
         return self.data()

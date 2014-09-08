@@ -69,14 +69,13 @@ class Navigation:
 
 	@property
 	def current(self):
-		"""Return the next waypoint"""
 		return self._points[self._currentWaypoint]
 
 	def add_point(self, lat , lon):
 		self._points += [Point(float(lat), float(lon))]
 
 	def clear_points(self):
-		self._points = None
+		self._points = []
 
 	def get_waypoint(self, n):
 		"""Return the waypoint n places along the path"""

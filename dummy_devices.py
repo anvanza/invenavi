@@ -5,10 +5,6 @@ import logging
 class DummyCameraController(object):
     """ 'Dummy' camera controller that just logs. """
 
-    @staticmethod
-    def take_picture():
-        logging.debug("CAM:\tCapture image.")
-
     @property
     def last_img(self):
         return self._last_img
