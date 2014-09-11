@@ -10,7 +10,7 @@ I'm using a raspberry model B and B+
 
 Libraries
 --------
-[PiCamera][2]
+[PiCamera][3] ([documentation][2])
 
 Hardware
 --------
@@ -34,3 +34,4 @@ you can contact me at my [website][1]!
 
   [1]: http://www.anvanza.be/
   [2]: http://picamera.readthedocs.org/
+  [3]: https://github.com/waveform80/picamera/
