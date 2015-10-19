@@ -1,0 +1,22 @@
+{
+  "name": "invenavi",
+  "version": "0.0.1",
+  "description": "invenavi",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "minimist": "^1.2.0",
+    "onoff": "^1.0.3"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anvanza/invenavi.git"
+  },
+  "author": "Anthony Van Zandycke",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anvanza/invenavi/issues"
+  },
+  "homepage": "https://github.com/anvanza/invenavi#readme"
+}
