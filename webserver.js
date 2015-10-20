@@ -9,8 +9,11 @@ Webserver.prototype.start = function() {
   var app = express();
 
   app.get('/', function (req, res) {
-    res.send('Hello World!');
-  });
+    res.send({
+      config: this.kernel.config,
+      data: this.kernel.data
+    })
+  }.bind(this));
 
   app.post('/', function (req, res) {
     res.send('Got a POST request');

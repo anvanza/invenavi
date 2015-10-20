@@ -1,2 +1,2 @@
 #!/bin/bash
-screen -S invenavi python invenavi.py
+screen -S invenavi node index.js

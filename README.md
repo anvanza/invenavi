@@ -5,7 +5,6 @@ Open-Source Ship
 
 Setup
 --------
-All the required modules are in bootstap.sh
 I'm using a raspberry model B and B+
 
 Libraries
@@ -19,7 +18,7 @@ Hardware
  - Bmp180 (Barometric pressure sensor)
  - PI Camera (normal version)
  - Ultimate GPS Breakout v3 (GPS)
- - Standard Size - High Torque - Metal Gear Servo 
+ - Standard Size - High Torque - Metal Gear Servo
  - Mtroniks Viper Marine 20
  - Aluminum Double Rudder
  - 2.5:1 gearbox motor, 4.5-15V 540 motor

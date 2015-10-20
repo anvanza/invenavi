@@ -1,8 +1,5 @@
 "use strict";
 
-var Webserver = require("./webserver");
-var Command = require("./command");
-var IMUDummy = require("./imudummy");
 var argv = require('minimist')(process.argv.slice(2));
 
 var kernel = {
@@ -21,12 +18,14 @@ var kernel = {
     gps_speed: false,
     gps_alt: false,
     gps_num_sat: false,
+    throttle: 0,
+    steering: 0,
   },
   components: {
     webserver: false,
     command: false,
     imu: false,
-    pwm: false,
+    driver: false,
     gps: false,
   },
   update: function() {
@@ -39,30 +38,51 @@ var kernel = {
     //starting imu
     if (this.components.imu == false) {
       if (this.config.dummy) {
-        console.log("starting IMU");
+        console.log("starting dummy IMU");
+
+        var IMUDummy = require("./imudummy");
         this.components.imu = new IMUDummy(kernel);
       } else {
         console.warn("can't implement imu yet");
       }
     } else {
-      console.warn("IMU already implemented");
+      console.warn("IMU already running");
+    }
+
+    //starting drive controller
+    if (this.components.driver == false) {
+      if (this.config.dummy) {
+        console.log("starting dummy driver");
+
+        var DriveDummy = require("./drivedummy");
+        this.components.driver = new DriveDummy(kernel);
+      } else {
+        console.warn("can't implement driver yet");
+      }
+    } else {
+      console.warn("Driver already running");
     }
 
   },
   stopComponents: function() {
     console.log("stopping IMU");
     this.components.imu == false;
+
+    console.log("stopping driver");
+    this.components.driver == false;
   }
 }
 
+//set dummy
 if (argv["dummy"] == true) {
   kernel.config.dummy = true;
 }
 
 if (argv["runmode"] == "cli" || typeof argv["runmode"] == "undefined") {
+  var Command = require("./command");
   kernel.components.command = new Command(kernel).start();
 } else if (argv["runmode"] == "web") {
-  console.log('starting web mode');
+  var Webserver = require("./webserver");
   kernel.components.webserver = new Webserver(kernel).start();
 } else if (argv["runmode"] == "headless") {
   console.log('starting headless');

@@ -21,6 +21,10 @@ var Command = function (kernel) {
         this.startComponents();
       } else if (data == 'stop') {
         this.stopComponents();
+      } else if (data == 'steering') {
+        this.steering();
+      } else if (data == 'throttle') {
+        this.throttle();
       } else if (data == 'update') {
         this.update();
       } else if (data == 'config') {
@@ -30,7 +34,6 @@ var Command = function (kernel) {
       } else if ( data == '\u0003' || data == 'quit' || data == 'exit') {
         this.exit();
       } else {
-        console.warn('Error: Command not found');
         this.complete();
       }
 
@@ -96,6 +99,36 @@ var Command = function (kernel) {
     this.complete();
   };
 
+  this.throttle = function (level) {
+    this.ask("Throttle level -100 to 100: ",function (data){
+      if (this.kernel.components.driver) {
+        this.kernel.components.driver.setThrottle(data);
+      } else {
+        console.log("driver is not initialized yet");
+      }
+
+      this.complete();
+    }.bind(this));
+  };
+
+  this.steering = function (angle) {
+    this.ask("Steering angle -100 to 100: ",function (data){
+      if (this.kernel.components.driver) {
+        this.kernel.components.driver.setSteering(data);
+      } else {
+        console.log("driver is not initialized yet");
+      }
+
+      this.complete();
+    }.bind(this));
+  };
+
+  this.halt = function () {
+    this.components.driver.halt();
+
+    this.complete();
+  };
+
   this.exit = function () {
     console.log('exiting program');
     process.exit();
@@ -107,8 +140,6 @@ var Command = function (kernel) {
      data = data.toString().trim();
      callback(data);
    });
-
-   this.complete();
  };
 
 }

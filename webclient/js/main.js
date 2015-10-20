@@ -256,11 +256,6 @@ $( document ).ready(function() {
         });
 	});
 
-    $("#scannetwork").on("click",function(e){
-        e.preventDefault();
-        runIpFinder();
-    });
-
     $("#ipsubmit").on("click",function(e){
         e.preventDefault();
         var ip = $("#ip");
