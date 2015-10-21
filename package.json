@@ -7,7 +7,10 @@
     "express": "^4.13.3",
     "gpsy": "0.0.3",
     "minimist": "^1.2.0",
-    "onoff": "^1.0.3"
+    "moment": "^2.10.6",
+    "nmea": "0.0.9",
+    "onoff": "^1.0.3",
+    "serialport": "^2.0.1"
   },
   "devDependencies": {},
   "repository": {
