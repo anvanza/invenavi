@@ -63,6 +63,18 @@ var kernel = {
       console.warn("Driver already running");
     }
 
+    //starting gps
+    if (this.components.gps == false) {
+      if (this.config.dummy) {
+        console.log("starting dummy gps");
+        this.components.gps = true
+      } else {
+        var Gps = require("./gps");
+        this.components.gps = new Gps(kernel).start();
+      }
+    } else {
+      console.warn("Gps already running");
+    }
   },
   stopComponents: function() {
     console.log("stopping IMU");
@@ -70,6 +82,9 @@ var kernel = {
 
     console.log("stopping driver");
     this.components.driver == false;
+
+    console.log("stopping gps");
+    this.components.gps == false;
   }
 }
 

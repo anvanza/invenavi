@@ -15,8 +15,6 @@ $( document ).ready(function() {
     function rpcsetup(ip){
         //wamp rpc
         // WAMP session object
-        ab.debug(true,true);
-        var wsuri = "ws://"+ip+":9000";
         appendToConsole("Attempt to connect to "+ip);
 
         // connect to WAMP server
