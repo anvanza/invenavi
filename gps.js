@@ -27,7 +27,7 @@ var Gps = function (kernel) {
     });
     gps.on("close",function(ring){
       console.log(ring);
-    }):
+    });
 
     return this;
   }
