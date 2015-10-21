@@ -78,13 +78,13 @@ var kernel = {
   },
   stopComponents: function() {
     console.log("stopping IMU");
-    this.components.imu == false;
+    this.components.imu = false;
 
     console.log("stopping driver");
-    this.components.driver == false;
+    this.components.driver = false;
 
     console.log("stopping gps");
-    this.components.gps == false;
+    this.components.gps = false;
   }
 }
 
