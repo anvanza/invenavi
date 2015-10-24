@@ -5,12 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.13.3",
-    "gpsy": "0.0.3",
+    "gpsy": "git+https://github.com/anvanza/node-gpsy.git#patch-1",
     "minimist": "^1.2.0",
-    "moment": "^2.10.6",
-    "nmea": "0.0.9",
-    "onoff": "^1.0.3",
-    "serialport": "^2.0.1"
+    "onoff": "^1.0.3"
   },
   "devDependencies": {},
   "repository": {
