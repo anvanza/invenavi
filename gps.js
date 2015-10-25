@@ -10,13 +10,16 @@ var Gps = function (kernel) {
     gps.on("position", function(data){
       this.kernel.data.gps_lat = data.lat;
       this.kernel.data.gps_lon = data.lon;
-    });
+    }.bind(this));
+
     gps.on("speed", function(data){
       this.kernel.data.gps_speed = data.speed;
-    });
+    }.bind(this));
+
     gps.on("altitude", function(data){
       this.kernel.data.gps_alt = data.alt;
-    });
+    }.bind(this));
+    
     gps.on("err", function(ring){
       console.log("error");
       console.log(ring);
