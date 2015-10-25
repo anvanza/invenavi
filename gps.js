@@ -4,7 +4,7 @@ var Gps = function (kernel) {
 
   this.start = function(level) {
     console.log("Starting GPS");
-    var gpsy = require("gpsy");
+    var gpsy = require("./gpsy");
     var gps = gpsy("/dev/ttyAMA0", 9600); // your serial device
 
     gps.on("fix", function(ring){
