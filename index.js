@@ -78,13 +78,13 @@ var kernel = {
     if (this.components.camera == false) {
       if (this.config.dummy) {
         console.log("starting dummy camera");
-        this.components.camera = true
+        this.components.camera = true;
       } else {
         var RaspiCam = require("raspicam");
         this.components.camera = new RaspiCam({
           mode: 'photo',
-          output: '%d',
-          timeout: 0,
+          output: './pictures/%d.jpg',
+          timeout: 100,
           quality: 100
         });
       }
@@ -101,6 +101,9 @@ var kernel = {
 
     console.log("stopping gps");
     this.components.gps = false;
+
+    console.log("stopping camera");
+    this.components.camera = false;
   }
 }
 

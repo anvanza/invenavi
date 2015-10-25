@@ -55,6 +55,7 @@ var Command = function (kernel) {
       console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
       console.log("update     : reads all the sensors");
       console.log("config     : dump config");
+      console.log("data       : dump data");
       console.log("reset      : reset all engines and servo's");
       console.log("halt       : stop all motors/servo's");
       console.log("start      : start all sensors");
@@ -64,7 +65,7 @@ var Command = function (kernel) {
       console.log("add point  : add waypoint for nav");
       console.log("enablenav  : enable navigation");
       console.log("disablenav : disable navigation");
-      console.log("takepicture: take a picture");
+      console.log("picture    : take a picture");
       console.log("____________________________________");
       console.log("to exit press ctrl+c or exit or quit");
 
@@ -84,6 +85,14 @@ var Command = function (kernel) {
   this.config = function() {
     for (kv in this.kernel.config) {
       console.log(kv + " = " + this.kernel.config[kv]);
+    }
+
+    this.complete();
+  };
+
+  this.data = function() {
+    for (kv in this.kernel.data) {
+      console.log(kv + " = " + this.kernel.data[kv]);
     }
 
     this.complete();
