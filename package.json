@@ -9,6 +9,7 @@
     "moment": "^2.10.6",
     "nmea": "0.0.9",
     "onoff": "^1.0.3",
+    "raspicam": "^0.2.13",
     "serialport": "^2.0.2"
   },
   "devDependencies": {},

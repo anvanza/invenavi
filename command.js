@@ -27,6 +27,8 @@ var Command = function (kernel) {
         this.throttle();
       } else if (data == 'update') {
         this.update();
+      } else if (data == 'picture') {
+        this.picture();
       } else if (data == 'config') {
         this.config();
       } else if (data == 'halt') {
@@ -121,6 +123,15 @@ var Command = function (kernel) {
 
       this.complete();
     }.bind(this));
+  };
+
+  this.picture = function () {
+    if (this.kernel.components.camera) {
+      this.kernel.components.camera.start();
+    } else {
+      console.log("driver is not initialized yet");
+    }
+    this.complete();
   };
 
   this.halt = function () {

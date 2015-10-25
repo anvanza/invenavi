@@ -7,25 +7,15 @@ var Gps = function (kernel) {
     var gpsy = require("./gpsy");
     var gps = gpsy("/dev/ttyAMA0", 9600); // your serial device
 
-    gps.on("fix", function(ring){
-      console.log('fix');
-      console.log(ring);
+    gps.on("position", function(data){
+      this.kernel.data.gps_lat = data.lat;
+      this.kernel.data.gps_lon = data.lon;
     });
-    gps.on("position", function(ring){
-      console.log("position");
-      console.log(ring);
+    gps.on("speed", function(data){
+      this.kernel.data.gps_speed = data.speed;
     });
-    gps.on("speed", function(ring){
-      console.log("speed");
-      console.log(ring);
-    });
-    gps.on("time", function(ring){
-      console.log("time");
-      console.log(ring);
-    });
-    gps.on("data", function(ring){
-      console.log("data");
-      console.log(ring);
+    gps.on("altitude", function(data){
+      this.kernel.data.gps_alt = data.alt;
     });
     gps.on("err", function(ring){
       console.log("error");

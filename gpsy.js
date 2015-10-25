@@ -139,6 +139,10 @@ gpsy.prototype._handle = function(data) {
 					lon: self._parsell(data.lon, data.lonPole),
 					t: (new Date()).valueOf()
 				});
+				self.emit("altitude", {
+					alt: data.alt,
+					t: (new Date()).valueOf()
+				});
 			}
 		return;
 		default: break;

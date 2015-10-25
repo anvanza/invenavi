@@ -11,13 +11,10 @@ var kernel = {
   data: {
     temperature: false,
     pressure: false,
-    gps_fix: false,
     gps_lat: false,
     gps_lon: false,
-    gps_heading: false,
     gps_speed: false,
     gps_alt: false,
-    gps_num_sat: false,
     throttle: 0,
     steering: 0,
   },
@@ -27,6 +24,7 @@ var kernel = {
     imu: false,
     driver: false,
     gps: false,
+    camera: false,
   },
   update: function() {
     if (this.components.imu != false) {
@@ -71,6 +69,24 @@ var kernel = {
       } else {
         var Gps = require("./gps");
         this.components.gps = new Gps(kernel).start();
+      }
+    } else {
+      console.warn("Gps already running");
+    }
+
+    //staring camera
+    if (this.components.camera == false) {
+      if (this.config.dummy) {
+        console.log("starting dummy camera");
+        this.components.camera = true
+      } else {
+        var RaspiCam = require("raspicam");
+        this.components.camera = new RaspiCam({
+          mode: 'photo',
+          output: '%d',
+          timeout: 0,
+          quality: 100
+        });
       }
     } else {
       console.warn("Gps already running");
