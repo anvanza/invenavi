@@ -59,7 +59,6 @@ var Command = function (kernel) {
       console.log("config     : dump config");
       console.log("data       : dump data");
       console.log("reset      : reset all engines and servo's");
-      console.log("halt       : stop all motors/servo's");
       console.log("start      : start all sensors");
       console.log("stop       : stop all sensors");
       console.log("throttle   : set motor");
@@ -114,7 +113,7 @@ var Command = function (kernel) {
 
   this.throttle = function (level) {
     this.ask("Throttle level -100 to 100: ",function (data){
-      if (this.kernel.components.driver) {
+      if (this.kernel.components.driver != false) {
         this.kernel.components.driver.setThrottle(data);
       } else {
         console.log("driver is not initialized yet");
@@ -126,8 +125,8 @@ var Command = function (kernel) {
 
   this.steering = function (angle) {
     this.ask("Steering angle -100 to 100: ",function (data){
-      if (this.kernel.components.driver) {
-        this.kernel.components.driver.setSteering(data);
+      if (this.kernel.components.drive != false) {
+        this.kernel.components.drive.setSteering(data);
       } else {
         console.log("driver is not initialized yet");
       }
@@ -138,18 +137,14 @@ var Command = function (kernel) {
 
   this.picture = function () {
     if (this.kernel.components.camera !== false) {
-      console.log(this.kernel.components.camera.take());
-      this.complete();
+      this.kernel.components.camera.take(function(newfilename) {
+        console.log(newfilename);
+        this.complete();
+      }.bind(this));
     } else {
       console.log("Camera is not initialized yet");
       this.complete();
     }
-  };
-
-  this.halt = function () {
-    this.components.driver.halt();
-
-    this.complete();
   };
 
   this.exit = function () {

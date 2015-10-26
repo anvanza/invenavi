@@ -2,6 +2,12 @@
 var DriveDummy = function (kernel) {
   this.kernel = kernel;
 
+  this.start = function() {
+    console.log("Dummy drive started");
+
+    return this;
+  }
+
   this.setThrottle = function(level) {
     console.log("Set throttle to " +  level);
     this.kernel.data.throttle = level;
@@ -14,8 +20,6 @@ var DriveDummy = function (kernel) {
 
   this.halt = function () {
     console.log("Halting drive controller");
-    this.kernel.data.steering = 0;
-    this.kernel.data.throttle = 0;
   }
 }
 

@@ -9,8 +9,10 @@
     "moment": "^2.10.6",
     "nmea": "0.0.9",
     "onoff": "^1.0.3",
+    "pca9685": "^1.0.3",
     "raspicam": "^0.2.13",
-    "serialport": "^2.0.2"
+    "serialport": "^2.0.2",
+    "i2c": "0.2.1"
   },
   "devDependencies": {},
   "repository": {

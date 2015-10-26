@@ -10,18 +10,14 @@ var CameraDummy = function (kernel) {
     return this;
   }
 
-  this.take = function() {
-
-    filehelper.createDummy("./pictures/process.jpg","hey hey",function(){
-        console.log("dummy file created");
-    });
-
+  this.take = function(callback) {
     var newfilename = "./pictures/" + Date.now() + ".jpg";
-    filehelper.move("./pictures/process.jpg", newfilename, function() {
-      console.log("new dummy picture taken");
-    });
 
-    return newfilename;
+    filehelper.createDummy("./pictures/process.jpg","hey hey",function() {
+      filehelper.move("./pictures/process.jpg", newfilename, function() {
+        callback(newfilename);
+      });
+    });
   }
 }
 

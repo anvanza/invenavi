@@ -18,17 +18,17 @@ var Camera = function (kernel) {
     return this;
   }
 
-  this.take = function() {
+  this.take = function(callback) {
     this.camera.start();
-
     var newfilename = "./pictures/" + Date.now() + ".jpg";
-    filehelper.move("./pictures/process.jpg", newfilename, function() {
-      console.log("new picture taken");
+
+    //listen for the "read" event triggered when each new photo/video is saved
+    this.camera.on("read", function(err, timestamp, filename){
+      filehelper.move("./pictures/process.jpg", newfilename, function() {
+        callback(newfilename);
+      });
     });
-
-    return newfilename;
   }
-
 }
 
 module.exports = Camera;

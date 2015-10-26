@@ -22,7 +22,7 @@ var kernel = {
     webserver: false,
     command: false,
     imu: false,
-    driver: false,
+    drive: false,
     gps: false,
     camera: false,
   },
@@ -47,20 +47,6 @@ var kernel = {
       console.warn("IMU already running");
     }
 
-    //starting drive controller
-    if (this.components.driver == false) {
-      if (this.config.dummy) {
-        console.log("starting dummy driver");
-
-        var DriveDummy = rootRequire("./dummy/drivedummy");
-        this.components.driver = new DriveDummy(kernel);
-      } else {
-        console.warn("can't implement driver yet");
-      }
-    } else {
-      console.warn("Driver already running");
-    }
-
     //starting gps
     if (this.components.gps == false) {
       if (this.config.dummy) {
@@ -77,14 +63,27 @@ var kernel = {
     //staring camera
     if (this.components.camera == false) {
       if (this.config.dummy) {
-        var DummyCamera = rootRequire("./dummy/cameradummy");
-        this.components.camera = new DummyCamera(kernel).start();
+        var CameraDummy = rootRequire("./dummy/cameradummy");
+        this.components.camera = new CameraDummy(kernel).start();
       } else {
         var Camera = rootRequire("./component/camera");
         this.components.camera = new Camera(kernel).start();
       }
     } else {
       console.warn("Camera already running");
+    }
+
+    //staring drive
+    if (this.components.drive == false) {
+      if (this.config.dummy) {
+        var DriveDummy = rootRequire("./dummy/drivedummy");
+        this.components.drive = new DriveDummy(kernel).start();
+      } else {
+        var Drive = rootRequire("./component/drive");
+        this.components.drive = new Drive(kernel).start();
+      }
+    } else {
+      console.warn("Drive already running");
     }
   },
   stopComponents: function() {
@@ -99,6 +98,12 @@ var kernel = {
 
     console.log("stopping camera");
     this.components.camera = false;
+
+    console.log("stopping drive");
+    if(this.components.drive) {
+      this.components.drive.halt();
+    }
+    this.components.drive = false;
   }
 }
 
