@@ -31,6 +31,8 @@ var Command = function (kernel) {
         this.picture();
       } else if (data == 'config') {
         this.config();
+      } else if (data == 'data') {
+        this.data();
       } else if (data == 'halt') {
         this.halt();
       } else if ( data == '\u0003' || data == 'quit' || data == 'exit') {
@@ -135,12 +137,13 @@ var Command = function (kernel) {
   };
 
   this.picture = function () {
-    if (this.kernel.components.camera) {
-      this.kernel.components.camera.start();
+    if (this.kernel.components.camera !== false) {
+      console.log(this.kernel.components.camera.take());
+      this.complete();
     } else {
-      console.log("driver is not initialized yet");
+      console.log("Camera is not initialized yet");
+      this.complete();
     }
-    this.complete();
   };
 
   this.halt = function () {

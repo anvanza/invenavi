@@ -38,7 +38,7 @@ var kernel = {
       if (this.config.dummy) {
         console.log("starting dummy IMU");
 
-        var IMUDummy = require("./imudummy");
+        var IMUDummy = rootRequire("./dummy/imudummy");
         this.components.imu = new IMUDummy(kernel);
       } else {
         console.warn("can't implement imu yet");
@@ -52,7 +52,7 @@ var kernel = {
       if (this.config.dummy) {
         console.log("starting dummy driver");
 
-        var DriveDummy = require("./drivedummy");
+        var DriveDummy = rootRequire("./dummy/drivedummy");
         this.components.driver = new DriveDummy(kernel);
       } else {
         console.warn("can't implement driver yet");
@@ -67,7 +67,7 @@ var kernel = {
         console.log("starting dummy gps");
         this.components.gps = true
       } else {
-        var Gps = require("./gps");
+        var Gps = rootRequire("./component/gps");
         this.components.gps = new Gps(kernel).start();
       }
     } else {
@@ -77,19 +77,14 @@ var kernel = {
     //staring camera
     if (this.components.camera == false) {
       if (this.config.dummy) {
-        console.log("starting dummy camera");
-        this.components.camera = true;
+        var DummyCamera = rootRequire("./dummy/cameradummy");
+        this.components.camera = new DummyCamera(kernel).start();
       } else {
-        var RaspiCam = require("raspicam");
-        this.components.camera = new RaspiCam({
-          mode: 'photo',
-          output: './pictures/%d.jpg',
-          timeout: 100,
-          quality: 100
-        });
+        var Camera = rootRequire("./component/camera");
+        this.components.camera = new Camera(kernel).start();
       }
     } else {
-      console.warn("Gps already running");
+      console.warn("Camera already running");
     }
   },
   stopComponents: function() {
@@ -105,6 +100,10 @@ var kernel = {
     console.log("stopping camera");
     this.components.camera = false;
   }
+}
+
+global.rootRequire = function(name) {
+    return require(__dirname + '/' + name);
 }
 
 //set dummy
