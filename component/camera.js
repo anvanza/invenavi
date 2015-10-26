@@ -1,7 +1,8 @@
 // Constructor
 var Camera = function (kernel) {
   this.kernel = kernel;
-  var copyhelper = rootRequire('./helper/move');
+  var FileHelper = rootRequire("./helper/file");
+  var filehelper = new FileHelper();
 
   this.start = function() {
     var RaspiCam = require("raspicam");
@@ -21,7 +22,7 @@ var Camera = function (kernel) {
     this.camera.start();
 
     var newfilename = "./pictures/" + Date.now() + ".jpg";
-    copyhelper.move("./pictures/process.jpg", newfilename, function() {
+    filehelper.move("./pictures/process.jpg", newfilename, function() {
       console.log("new picture taken");
     });
 

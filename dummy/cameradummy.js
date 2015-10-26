@@ -1,6 +1,8 @@
 // Constructor
 var CameraDummy = function (kernel) {
   this.kernel = kernel;
+  var FileHelper = rootRequire("./helper/file");
+  var filehelper = new FileHelper();
 
   this.start = function() {
     console.log("Starting Dummy Camera");
@@ -9,8 +11,17 @@ var CameraDummy = function (kernel) {
   }
 
   this.take = function() {
-    console.log("Dummy picture taken");
-    return "./pictures/example.jpg";
+
+    filehelper.createDummy("./pictures/process.jpg","hey hey",function(){
+        console.log("dummy file created");
+    });
+
+    var newfilename = "./pictures/" + Date.now() + ".jpg";
+    filehelper.move("./pictures/process.jpg", newfilename, function() {
+      console.log("new dummy picture taken");
+    });
+
+    return newfilename;
   }
 }
 
