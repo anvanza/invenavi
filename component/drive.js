@@ -21,7 +21,7 @@ var Drive = function (kernel) {
     this.kernel.data.throttle = throttle;
   }
   this.setSteering = function(steering) {
-
+    this.pwm.setPulseLength(0, steering);
     this.kernel.data.steering = steering;
   }
   this.halt = function() {
