@@ -5,18 +5,20 @@ var Camera = function (kernel) {
 
   this.start = function() {
     var RaspiCam = require("raspicam");
-    var camera = new RaspiCam({
+    this.camera = new RaspiCam({
       mode: 'photo',
       output: './pictures/process.jpg',
       timeout: 100,
       quality: 100
     });
 
+    console.log("Camera started");
+
     return this;
   }
 
   this.take = function() {
-    camera.start();
+    this.camera.start();
 
     var newfilename = "./pictures/" + Date.now() + ".jpg";
     copyhelper.move("./pictures/process.jpg", newfilename, function() {
