@@ -1,6 +1,11 @@
 "use strict";
 
 var argv = require('minimist')(process.argv.slice(2));
+var path = require('path');
+
+global.rootRequire = function (name) {
+    return require(path.join(__dirname, '/', name));
+};
 
 var kernel = {
     config: {
@@ -37,54 +42,50 @@ var kernel = {
     },
     startComponents: function () {
         //starting imu
-        if (this.components.imu == false) {
-            if (this.config.dummy) {
-                var IMUDummy = rootRequire("./dummy/imudummy");
-                this.components.imu = new IMUDummy(kernel).start();
-            } else {
-                console.warn("can't implement imu yet");
-            }
-        } else {
+        if (this.components.imu !== false) {
             console.warn("IMU already running");
+        }
+        if (this.config.dummy) {
+            var IMUDummy = rootRequire("./dummy/imudummy");
+            this.components.imu = new IMUDummy(kernel).start();
+        } else {
+            console.warn("can't implement imu yet");
         }
 
         //starting gps
-        if (this.components.gps == false) {
-            if (this.config.dummy) {
-                var GpsDummy = rootRequire("./dummy/gpsdummy");
-                this.components.gps = new GpsDummy(kernel).start()
-            } else {
-                var Gps = rootRequire("./component/gps");
-                this.components.gps = new Gps(kernel).start();
-            }
-        } else {
+        if (this.components.gps !== false) {
             console.warn("Gps already running");
+        }
+        if (this.config.dummy) {
+            var GpsDummy = rootRequire("./dummy/gpsdummy");
+            this.components.gps = new GpsDummy(kernel).start()
+        } else {
+            var Gps = rootRequire("./component/gps");
+            this.components.gps = new Gps(kernel).start();
         }
 
         //staring camera
-        if (this.components.camera == false) {
-            if (this.config.dummy) {
-                var CameraDummy = rootRequire("./dummy/cameradummy");
-                this.components.camera = new CameraDummy(kernel).start();
-            } else {
-                var Camera = rootRequire("./component/camera");
-                this.components.camera = new Camera(kernel).start();
-            }
-        } else {
+        if (this.components.camera !== false) {
             console.warn("Camera already running");
+        }
+        if (this.config.dummy) {
+            var CameraDummy = rootRequire("./dummy/cameradummy");
+            this.components.camera = new CameraDummy(kernel).start();
+        } else {
+            var Camera = rootRequire("./component/camera");
+            this.components.camera = new Camera(kernel).start();
         }
 
         //staring drive
-        if (this.components.drive == false) {
-            if (this.config.dummy) {
-                var DriveDummy = rootRequire("./dummy/drivedummy");
-                this.components.drive = new DriveDummy(kernel).start();
-            } else {
-                var Drive = rootRequire("./component/drive");
-                this.components.drive = new Drive(kernel).start();
-            }
-        } else {
+        if (this.components.drive !== false) {
             console.warn("Drive already running");
+        }
+        if (this.config.dummy) {
+            var DriveDummy = rootRequire("./dummy/drivedummy");
+            this.components.drive = new DriveDummy(kernel).start();
+        } else {
+            var Drive = rootRequire("./component/drive");
+            this.components.drive = new Drive(kernel).start();
         }
     },
     stopComponents: function () {
@@ -107,7 +108,7 @@ var kernel = {
         this.components.drive = false;
     },
     startWebServer: function () {
-        var WebServer = require("./component/webserver");
+        var WebServer = rootRequire("./component/webserver");
         this.components.webserver = new WebServer(kernel).start();
     },
     stopWebServer: function () {
@@ -120,16 +121,12 @@ var kernel = {
         this.components.webserver = false;
     },
     startCommand: function () {
-        var Command = require("./component/command");
+        var Command = rootRequire("./component/command");
         this.components.command = new Command(kernel).start();
     },
     startHeadless: function () {
         console.log('starting headless');
     }
-};
-
-global.rootRequire = function (name) {
-    return require(__dirname + '/' + name);
 };
 
 //set dummy
@@ -140,8 +137,8 @@ if (typeof argv["dummy"] !== "undefined") {
 //always start command
 kernel.startCommand();
 
-if (argv["runmode"] == "web") {
+if (argv["runmode"] === "web") {
     kernel.startWebServer();
-} else if (argv["runmode"] == "headless") {
+} else if (argv["runmode"] === "headless") {
     kernel.startHeadless();
 }

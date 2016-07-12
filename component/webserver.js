@@ -1,4 +1,8 @@
-// Constructor
+var express = require('express'),
+    http  = require('http'),
+    socketio = require('socket.io'),
+    path = require('path');
+
 var WebServer = function (kernel) {
     var _self = this;
     _self.kernel = kernel;
@@ -14,11 +18,10 @@ var WebServer = function (kernel) {
      * @returns {start}
      */
     function start() {
-        var express = require('express');
+
         var app = express();
-        var server = require('http').Server(app);
-        var io = require('socket.io')(server);
-        var path = require('path');
+        var server = http.Server(app);
+        var io = socketio(server);
 
         app.get('/', function (req, res) {
             res.send({

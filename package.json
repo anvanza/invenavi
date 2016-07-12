@@ -15,7 +15,6 @@
     "serialport": "^4.0.0",
     "socket.io": "^1.4.8"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anvanza/invenavi.git"
