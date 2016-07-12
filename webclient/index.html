@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="css/main.css">
 
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPqpmWWlJ1y2LfPj7BWG6S6abW6SNRRyc&sensor=false"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
     </head>
     <body>
         <div class="container-fluid">
@@ -120,13 +120,18 @@
 
                         <!-- Table -->
                         <table class="table">
+                            <tr><td>Latency</td><td id="var_latency">n/a</td></tr>
                             <tr><td>Int. Temp (C)</td><td id="var_temp_int">n/a</td></tr>
                             <tr><td>WIFI signal</td><td>n/a</td></tr>
                             <tr><td>Int. Pressure (P)</td><td id="var_press_int">n/a</td></tr>
                             <tr><td>Compass Heading</td><td id="var_compass_heading">n/a</td></tr>
                             <tr><td>GPS Lat</td><td id="var_lat">n/a</td></tr>
                             <tr><td>GPS Lon</td><td id="var_lng">n/a</td></tr>
+                            <tr><td>GPS Speed</td><td id="var_speed">n/a</td></tr>
+                            <tr><td>GPS Alt</td><td id="var_alt">n/a</td></tr>
                             <tr><td>Tilt</td><td id="var_tilt">n/a</td></tr>
+                            <tr><td>Throttle</td><td id="var_throttle">n/a</td></tr>
+                            <tr><td>Steering</td><td id="var_steering">n/a</td></tr>
                             <tr><td>Battery mah</td><td>n/a</td></tr>
                             <tr><td>Next wayPoint</td><td>n/a</td></tr>
                         </table>
@@ -169,6 +174,6 @@
         <script src="js/bootstrap.min.js"></script>
 
         <script src="js/main.js"></script>
-
+        <script src="js/socket.io.js"></script>
     </body>
 </html>

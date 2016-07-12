@@ -2,6 +2,7 @@ $( document ).ready(function() {
     var sess;
     var waypoints = {};
     var flightPath;
+    var socket;
 
     $("#ip").val(localStorage.getItem("IP"));
 
@@ -17,28 +18,29 @@ $( document ).ready(function() {
         // WAMP session object
         appendToConsole("Attempt to connect to "+ip);
 
-        // connect to WAMP server
-        ab.connect(wsuri,
-            // WAMP session was established
-            function (session) {
-                $("#connectform").hide();
+        socket = io({
+            'reconnection': true,
+            'reconnectionDelay': 200,
+            'reconnectionDelayMax' : 1000
+        }).connect(ip + ':3000');
+        socket.on('connect', function () {
+            appendToConsole("Connected to " + ip);
+            $("#connectform").hide();
+        }).on('disconnect', function () {
+            appendToConsole("Disconnected from " + ip);
+            $("#var_latency").html("Offline");
+        }).on('data', function (data) {
+            appendToConsole("received data");
+            handleReturn(data.kernel);
+        });
 
-                sess = session;
-                appendToConsole("Connected to " + wsuri);
-                // establish a prefix, so we can abbreviate procedure URIs ..
-                sess.prefix("protos", "http://10.0.0.142/ws/protos#");
-            },
-
-            // WAMP session is gone
-            function (code, reason) {
-                sess = null;
-                if (code == ab.CONNECTION_UNSUPPORTED) {
-                    window.location = "http://autobahn.ws/unsupportedbrowser";
-                } else {
-                    appendToConsole(reason);
-                }
+        setInterval(function(){
+            if (socket.connected) {
+                socket.emit('latency', Date.now(), function (startTime) {
+                    $("#var_latency").html(Date.now() - startTime);
+                });
             }
-        );
+        }, 500);
     }
 	//google maps
 	var map;
@@ -157,28 +159,22 @@ $( document ).ready(function() {
         updatePath();
     };
 
-	function convertLat( input ) {
-		var lats = input+"";
-		var lat1 = parseFloat(lats[2]+lats[3]+lats[4]+lats[5]+lats[6]+lats[7]+lats[8])/60;
-		return parseFloat(lats[0]+lats[1])+lat1;
-	}
-
-	function convertLon(input){
-		var longs = input+"";
-		var long1 = parseFloat(longs[3]+longs[4]+longs[5]+longs[6]+longs[7]+longs[8]+longs[9])/60;
-		return parseFloat(longs[0]+longs[1]+longs[2])+long1;
-	}
-
     function handleReturn(result){
-        if(result.lat){
-            latlng = new google.maps.LatLng(convertLat(result.lat),convertLon(result.lon));
-            $("#var_lat").html(convertLat(result.lat));
-            $("#var_lng").html(convertLon(result.lon));
+        console.log(result);
+        if(result.gps_lat){
+            latlng = new google.maps.LatLng(result.gps_lat,result.gps_lon);
+            $("#var_lat").html(result.gps_lat);
+            $("#var_lng").html(result.gps_lon);
+            $("#var_speed").html(result.gps_speed);
+            $("#var_alt").html(result.gps_alt);
             boatMarker.setPosition(latlng);
+            map.setCenter(boatMarker.getPosition());
         }
 
-        $("#var_temp_int").html(result.temp);
-        $("#var_press_int").html(result.press);
+        $("#var_throttle").html(result.throttle);
+        $("#var_steering").html(result.steering);
+        $("#var_temp_int").html(result.temperature);
+        $("#var_press_int").html(result.pressure);
         $("#var_compass_heading").html(result.heading);
     }
 
@@ -247,11 +243,7 @@ $( document ).ready(function() {
 	$("#forcedata").on("click", function(e){
         e.preventDefault();
         // call a function and log result on success
-        sess.call("protos:data").then(function(result){
-            handleReturn(result);
-        },function (error){
-            appendToConsole(error);
-        });
+        socket.emit('data');
 	});
 
     $("#ipsubmit").on("click",function(e){

@@ -1,36 +1,54 @@
 // Constructor
 var Gps = function (kernel) {
-  this.kernel = kernel;
+    var _self = this;
+    _self.kernel = kernel;
+    _self.port = false;
 
-  this.start = function(level) {
-    console.log("Starting GPS");
-    var gpsy = rootRequire("./gpsy");
-    var gps = gpsy("/dev/ttyAMA0", 9600); // your serial device
+    return {
+        start: start,
+        stop: stop
+    };
 
-    gps.on("position", function(data){
-      this.kernel.data.gps_lat = data.lat;
-      this.kernel.data.gps_lon = data.lon;
-    }.bind(this));
+    /**
+     * Start the GPS
+     *
+     * @returns {start}
+     */
+    function start() {
+        console.log("Starting GPS");
+        var SerialPort = require('serialport');
+        _self.port = new SerialPort.SerialPort('/dev/ttyAMA0', {
+            baudrate: 9600,
+            parser: SerialPort.parsers.readline('\r\n')
+        });
 
-    gps.on("speed", function(data){
-      this.kernel.data.gps_speed = data.speed;
-    }.bind(this));
+        var GPS = require('gps');
+        var gps = new GPS;
 
-    gps.on("altitude", function(data){
-      this.kernel.data.gps_alt = data.alt;
-    }.bind(this));
+        //retrieve data from the gps
+        gps.on('data', function(data) {
+            console.log(data, gps.state);
+            _self.kernel.data.gps_lat = gps.state.lat;
+            _self.kernel.data.gps_lon = gps.state.lon;
+            _self.kernel.data.gps_speed = gps.state.speed;
+            _self.kernel.data.gps_alt = gps.state.alt;
+        });
 
-    gps.on("err", function(ring){
-      console.log("error");
-      console.log(ring);
-    });
-    gps.on("close", function(ring){
-      console.log("close");
-      console.log(ring);
-    });
+        //retrieve data from the port
+        _self.port.on('data', function(data) {
+            gps.update(data);
+        });
 
-    return this;
-  }
-}
+        return this;
+    }
+
+    function stop() {
+        if (_self.port === false) {
+            console.log("port not open");
+        }
+
+        _self.port.close();
+    }
+};
 
 module.exports = Gps;

@@ -1,34 +1,51 @@
 // Constructor
 var Camera = function (kernel) {
-  this.kernel = kernel;
-  var FileHelper = rootRequire("./helper/file");
-  var filehelper = new FileHelper();
+    var _self = this;
+    _self.kernel = kernel;
 
-  this.start = function() {
-    var RaspiCam = require("raspicam");
-    this.camera = new RaspiCam({
-      mode: 'photo',
-      output: './pictures/process.jpg',
-      timeout: 100,
-      quality: 100
-    });
+    return {
+        start: start,
+        take: take
+    };
 
-    console.log("Camera started");
+    /**
+     * Start the Camera
+     *
+     * @returns {Camera}
+     */
+    function start() {
+        var FileHelper = rootRequire("./helper/file");
+        var filehelper = new FileHelper();
+        var RaspiCam = require("raspicam");
+        _self.camera = new RaspiCam({
+            mode: 'photo',
+            output: './pictures/process.jpg',
+            encoding: 'jpg',
+            timeout: 100,
+            quality: 100
+        });
 
-    return this;
-  }
+        _self.camera.on("read", function (err, timestamp, filename) {
+            var newfilename = "./pictures/" + Date.now() + ".jpg";
+            filehelper.move("./pictures/process.jpg", "./pictures/" + Date.now() + ".jpg", function () {
+                callback(newfilename);
+            });
+        });
 
-  this.take = function(callback) {
-    this.camera.start();
-    var newfilename = "./pictures/" + Date.now() + ".jpg";
+        console.log("Camera started");
 
-    //listen for the "read" event triggered when each new photo/video is saved
-    this.camera.on("read", function(err, timestamp, filename){
-      filehelper.move("./pictures/process.jpg", newfilename, function() {
-        callback(newfilename);
-      });
-    });
-  }
-}
+        return _self;
+    }
+
+    /**
+     * Take a picture
+     * Callback is handled by the start method
+     *
+     * @returns void
+     */
+    function take() {
+        _self.camera.start();
+    }
+};
 
 module.exports = Camera;

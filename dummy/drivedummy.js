@@ -1,26 +1,58 @@
 // Constructor
 var DriveDummy = function (kernel) {
-  this.kernel = kernel;
+    var _self = this;
+    _self.kernel = kernel;
 
-  this.start = function() {
-    console.log("Dummy drive started");
+    return {
+        start: start,
+        setThrottle: setThrottle,
+        setSteering: setSteering,
+        halt: halt
+    };
 
-    return this;
-  }
+    /**
+     *
+     * @returns {start}
+     */
+    function start() {
+        console.log("Starting Dummy Drive");
 
-  this.setThrottle = function(level) {
-    console.log("Set throttle to " +  level);
-    this.kernel.data.throttle = level;
-  }
+        return this;
+    }
 
-  this.setSteering= function(angle) {
-    console.log("Set steering angle to " +  angle);
-    this.kernel.data.steering = angle;
-  }
+    /**
+     *
+     * @param level
+     * @returns {setThrottle}
+     */
+    function setThrottle(level) {
+        console.log("Set throttle to " + level);
+        _self.kernel.data.throttle = level;
 
-  this.halt = function () {
-    console.log("Halting drive controller");
-  }
-}
+        return this;
+    }
+
+    /**
+     *
+     * @param angle
+     * @returns {setSteering}
+     */
+    function setSteering(angle) {
+        console.log("Set steering angle to " + angle);
+        _self.kernel.data.steering = angle;
+
+        return this;
+    }
+
+    /**
+     * 
+     * @returns {halt}
+     */
+    function halt() {
+        console.log("Halting drive controller");
+
+        return this;
+    }
+};
 
 module.exports = DriveDummy;

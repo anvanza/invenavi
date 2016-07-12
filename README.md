@@ -1,3 +1,6 @@
+[![Code Climate](https://codeclimate.com/github/anvanza/invenavi/badges/gpa.svg)](https://codeclimate.com/github/anvanza/invenavi)
+[![Dependency Status](https://dependencyci.com/github/anvanza/invenavi/badge)](https://dependencyci.com/github/anvanza/invenavi)
+
 invenavi
 ========
 
@@ -5,7 +8,7 @@ Open-Source Ship
 
 Setup
 --------
-I'm using a raspberry model B and B+
+I'm using a raspberry model B+
 
 Libraries
 --------
