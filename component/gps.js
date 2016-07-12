@@ -1,4 +1,6 @@
-// Constructor
+var SerialPort = require('serialport'),
+    GPS = require('gps');
+
 var Gps = function (kernel) {
     var _self = this;
     _self.kernel = kernel;
@@ -16,13 +18,11 @@ var Gps = function (kernel) {
      */
     function start() {
         console.log("Starting GPS");
-        var SerialPort = require('serialport');
         _self.port = new SerialPort.SerialPort('/dev/ttyAMA0', {
             baudrate: 9600,
             parser: SerialPort.parsers.readline('\r\n')
         });
 
-        var GPS = require('gps');
         var gps = new GPS;
 
         //retrieve data from the gps

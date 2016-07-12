@@ -35,7 +35,7 @@ var kernel = {
         this.config.dummy = true;
     },
     update: function () {
-        if (this.components.imu != false) {
+        if (this.components.imu !== false) {
             console.warn("updating imu");
             console.warn("not implemented yet");
         }

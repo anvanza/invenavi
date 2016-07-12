@@ -19,31 +19,31 @@ var Command = function (kernel) {
         _self.stdin.on('data', function (data) {
             data = data.toString().trim();
 
-            if (data == 'help') {
+            if (data === 'help') {
                 help();
-            } else if (data == 'start') {
+            } else if (data === 'start') {
                 startComponents();
-            } else if (data == 'stop') {
+            } else if (data === 'stop') {
                 stopComponents();
-            } else if (data == 'startweb') {
+            } else if (data === 'startweb') {
                 startWebServer();
-            } else if (data == 'stopweb') {
+            } else if (data === 'stopweb') {
                 stopWebServer();
-            } else if (data == 'steering') {
+            } else if (data === 'steering') {
                 steering();
-            } else if (data == 'throttle') {
+            } else if (data === 'throttle') {
                 throttle();
-            } else if (data == 'update') {
+            } else if (data === 'update') {
                 update();
-            } else if (data == 'picture') {
+            } else if (data === 'picture') {
                 picture();
-            } else if (data == 'config') {
+            } else if (data === 'config') {
                 config();
-            } else if (data == 'data') {
+            } else if (data === 'data') {
                 dumpData();
-            } else if (data == 'halt') {
+            } else if (data === 'halt') {
                 halt();
-            } else if (data == '\u0003' || data == 'quit' || data == 'exit') {
+            } else if (data === '\u0003' || data === 'quit' || data === 'exit') {
                 exit();
             } else {
                 complete();
@@ -149,11 +149,11 @@ var Command = function (kernel) {
 
     function steering(angle) {
         ask("Steering angle -100 to 100: ", function (data) {
-            if (_self.kernel.components.drive != false) {
-                _self.kernel.components.drive.setSteering(data);
-            } else {
+            if (_self.kernel.components.drive === false) {
                 console.log("driver is not initialized yet");
+                return complete();
             }
+            _self.kernel.components.drive.setSteering(data);
 
             complete();
         });

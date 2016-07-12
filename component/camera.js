@@ -1,4 +1,5 @@
-// Constructor
+var RaspiCam = require("raspicam");
+
 var Camera = function (kernel) {
     var _self = this;
     _self.kernel = kernel;
@@ -16,7 +17,6 @@ var Camera = function (kernel) {
     function start() {
         var FileHelper = rootRequire("./helper/file");
         var filehelper = new FileHelper();
-        var RaspiCam = require("raspicam");
         _self.camera = new RaspiCam({
             mode: 'photo',
             output: './pictures/process.jpg',
