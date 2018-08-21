@@ -1,4 +1,5 @@
-var RaspiCam = require("raspicam");
+const RaspiCam = require("raspicam");
+const FileHelper = require("../helper/file");
 
 var Camera = function (kernel) {
     var _self = this;
@@ -15,7 +16,6 @@ var Camera = function (kernel) {
      * @returns {Camera}
      */
     function start() {
-        var FileHelper = rootRequire("./helper/file");
         var filehelper = new FileHelper();
         _self.camera = new RaspiCam({
             mode: 'photo',

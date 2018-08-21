@@ -16,14 +16,17 @@ var Drive = function (kernel) {
      * @returns {start}
      */
     function start() {
-        var I2C = require("i2c");
-        var Pca9685Driver = require("pca9685");
+        var i2cBus = require("i2c-bus");
+        var Pca9685Driver = require("pca9685").Pca9685Driver;
 
-        _self.pwm = new Pca9685Driver({
-            i2c: new I2C(0x40, {device: "/dev/i2c-1"}),
+        var options = {
+            i2c: i2cBus.openSync(1),
+            address: 0x40,
             frequency: 50,
             debug: false
-        }, function () {
+        };
+
+        _self.pwm = new Pca9685Driver(options, function () {
             console.log("Driver initialised");
         });
 

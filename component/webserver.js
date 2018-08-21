@@ -1,11 +1,13 @@
-var express = require('express'),
-    http  = require('http'),
-    socketio = require('socket.io'),
-    path = require('path');
+const express = require('express');
+const http = require('http');
+const socketio = require('socket.io');
+const path = require('path');
 
 var WebServer = function (kernel) {
     var _self = this;
     _self.kernel = kernel;
+    _self.server = null;
+    _self.intervalTimer = null;
 
     return {
         start: start,
@@ -19,40 +21,45 @@ var WebServer = function (kernel) {
      */
     function start() {
 
-        var app = express();
-        var server = http.Server(app);
-        var io = socketio(server);
+        const app = express();
+        const server = http.Server(app);
+        const io = socketio(server);
 
-        app.get('/', function (req, res) {
+        app.get('/data', function (req, res) {
             res.send({
                 config: _self.kernel.config,
                 data: _self.kernel.data
             })
         });
 
-        app.get('/index.html', function (req, res) {
+        app.get('/', function (req, res) {
             res.sendFile(path.resolve('webclient/index.html'));
         });
 
         app.use(express.static(path.resolve('webclient')));
 
-        app.use(function(req, res, next) {
+        app.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "localhost:3000");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
         });
 
         io.on('connection', function (socket) {
-            socket.emit('data', { kernel: _self.kernel.data });
+            console.log('Webserver: user connected');
+            socket.emit('data', {kernel: _self.kernel.data});
 
             socket.on('data', function (data) {
-                socket.emit('data', { kernel: _self.kernel.data });
+                socket.emit('data', {kernel: _self.kernel.data});
             }).on('latency', function (startTime, cb) {
                 cb(startTime);
+            }).on('disconnect', function () {
+                console.log('Webserver: user disconnected');
             });
-            Object.observe(_self.kernel.data, function () {
-                socket.emit('data', { kernel: _self.kernel.data });
-            })
+
+            //send this as volatile since we don't really care if the data is received correctly.
+            _self.intervalTimer = setInterval(function () {
+                socket.volatile.emit('data', {kernel: _self.kernel.data});
+            }, 500);
         });
 
         _self.server = server.listen(_self.kernel.config.web_port, function () {
@@ -71,6 +78,14 @@ var WebServer = function (kernel) {
      * @returns {stop}
      */
     function stop() {
+        clearInterval(_self.intervalTimer);
+
+        if (_self.server === null) {
+            console.log('webserver was not started');
+
+            return this;
+        }
+
         _self.server.close();
         console.log('Webserver closed');
 

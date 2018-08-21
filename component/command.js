@@ -1,6 +1,6 @@
 // Constructor
 var Command = function (kernel) {
-    var _self = this;
+    const _self = this;
     _self.kernel = kernel;
     _self.stdin = process.stdin;
     _self.stdout = process.stdout;

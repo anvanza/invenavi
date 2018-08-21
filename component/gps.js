@@ -1,5 +1,6 @@
-var SerialPort = require('serialport'),
-    GPS = require('gps');
+const GPS = require('gps');
+const SerialPort = require('serialport');
+const Readline = require('@serialport/parser-readline');
 
 var Gps = function (kernel) {
     var _self = this;
@@ -18,12 +19,18 @@ var Gps = function (kernel) {
      */
     function start() {
         console.log("Starting GPS");
-        _self.port = new SerialPort.SerialPort('/dev/ttyAMA0', {
-            baudrate: 9600,
-            parser: SerialPort.parsers.readline('\r\n')
+        _self.port = new SerialPort('/dev/ttyAMA0', {
+            baudRate: 9600
+        }, function () {
+            console.log("Started GPS");
         });
+        const parser = _self.port.pipe(new Readline({ delimiter: '\r\n' }));
+        const gps = new GPS;
 
-        var gps = new GPS;
+        //retrieve data from the port
+        parser.on('data', function(data) {
+            gps.update(data);
+        });
 
         //retrieve data from the gps
         gps.on('data', function(data) {
@@ -34,11 +41,6 @@ var Gps = function (kernel) {
             _self.kernel.data.gps_alt = gps.state.alt;
         });
 
-        //retrieve data from the port
-        _self.port.on('data', function(data) {
-            gps.update(data);
-        });
-
         return this;
     }
 
@@ -47,7 +49,9 @@ var Gps = function (kernel) {
             console.log("port not open");
         }
 
-        _self.port.close();
+        _self.port.close(function () {
+            console.log("gps closed");
+        });
     }
 };
 

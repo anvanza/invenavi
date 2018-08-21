@@ -1,11 +1,7 @@
 "use strict";
 
-var argv = require('minimist')(process.argv.slice(2));
-var path = require('path');
-
-global.rootRequire = function (name) {
-    return require(path.join(__dirname, '/', name));
-};
+const argv = require('minimist')(process.argv.slice(2));
+const os = require('os');
 
 var kernel = {
     config: {
@@ -46,7 +42,7 @@ var kernel = {
             console.warn("IMU already running");
         }
         if (this.config.dummy) {
-            var IMUDummy = rootRequire("./dummy/imudummy");
+            var IMUDummy = require("./dummy/imudummy");
             this.components.imu = new IMUDummy(kernel).start();
         } else {
             console.warn("can't implement imu yet");
@@ -57,10 +53,10 @@ var kernel = {
             console.warn("Gps already running");
         }
         if (this.config.dummy) {
-            var GpsDummy = rootRequire("./dummy/gpsdummy");
+            var GpsDummy = require("./dummy/gpsdummy");
             this.components.gps = new GpsDummy(kernel).start()
         } else {
-            var Gps = rootRequire("./component/gps");
+            var Gps = require("./component/gps");
             this.components.gps = new Gps(kernel).start();
         }
 
@@ -69,10 +65,10 @@ var kernel = {
             console.warn("Camera already running");
         }
         if (this.config.dummy) {
-            var CameraDummy = rootRequire("./dummy/cameradummy");
+            var CameraDummy = require("./dummy/cameradummy");
             this.components.camera = new CameraDummy(kernel).start();
         } else {
-            var Camera = rootRequire("./component/camera");
+            var Camera = require("./component/camera");
             this.components.camera = new Camera(kernel).start();
         }
 
@@ -81,11 +77,16 @@ var kernel = {
             console.warn("Drive already running");
         }
         if (this.config.dummy) {
-            var DriveDummy = rootRequire("./dummy/drivedummy");
+            var DriveDummy = require("./dummy/drivedummy");
             this.components.drive = new DriveDummy(kernel).start();
         } else {
-            var Drive = rootRequire("./component/drive");
-            this.components.drive = new Drive(kernel).start();
+            if (os.arch() !== "arm") {
+                console.error("This is not a raspberry, could not start i2c");
+            } else {
+                var Drive = require("./component/drive");
+                this.components.drive = new Drive(kernel).start();
+            }
+
         }
     },
     stopComponents: function () {
@@ -108,7 +109,7 @@ var kernel = {
         this.components.drive = false;
     },
     startWebServer: function () {
-        var WebServer = rootRequire("./component/webserver");
+        const WebServer = require("./component/webserver");
         this.components.webserver = new WebServer(kernel).start();
     },
     stopWebServer: function () {
@@ -121,12 +122,9 @@ var kernel = {
         this.components.webserver = false;
     },
     startCommand: function () {
-        var Command = rootRequire("./component/command");
+        const Command = require('./component/command');
         this.components.command = new Command(kernel).start();
     },
-    startHeadless: function () {
-        console.log('starting headless');
-    }
 };
 
 //set dummy
@@ -139,6 +137,4 @@ kernel.startCommand();
 
 if (argv["runmode"] === "web") {
     kernel.startWebServer();
-} else if (argv["runmode"] === "headless") {
-    kernel.startHeadless();
 }

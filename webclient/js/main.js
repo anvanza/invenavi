@@ -48,7 +48,7 @@ $( document ).ready(function() {
 
     var getMarkerUniqueId= function(lat, lng) {
         return lat + '_' + lng;
-    }
+    };
 
     var getLatLng = function(lat, lng) {
         return new google.maps.LatLng(lat, lng);
@@ -250,7 +250,7 @@ $( document ).ready(function() {
         e.preventDefault();
         var ip = $("#ip");
         localStorage.setItem("IP", ip.val());
-        if(ip.val().trim() != ""){
+        if(ip.val().trim() !== ""){
             ip.parent().removeClass("has-error");
             rpcsetup(ip.val());
             $("#streamimage").attr("src",ip.val()+":8080/?action=stream")

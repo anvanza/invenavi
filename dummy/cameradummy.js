@@ -1,3 +1,5 @@
+var FileHelper = require("../helper/file");
+
 // Constructor
 var CameraDummy = function (kernel) {
     var _self = this;
@@ -26,7 +28,7 @@ var CameraDummy = function (kernel) {
      * @returns void
      */
     function take(callback) {
-        var FileHelper = rootRequire("./helper/file");
+
         var filehelper = new FileHelper();
         var newfilename = "./pictures/" + Date.now() + ".jpg";
 
