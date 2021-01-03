@@ -26,8 +26,8 @@ var Drive = function (kernel) {
             debug: false
         };
 
-        _self.pwm = new Pca9685Driver(options, function () {
-            console.log("Driver initialised");
+        _self.pwm = new Pca9685Driver(options, function (data) {
+            console.log(data);
         });
 
         return this;
@@ -40,7 +40,21 @@ var Drive = function (kernel) {
      * @returns {setThrottle}
      */
     function setThrottle(throttle) {
-        _self.kernel.data.throttle = throttle;
+
+        throttle = (throttle*5)+1500;
+
+        if (throttle > 2000) {
+            throttle = 2000
+        }
+
+        if (throttle < 1000) {
+            throttle = 1000
+        }
+
+        _self.pwm.setPulseLength(1, throttle, 0, function () {
+            console.log("Throttle set to " +  throttle + " microseconds in pulse length");
+        });
+        _self.kernel.data.throttle = (throttle/5)-1500;
 
         return this;
     }
@@ -52,7 +66,11 @@ var Drive = function (kernel) {
      * @returns {setSteering}
      */
     function setSteering(steering) {
-        _self.pwm.setPulseLength(0, steering);
+        //should be pulselength between 800 and 2300
+
+        _self.pwm.setPulseLength(0, steering, 0, function () {
+            console.log("Steering set to " +  steering);
+        });
         _self.kernel.data.steering = steering;
 
         return this;
@@ -65,6 +83,8 @@ var Drive = function (kernel) {
      */
     function halt() {
         _self.pwm.allChannelsOff();
+        _self.kernel.data.steering = 0;
+        _self.kernel.data.throttle = 0;
         _self.pwn = null;
 
         return this;

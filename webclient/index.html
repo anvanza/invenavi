@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Invenavi control Panel</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -129,6 +129,7 @@
                             <tr><td>GPS Lon</td><td id="var_lng">n/a</td></tr>
                             <tr><td>GPS Speed</td><td id="var_speed">n/a</td></tr>
                             <tr><td>GPS Alt</td><td id="var_alt">n/a</td></tr>
+                            <tr><td>GPS # Sats</td><td id="var_sats">n/a</td></tr>
                             <tr><td>Tilt</td><td id="var_tilt">n/a</td></tr>
                             <tr><td>Throttle</td><td id="var_throttle">n/a</td></tr>
                             <tr><td>Steering</td><td id="var_steering">n/a</td></tr>
@@ -173,7 +174,9 @@
         <script src="js/jquery-2.0.2.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+        <!-- this is auto imported by the server -->
+        <script src="/socket.io/socket.io.js"></script>
+
         <script src="js/main.js"></script>
     </body>
 </html>

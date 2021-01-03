@@ -167,6 +167,7 @@ $( document ).ready(function() {
             $("#var_lng").html(result.gps_lon);
             $("#var_speed").html(result.gps_speed);
             $("#var_alt").html(result.gps_alt);
+            $("#var_sats").html(result.gps_sats.length);
             boatMarker.setPosition(latlng);
             map.setCenter(boatMarker.getPosition());
         }

@@ -4,16 +4,18 @@
   "description": "invenavi",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.16.3",
-    "gps": "^0.4.7",
-    "i2c-bus": "^4.0.1",
-    "minimist": "^1.2.0",
-    "moment": "^2.22.2",
-    "onoff": "^3.2.1",
+    "bmp280-sensor": "^0.1.3",
+    "express": "^4.17.1",
+    "gps": "^0.6.0",
+    "i2c-bus": "^5.2.1",
+    "minimist": "^1.2.5",
+    "moment": "^2.24.0",
+    "nodeimu": "^2.1.12",
     "pca9685": "^4.0.3",
     "raspicam": "^0.2.14",
-    "serialport": "^6.2.2",
-    "socket.io": "^2.1.1"
+    "rpio": "^2.2.0",
+    "serialport": "^9.0.4",
+    "socket.io": "^2.3.0"
   },
   "repository": {
     "type": "git",

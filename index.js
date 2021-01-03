@@ -5,7 +5,7 @@ const os = require('os');
 
 var kernel = {
     config: {
-        web_port: 3000,
+        web_port: 80,
         debug: false,
         dummy: false
     },
@@ -16,8 +16,10 @@ var kernel = {
         gps_lon: false,
         gps_speed: false,
         gps_alt: false,
+        gps_sats: false,
         throttle: 0,
-        steering: 0
+        steering: 0,
+        heading: 0,
     },
     components: {
         webserver: false,
@@ -25,27 +27,37 @@ var kernel = {
         imu: false,
         drive: false,
         gps: false,
-        camera: false
+        camera: false,
+        comm: false
     },
     dummy: function () {
         this.config.dummy = true;
     },
     update: function () {
         if (this.components.imu !== false) {
-            console.warn("updating imu");
+            console.warn("updating imu.js");
             console.warn("not implemented yet");
         }
     },
+    calibrateIMU: function () {
+        if (this.components.imu !== false) {
+            console.log("starting calibration")
+            return this.components.imu.startCalibration(10000);
+        }
+    },
     startComponents: function () {
-        //starting imu
+        //starting imu.js
         if (this.components.imu !== false) {
             console.warn("IMU already running");
         }
         if (this.config.dummy) {
             var IMUDummy = require("./dummy/imudummy");
-            this.components.imu = new IMUDummy(kernel).start();
+            this.components.imu = new IMUDummy(kernel);
+            this.components.imu.start();
         } else {
-            console.warn("can't implement imu yet");
+            var Imu = require("./component/imu");
+            this.components.imu = new Imu(kernel);
+            this.components.imu.start();
         }
 
         //starting gps
@@ -84,19 +96,25 @@ var kernel = {
                 console.error("This is not a raspberry, could not start i2c");
             } else {
                 var Drive = require("./component/drive");
-                this.components.drive = new Drive(kernel).start();
+                //this.components.drive = new Drive(kernel).start();
             }
 
         }
     },
     stopComponents: function () {
         console.log("stopping IMU");
+        if (this.components.imu) {
+            this.components.imu.stop();
+        }
         this.components.imu = false;
 
         console.log("stopping driver");
         this.components.driver = false;
 
         console.log("stopping gps");
+        if (this.components.gps) {
+            this.components.gps.stop();
+        }
         this.components.gps = false;
 
         console.log("stopping camera");

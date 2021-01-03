@@ -37,6 +37,8 @@ var Command = function (kernel) {
                 update();
             } else if (data === 'picture') {
                 picture();
+            } else if (data === 'imu-calibrate') {
+                imuCalibrate();
             } else if (data === 'config') {
                 config();
             } else if (data === 'data') {
@@ -95,6 +97,17 @@ var Command = function (kernel) {
         complete();
     }
 
+    function imuCalibrate() {
+        if (_self.kernel.components.imu === false) {
+            console.error('imu not started');
+            return complete();
+        }
+
+        console.table(_self.kernel.calibrateIMU());
+
+        complete();
+    }
+
     function update() {
         console.log('updating all sensors');
         _self.kernel.update();
@@ -133,27 +146,27 @@ var Command = function (kernel) {
         complete();
     }
 
-    function throttle(level) {
-        ask("Throttle level -100 to 100: ", function (data) {
+    function throttle() {
+        ask("Throttle level -100 to 100: ", function (level) {
             if (_self.kernel.components.drive === false) {
                 console.log("driver is not initialized yet");
 
                 return complete();
             }
 
-            _self.kernel.components.drive.setThrottle(data);
+            _self.kernel.components.drive.setThrottle(Number(level));
 
             complete();
         });
     }
 
-    function steering(angle) {
-        ask("Steering angle -100 to 100: ", function (data) {
+    function steering() {
+        ask("Steering angle -100 to 100: ", function (angle) {
             if (_self.kernel.components.drive === false) {
                 console.log("driver is not initialized yet");
                 return complete();
             }
-            _self.kernel.components.drive.setSteering(data);
+            _self.kernel.components.drive.setSteering(Number(angle));
 
             complete();
         });

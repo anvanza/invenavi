@@ -4,11 +4,16 @@ var IMUDummy = function (kernel) {
     _self.kernel = kernel;
 
     return {
-        start: start
+        start: start,
+        stop: stop
     };
 
     function start() {
         console.log("Starting Dummy IMU");
+    }
+
+    function stop() {
+
     }
 };
 

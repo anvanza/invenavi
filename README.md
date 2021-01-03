@@ -1,6 +1,3 @@
-[![Code Climate](https://codeclimate.com/github/anvanza/invenavi/badges/gpa.svg)](https://codeclimate.com/github/anvanza/invenavi)
-[![Dependency Status](https://dependencyci.com/github/anvanza/invenavi/badge)](https://dependencyci.com/github/anvanza/invenavi)
-
 invenavi
 ========
 
@@ -29,10 +26,16 @@ Hardware
 
 *None of the hardware is sponsored!*
 
-Need Help?
+I2C addresses
 --------
-you can contact me at my [website][1]!
+- 1c = Magnetometer
+- 6a = Gyroscope
+- 77 = Pressure Sensor
 
+Setup RPI
+--------
+To enable the serial port on Raspbian, you launch `raspi-config`, then select `Interfacing Options`, then `Serial`. You will then be asked two questions:
+If you answer `no` to question 1 and `yes` to question 2, then the code and serial port work perfectly.
 
   [1]: http://www.anvanza.be/
   [2]: http://picamera.readthedocs.org/
