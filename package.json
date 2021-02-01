@@ -17,7 +17,7 @@
     "raspicam": "^0.2.14",
     "rpio": "^2.2.0",
     "serialport": "^9.0.4",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "repository": {
     "type": "git",
