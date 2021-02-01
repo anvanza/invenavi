@@ -24,7 +24,11 @@ var Imu = function (kernel) {
         let data = {};
 
         _self.interval = setInterval(function(){
-            data = _self.imu.fullInformation();
+            try {
+                data = _self.imu.fullInformation();
+            } catch (e) {
+                console.error('error while fetching data from imu');
+            }
 
             _self.kernel.data.heading = data.tiltCompensatedHeading;
             _self.kernel.data.temperature = data.temperature;

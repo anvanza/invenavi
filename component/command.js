@@ -146,6 +146,18 @@ var Command = function (kernel) {
         complete();
     }
 
+    function halt() {
+        if (_self.kernel.components.drive === false) {
+            console.log("driver is not initialized yet");
+            return complete();
+        }
+
+        _self.kernel.components.drive.setThrottle(0);
+        _self.kernel.components.drive.setSteering(0);
+
+        complete();
+    }
+
     function throttle() {
         ask("Throttle level -100 to 100: ", function (level) {
             if (_self.kernel.components.drive === false) {

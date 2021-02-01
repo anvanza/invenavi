@@ -54,7 +54,7 @@ var Drive = function (kernel) {
         _self.pwm.setPulseLength(1, throttle, 0, function () {
             console.log("Throttle set to " +  throttle + " microseconds in pulse length");
         });
-        _self.kernel.data.throttle = (throttle/5)-1500;
+        _self.kernel.data.throttle = (throttle-1500)/5;
 
         return this;
     }
@@ -66,12 +66,23 @@ var Drive = function (kernel) {
      * @returns {setSteering}
      */
     function setSteering(steering) {
-        //should be pulselength between 800 and 2300
+        //the current physical connection is that 1800 is center
+        //1500 would be right , 2100 would be left
+
+        steering = (steering*3)+1800;
+
+        if (steering > 2100) {
+            steering = 2100
+        }
+
+        if (steering < 1500) {
+            steering = 1500
+        }
 
         _self.pwm.setPulseLength(0, steering, 0, function () {
             console.log("Steering set to " +  steering);
         });
-        _self.kernel.data.steering = steering;
+        _self.kernel.data.steering = (steering-1800)/3;
 
         return this;
     }

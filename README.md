@@ -40,3 +40,5 @@ If you answer `no` to question 1 and `yes` to question 2, then the code and seri
   [1]: http://www.anvanza.be/
   [2]: http://picamera.readthedocs.org/
   [3]: https://github.com/waveform80/picamera/
+
+yarn install --ignore-scripts

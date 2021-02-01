@@ -28,7 +28,8 @@ var kernel = {
         drive: false,
         gps: false,
         camera: false,
-        comm: false
+        communication: false,
+        lights: false,
     },
     dummy: function () {
         this.config.dummy = true;
@@ -72,7 +73,31 @@ var kernel = {
             this.components.gps = new Gps(kernel).start();
         }
 
-        //staring camera
+        //starting communications
+        if (this.components.communication !== false) {
+            console.warn("Comm already running");
+        }
+        if (this.config.dummy) {
+            //var CommDummy = require("./dummy/gpsdummy");
+            //this.components.gps = new GpsDummy(kernel).start()
+        } else {
+            var Communication = require("./component/communication");
+            this.components.communication = new Communication(kernel).start();
+        }
+
+        //starting ligths
+        if (this.components.lights !== false) {
+            console.warn("Lights already running");
+        }
+        if (this.config.dummy) {
+            //var CommDummy = require("./dummy/gpsdummy");
+            //this.components.gps = new GpsDummy(kernel).start()
+        } else {
+            var Lights = require("./component/lights");
+            this.components.lights = new Lights(kernel).start();
+        }
+
+        //starting camera
         if (this.components.camera !== false) {
             console.warn("Camera already running");
         }
@@ -96,7 +121,7 @@ var kernel = {
                 console.error("This is not a raspberry, could not start i2c");
             } else {
                 var Drive = require("./component/drive");
-                //this.components.drive = new Drive(kernel).start();
+                this.components.drive = new Drive(kernel).start();
             }
 
         }
@@ -125,6 +150,19 @@ var kernel = {
             this.components.drive.halt();
         }
         this.components.drive = false;
+
+        console.log("stopping communications");
+        if (this.components.communication) {
+            this.components.communication.stop();
+        }
+        this.components.communication = false;
+
+
+        console.log("stopping Lights");
+        if (this.components.lights) {
+            this.components.lights.stop();
+        }
+        this.components.lights = false;
     },
     startWebServer: function () {
         const WebServer = require("./component/webserver");

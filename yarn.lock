@@ -96,6 +96,11 @@ ajv@^6.12.3:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+angles@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/angles/-/angles-0.2.4.tgz#adf86b35e861ef96e1bed237d7f53870aa6ccf55"
+  integrity sha512-TGV9dkpl/ITbhzRB1hL7In5cgkilsYk2tD3uuruxk4sJGI1h8njvEuV7dM9e+EnOnc2lHFX9vzZmhZEhKlXjeA==
+
 ansi-regex@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
@@ -984,7 +989,22 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-nan@^2.14.0, nan@^2.14.1, nan@^2.14.2:
+nan-check@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/nan-check/-/nan-check-0.0.6.tgz#8bfd2e79c36439280fa4a975d41824c5a2d2bfa5"
+  integrity sha1-i/0uecNkOSgPpKl11BgkxaLSv6U=
+  dependencies:
+    nan "^2.0.9"
+    nan-marshal "0.0.5"
+
+nan-marshal@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/nan-marshal/-/nan-marshal-0.0.5.tgz#0d4a035e93f45ac7f23613d966367f42fb182cf6"
+  integrity sha1-DUoDXpP0WsfyNhPZZjZ/QvsYLPY=
+  dependencies:
+    nan "^2.0.9"
+
+nan@^2.0.9, nan@^2.14.0, nan@^2.14.1, nan@^2.14.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
@@ -1058,6 +1078,15 @@ npmlog@^4.0.1, npmlog@^4.1.2:
     console-control-strings "~1.1.0"
     gauge "~2.7.3"
     set-blocking "~2.0.0"
+
+nrf24@^0.1.7-beta:
+  version "0.1.7-beta"
+  resolved "https://registry.yarnpkg.com/nrf24/-/nrf24-0.1.7-beta.tgz#63a7d1ee390855d18a63956c3bd98ad3e8556be2"
+  integrity sha512-gQhwg02H7QiwI+fdKP0h7m7K9kpQl0Q8YpaIaNQtBerGNVoD7RJPNeoM1ur3oze2uEQYGEegBFLZ96pns5a4vA==
+  dependencies:
+    bindings "^1.5.0"
+    nan "^2.14.0"
+    nan-check "0.0.6"
 
 number-is-nan@^1.0.0:
   version "1.0.1"
