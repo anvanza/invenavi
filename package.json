@@ -6,7 +6,7 @@
   "dependencies": {
     "angles": "^0.2.4",
     "bmp280-sensor": "^0.1.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "gps": "^0.6.0",
     "i2c-bus": "^5.2.1",
     "minimist": "^1.2.5",
